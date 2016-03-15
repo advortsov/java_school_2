@@ -1,0 +1,97 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@page contentType="text/html" pageEncoding="UTF-8" %>--%>
+
+
+<div class="edit_penal">
+
+    <br><strong>Добавление книги</strong>
+
+    <p>&nbsp;</p>
+
+    <form name="book_edit_form" enctype="multipart/form-data" accept-charset="utf-8"
+          action="/books/add" method="post">
+        <div class="edit_book_info">
+            <div>
+
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
+
+                <div class="field">
+                    <label for="cover">Обложка:</label><input type="file" name="cover" id="cover" multiple
+                                                              accept="image/jpeg">
+                </div>
+                <div class="field">
+                    <label for="book_name">Название:</label><input name="book_name" type="text" id="book_name"
+                                                                   pattern=".{5,255}"
+                                                                   required
+                                                                   value="${book.name}"
+                                                                   title="Название может содержать от 5 до 255 символов">
+                </div>
+                <div class="field">
+                    <label for="book_isbn">ISBN:</label><input name="book_isbn" type="text" id="book_isbn"
+                                                               pattern=".{5,35}"
+                                                               required
+                                                               value="${book.isbn}"
+                                                               title="ISBN может содержать от 5 до 35 символов">
+                </div>
+
+                <div class="field">
+                    <label for="book_genre">Жанр:</label><select name="book_genre" id="book_genre">
+                    <c:forEach items="${allGenresList}" var="genre">
+                        <option>${genre.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+
+                <div class="field">
+                    <label for="book_publisher">Издательство:</label><select name="book_publisher" id="book_publisher">
+                    <c:forEach items="${allPublishersList}" var="publisher">
+                        <option>${publisher.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+
+                <div class="field">
+                    <label for="book_author">Автор:</label><select name="book_author" id="book_author">
+                    <c:forEach items="${allAuthorsList}" var="author">
+                        <option>${author.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+
+                <div class="field">
+                    <label for="book_pages">Количество страниц:</label><input name="book_pages" type="number"
+                                                                              id="book_pages" pattern="[0-9]{2,4}"
+                                                                              required
+                                                                              value="${book.pageCount}"
+                                                                              title="Количество страниц может быть от 10 до 9999">
+                </div>
+                <div class="field">
+                    <label for="book_year">Год издания:</label><input name="book_year" type="number" id="book_year"
+                                                                      pattern="[0-9]{4,4}"
+                                                                      required
+                                                                      value="${book.publishYear}"
+                                                                      title="Год должен состоять из 4 цифр">
+                </div>
+                <div class="field">
+                    <label for="book_count">Количество:</label><input name="book_count" type="number" id="book_count"
+                                                                      pattern="[0-9]{1,3}"
+                                                                      required
+                                                                      value="${book.quantity}"
+                                                                      title="Количество экземпляров одной книги на складе может быть до 999">
+                </div>
+                <div class="field">
+                    <label for="book_price">Цена, руб:</label><input name="book_price" type="number" id="book_price"
+                                                                     pattern="[0-9]{1,5}"
+                                                                     value="${book.price}"
+                                                                     required title="Цена может быть до 99 999 руб.">
+                </div>
+
+                <input type="hidden" name="action" value="edit"></p>
+                <p><input type="submit" value="Сохранить"></p>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+

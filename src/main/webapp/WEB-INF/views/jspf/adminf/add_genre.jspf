@@ -1,0 +1,76 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="edit_penal">
+
+    <br><strong>Добавление жанра</strong>
+    <form:form method="POST" action="check-user" name="d"
+               class="box login">
+    </form:form>        
+
+
+    <form name="genre_add_form" action="/admin/add_genre" method="post">
+        <div class="edit_book_info">
+            <div>
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
+                <div class="field">
+                    <label for="add_genre_name">Название:</label><input name="add_genre_name" type="text"
+                                                                        id="add_genre_name">
+                </div>
+                <form:errors path="add_genre_name" cssClass="error"/>
+                <input type="hidden" name="action" value="add"></p>
+                <p><input type="submit" name="submit" id="submit1" value="Сохранить"></p>
+            </div>
+        </div>
+    </form> 
+
+    <p>&nbsp;</p>
+
+    <p>&nbsp;</p>
+
+    <br><strong>Удаление жанра</strong>
+
+    <form name="genre_del_form" action="/admin/delete_genre" method="post">
+        <div class="edit_book_info">
+            <div>
+                <div class="field">
+                    <label for="genre_name_del">Жанр:</label><select name="genre_name_del" id="genre_name_del">
+                    <c:forEach items="${allGenresList}" var="genre">
+                        <option>${genre.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+                <input type="hidden" name="action" value="delete"></p>
+                <p><input type="submit" value="Удалить"></p>
+            </div>
+        </div>
+    </form>
+    <p>&nbsp;</p>
+
+    <p>&nbsp;</p>
+
+
+    <br><strong>Редактирование жанра</strong>
+
+    <form name="genre_edit_form" action="/admin/edit_genre" method="post">
+        <div class="edit_book_info">
+            <div>
+                <div class="field">
+                    <label for="genre_name_ed">Выберите жанр для редактирования:</label><select name="genre_name_ed"
+                                                                                                id="genre_name_ed">
+                    <c:forEach items="${allGenresList}" var="genre">
+                        <option>${genre.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+                <div class="field">
+                    <label for="genre_name_new">Введите его новое имя:</label><input name="genre_name_new" type="text"
+                                                                                     id="genre_name_new">
+                </div>
+                <input type="hidden" name="action" value="edit"></p>
+                <p><input type="submit" value="Редактировать"></p>
+            </div>
+        </div>
+    </form>
+
+</div>

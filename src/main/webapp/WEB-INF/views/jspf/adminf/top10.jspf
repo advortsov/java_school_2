@@ -1,0 +1,153 @@
+<%@ page pageEncoding="UTF-8" %>
+<div>
+
+    <div class="top10_penal">
+
+        <div class="admin_penal">
+            <%--<%--%>
+            <%--Map<Client, Integer> topTenClients = Managers.getAdminManager().getTopTenClients();--%>
+            <%--if (!topTenClients.isEmpty()) {--%>
+            <%--%>--%>
+
+            <c:choose>
+                <c:when test="${not empty topTenClients}">
+                    <br><strong>Топ-10 клиентов</strong>
+
+                    <style>
+                        table {
+                            font-size: 10px;
+                            border-collapse: collapse;
+                            text-align: center;
+                        }
+
+                        th, td:first-child {
+                            color: black;
+                            padding: 5px 10px;
+                        }
+
+                        th, td {
+                            border-style: solid;
+                            border-width: 0 1px 1px 0;
+                            border-color: black;
+                        }
+
+                        tr:nth-child(even) {
+                            background-color: #f2f2f2
+                        }
+
+                        th:first-child, td:first-child {
+                            text-align: left;
+                        }
+                    </style>
+
+                    <table border="1">
+                        <tr>
+                            <td>Имя</td>
+                            <td>Фамилия</td>
+                            <td>Адресс</td>
+                            <td>E-mail</td>
+                            <td>Дата рождения</td>
+                            <td>user_name</td>
+                            <td>Выручка</td>
+                        </tr>
+                            <%--<%--%>
+                            <%--Iterator it = topTenClients.entrySet().iterator();--%>
+                            <%--while (it.hasNext()) {--%>
+                            <%--Map.Entry pair = (Map.Entry) it.next();--%>
+                            <%--Client client = (Client) pair.getKey();--%>
+                            <%--%>--%>
+
+                            <%--<c:forEach var="entry" items="${topTenClients}">--%>
+                            <%--Key: <c:out value="${entry.key}"/>--%>
+                            <%--Value: <c:out value="${entry.value}"/>--%>
+                            <%--</c:forEach>--%>
+
+                        <c:forEach var="entry" items="${topTenClients}">
+                            <tr>
+                                <td>${entry.key.name}</td>
+                                <td>${entry.key.surname}</td>
+                                <td>${entry.key.address}</td>
+                                <td>${entry.key.email}</td>
+                                <td>${entry.key.birthday}</td>
+                                <td>${entry.key.user.userName}</td>
+                                <td>${entry.value} руб.</td>
+                            </tr>
+                        </c:forEach>
+
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <br><strong>В базе нет клиентов</strong>
+                </c:otherwise>
+            </c:choose>
+
+
+        </div>
+    </div>
+
+    <div class="top10_penal">
+
+        <%--Товары--%>
+        <div class="admin_penal">
+
+            <c:choose>
+                <c:when test="${not empty topTenClients}">
+                    <br><strong>Топ-10 товаров</strong>
+
+                    <style>
+                        table {
+                            font-size: 10px;
+                            border-collapse: collapse;
+                            text-align: center;
+                        }
+
+                        th, td:first-child {
+                            color: black;
+                            padding: 5px 10px;
+                        }
+
+                        th, td {
+                            border-style: solid;
+                            border-width: 0 1px 1px 0;
+                            border-color: black;
+                        }
+
+                        /*td {*/
+                        /*background: #D8E6F3;*/
+                        /*}*/
+
+                        th:first-child, td:first-child {
+                            text-align: left;
+                        }
+                    </style>
+
+                    <table border="1">
+                        <tr>
+                            <td>Название</td>
+                            <td>ISBN</td>
+                            <td>Цена</td>
+                            <td>Остаток на складе</td>
+                            <td>Продано</td>
+                        </tr>
+                        <c:forEach var="entry" items="${topTenBooks}">
+                            <tr>
+                                <td>${entry.key.name}</td>
+                                <td>${entry.key.isbn}</td>
+                                <td>${entry.key.price}</td>
+                                <td>${entry.key.quantity}</td>
+                                <td>${entry.value}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+
+                </c:when>
+                <c:otherwise>
+                    <br><strong>В базе нет книг</strong>
+                </c:otherwise>
+            </c:choose>
+
+
+        </div>
+    </div>
+</div>
+

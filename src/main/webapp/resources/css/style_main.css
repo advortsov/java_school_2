@@ -1,0 +1,265 @@
+ul.nav a, ul.nav a:visited {
+    padding: 5px 5px 5px 15px;
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+body {
+    font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+    background-color: #EEE;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-size: 13px;
+    height: 100%;
+}
+
+ul, ol, dl {
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+a img {
+    border: none;
+}
+
+a:link {
+    color: #414958;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #4E5869;
+    text-decoration: underline;
+}
+
+a:hover, a:active, a:focus {
+    text-decoration: none;
+}
+
+.container {
+    width: 1000px;
+    background-color: #FFFFFF;
+    margin: 0 auto;
+}
+
+.header {
+    background-color: #FFFFFF;
+    height: 220px;
+}
+
+.sidebar1 {
+    float: left;
+    width: 20%;
+    padding-bottom: 10px;
+    margin: 10px;
+}
+
+.content {
+    padding: 10px 0;
+    width: 65%;
+    float: left;
+}
+
+ul.nav {
+    list-style: none;
+
+    margin-bottom: 15px;
+}
+
+ul.nav li {
+
+}
+
+ul.nav a:hover, ul.nav a:active, ul.nav a:focus {
+    background-color: #FFFFFF;
+    color: #999;
+}
+
+.search_form {
+    margin: 20px;
+    text-align: left;
+    background-color: #dbe4f6;
+    height: 35px;
+    vertical-align: middle;
+    padding: 5px;
+    float: left;
+}
+
+.logo {
+    text-align: left;
+    padding: 20px;
+    float: left;
+    width: 100px;
+    height: 100px;
+}
+
+.descr {
+    float: left;
+    width: 600px;
+    text-align: left;
+    padding-top: 50px;
+}
+
+.welcome {
+    text-align: right;
+    padding-top: 50px;
+    font-weight: normal;
+    float: left;
+}
+
+.personal_controllers {
+    line-height: 0.07em;
+}
+
+.search_button {
+    -webkit-border-radius: 3;
+    -moz-border-radius: 3;
+    border-radius: 3px;
+    text-shadow: 0px 0px 3px #666666;
+    -webkit-box-shadow: 0 1px 3px #666666;
+    -moz-box-shadow: 0px 1px 3px #666666;
+    box-shadow: 0px 1px 3px #666666;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 12px;
+    background: #2f82b5;
+    padding: 8px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.search_button:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+.book_list {
+    float: left;
+    width: 750px;
+}
+
+.admin_penal {
+    float: left;
+    width: 750px;
+}
+
+.edit_penal {
+    float: left;
+    width: 750px;
+}
+
+.genre_management {
+    /*float: left;*/
+    /*width: 750px;*/
+}
+
+.cart_penal {
+    float: left;
+    width: 750px;
+}
+
+.user_penal {
+    float: left;
+    width: 750px;
+}
+
+.client_orders_penal {
+    top: 25px;
+    float: left;
+    width: 750px;
+}
+
+.book_list h3 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.book_title p {
+    color: #378de5;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+.book_title {
+    height: 50px;
+    float: left;
+}
+
+.book_info {
+    width: 210px;
+    height: 450px;
+    font-size: 12px;
+    float: left;
+    margin: 15px;
+}
+
+.edit_book_info {
+    font-size: 12px;
+    float: left;
+}
+
+.book_image {
+    height: 260px;
+    float: left;
+}
+
+.book_details {
+    float: left;
+    margin-top: 10px;
+}
+
+.add_book {
+    float: left;
+    margin-top: 10px;
+
+}
+
+.top10_penal {
+    top: 25px;
+    float: left;
+    width: 350px;
+}
+
+.order_table {
+    /*table {*/
+    /*/!*font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;*!/*/
+    /*font-size: 14px;*/
+    /*border-collapse: collapse;*/
+    /*text-align: center;*/
+    /*}*/
+
+    /*th, td:first-child {*/
+    /*background: white;*/
+    /*color: white;*/
+    /*padding: 10px 20px;*/
+    /*}*/
+
+    /*th, td {*/
+    /*border-style: solid;*/
+    /*border-width: 0 1px 1px 0;*/
+    /*border-color: white;*/
+    /*}*/
+    /*td {*/
+    /*background: #D8E6F3;*/
+    /*}*/
+    /*th:first-child, td:first-child {*/
+    /*text-align: left;*/
+    /*}*/
+
+}
+

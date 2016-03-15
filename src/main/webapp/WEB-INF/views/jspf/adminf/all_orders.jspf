@@ -1,0 +1,49 @@
+<%@ page pageEncoding="UTF-8" %>
+<div class="admin_penal">
+
+    <c:choose>
+        <c:when test="${not empty allOrdersList}">
+            <br><strong>Заказы</strong>
+
+            <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>--%>
+
+            <table border="1">
+                <tr>
+                    <td>id</td>
+                    <td>Дата</td>
+                    <td>Имя клиента</td>
+                    <td>Статус заказа</td>
+                    <td>Способ доставки</td>
+                    <td>Способ оплаты</td>
+                    <td>Статус оплаты</td>
+                    <td>Сумма заказа</td>
+                </tr>
+                <c:forEach items="${allOrdersList}" var="order">
+                    <tr>
+                        <td>${order.id}</td>
+                        <td>${order.date}</td>
+                        <td>${order.client.name}</td>
+                        <td>${order.orderStatus}</td>
+                        <td>${order.shippingType}</td>
+                        <td>${order.paymentType}</td>
+                        <td>${order.paymentStatus}</td>
+                        <td>${order.totalSumm}</td>
+                            <%--логика находится в классе Order (что делать?)--%>
+                        <td>
+                            <%--<a href="edit_order.jsp?order_id=${order.id}">--%>
+                            <a href="admin/edit_order?id=${order.id}">
+                                <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>
+                        </td>
+
+                    </tr>
+                </c:forEach>
+
+            </table>
+        </c:when>
+        <c:otherwise>
+            <br><strong>В базе нет заказов</strong>
+        </c:otherwise>
+    </c:choose>
+
+1
+</div>

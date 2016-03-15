@@ -1,0 +1,22 @@
+<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_main.css" type="text/css"/>--%>
+<%@ page pageEncoding="UTF-8" %>
+<link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/css/tabs.css" />" rel="stylesheet">
+
+<div class="sidebar1">
+    <h4>Жанры:</h4>
+    <ul class="nav">
+        <li><a href="/books/genre?name=all" onclick="doAjaxPost();">Все книги</a></li>
+        <c:forEach items="${allGenresList}" var="genre">
+            <c:choose>
+                <c:when test="${genre.name eq currentGenre}">
+                    <li><a style="color:red;" href="/books/genre?name=${genre.name}"
+                           onclick="doAjaxPost();">${genre.name}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="/books/genre?name=${genre.name}" onclick="doAjaxPost();">${genre.name}</a></li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </ul>
+</div>

@@ -1,0 +1,93 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="edit_penal">
+
+    <br><strong>Выручка:</strong>
+
+    <p>&nbsp;</p>
+
+    <form name="proceed_form" action="/admin/proceed" method="post">
+
+        <div class="edit_book_info">
+            <div>
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
+
+                <div class="field">
+
+                    <label for="start_date">С:</label><input name="start_date"
+                                                             id="start_date" type="date"
+                                                             required
+                                                             title="Выберите дату начала периода">
+                </div>
+
+                <div class="field">
+
+
+                    <label for="end_date">По:</label><input name="end_date"
+                                                            id="end_date" type="date"
+                                                            required
+                                                            title="Выберите дату конца периода">
+                </div>
+
+                <input type="hidden" name="action" value="show"></p>
+                <p><input type="submit" value="Показать"></p>
+
+            </div>
+        </div>
+    </form>
+
+    <p>&nbsp;</p>
+
+    <div class="admin_penal">
+        <c:choose>
+            <c:when test="${not empty ordersPerPeriod}">
+                <br><strong>Заказы</strong>
+
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>
+
+                <table border="1">
+                    <tr>
+                        <td>id</td>
+                        <td>Дата</td>
+                        <td>Имя клиента</td>
+                        <td>Статус заказа</td>
+                        <td>Способ доставки</td>
+                        <td>Способ оплаты</td>
+                        <td>Статус оплаты</td>
+                        <td>Сумма заказа</td>
+                    </tr>
+                    <c:forEach items="${ordersPerPeriod}" var="order">
+
+                        <tr>
+
+                            <td>${order.id}</td>
+                            <td>${order.date}</td>
+                            <td>${order.client.name}</td>
+                            <td>${order.orderStatus}</td>
+                            <td>${order.shippingType}</td>
+                            <td>${order.paymentType}</td>
+                            <td>${order.paymentStatus}</td>
+                            <td>${order.totalSumm}</td>
+
+                            <td>
+                                <a href="edit_order.jsp?order_id=${order.id}">
+                                    <img src="../images/edit.png" alt="Редактировать" name="edit"/></a>
+                            </td>
+
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <br><strong>В базе нет заказов</strong>
+            </c:otherwise>
+        </c:choose>
+
+        <br><strong>Выручка за период: ${proceedPerPeriod} руб.
+    </strong>
+
+
+    </div>
+
+</div>
+

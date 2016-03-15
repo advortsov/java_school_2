@@ -1,0 +1,70 @@
+<%@ page pageEncoding="UTF-8" %>
+
+
+<div class="edit_penal">
+    <br><strong>Добавление автора</strong>
+
+    <form name="genre_add_form" action="/admin/add_author" method="post">
+        <div class="edit_book_info">
+            <div>
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
+                <div class="field">
+                    <label for="author_name_add">Имя автора:</label><input name="author_name_add" type="text" id="author_name_add">
+                </div>
+                <input type="hidden" name="action" value="add"></p>
+                <p><input type="submit" value="Сохранить"></p>
+            </div>
+        </div>
+    </form>
+    <p>&nbsp;</p>
+
+    <p>&nbsp;</p>
+
+
+    <br><strong>Удаление автора</strong>
+
+    <form name="genre_del_form" action="/admin/delete_author" method="post">
+        <div class="edit_book_info">
+            <div>
+                <div class="field">
+                    <label for="author_name_del">Жанр:</label><select name="author_name_del" id="author_name_del">
+                    <c:forEach items="${allAuthorsList}" var="author">
+                        <option>${author.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+                <input type="hidden" name="action" value="delete"></p>
+                <p><input type="submit" value="Удалить"></p>
+            </div>
+        </div>
+    </form>
+    <p>&nbsp;</p>
+
+    <p>&nbsp;</p>
+
+
+    <br><strong>Редактирование автора</strong>
+
+    <form name="genre_edit_form" action="/admin/edit_author" method="post">
+        <div class="edit_book_info">
+            <div>
+                <div class="field">
+                    <label for="author_for_edit">Выберите автора для редактирования:</label><select
+                        name="author_for_edit"
+                        id="author_for_edit">
+                    <c:forEach items="${allAuthorsList}" var="author">
+                        <option>${author.name}</option>
+                    </c:forEach>
+                </select>
+                </div>
+                <div class="field">
+                    <label for="author_name_new">Введите его новое имя:</label><input name="author_name_new" type="text"
+                                                                                      id="author_name_new">
+                </div>
+                <input type="hidden" name="action" value="edit"></p>
+                <p><input type="submit" value="Редактировать"></p>
+            </div>
+        </div>
+    </form>
+
+</div>
