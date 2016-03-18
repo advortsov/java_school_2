@@ -45,10 +45,6 @@ public class ClientManagerImpl implements ClientManager {
     @Override
     public void updateClient(Client client) {
         clientDAO.merge(client);
-//        } catch (PersistenceException ex) {
-//            ex.printStackTrace();
-//            JpaUtil.rollbackTransaction(em);
-//        }
     }
 
     @Override

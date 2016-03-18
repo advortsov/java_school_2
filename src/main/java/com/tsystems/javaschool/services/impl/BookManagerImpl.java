@@ -28,13 +28,23 @@ public class BookManagerImpl implements BookManager {
     final static Logger logger = Logger.getLogger(BookManagerImpl.class);//    PropertyConfigurator.configure("log4j.properties");
 
     @Autowired
-    BookDAO bookDAO;
-
+    private BookDAO bookDAO;
     @Autowired
-    AuthorDAO authorDAO;
+    private AuthorDAO authorDAO;
+
+//    private BookDAO bookDAO;
+//    private AuthorDAO authorDAO;
+//
+//    @Autowired
+//    public BookManagerImpl(BookDAO bookDAO, AuthorDAO authorDAO) {
+//        this.bookDAO = bookDAO;
+//        this.authorDAO = authorDAO;
+//    }
 
     public BookManagerImpl() {
     }
+
+
 
     @Override
     public List<Book> findByBookName(String name) {
@@ -139,6 +149,12 @@ public class BookManagerImpl implements BookManager {
     @Override
     public Book findBookByIsbn(String value) {
         logger.info("Try to get one book by id...");
-        return bookDAO.findByIsbn(value);
+        Book book = null;
+        try {
+            book = bookDAO.findByIsbn(value);
+        } catch (NoResultException ex){
+
+        }
+        return book;
     }
 }

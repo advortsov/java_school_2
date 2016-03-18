@@ -29,7 +29,7 @@
                     <%--<br><a href="../admin_pages/edit.jsp?book_id=${book.id}">Редактировать</a>--%>
                 <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Редактировать</a>
                     <%--<% } %>--%>
-                <p style="margin:10px;"><a href="/addToCart?book_id=${book.id}">Добавить в корзину</a></p>
+                <p style="margin:10px;"><a href="<%=request.getContextPath()%>/cart/addToCart?book_id=${book.id}">Добавить в корзину</a></p>
             </div>
         </div>
     </c:forEach>

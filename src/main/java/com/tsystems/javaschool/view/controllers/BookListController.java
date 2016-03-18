@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -53,11 +52,25 @@ public class BookListController {
         return resultList;
     }
 
+// toDO
+    //private String allGenresList;
 
-    @ModelAttribute(value = "allGenresList")
-    public List<Genre> createAllGenresList() {
+//    public void setAllGenresList(String allGenresList) {
+//        this.allGenresList = allGenresList;
+//    }
+//
+//    public String getAllGenresList() {
+//        return allGenresList;
+//    }
+
+    public List<Genre> populateGenresList() {
         return genreManager.loadAllGenres();
     }
+
+//    @ModelAttribute(value = "allGenresList")
+//    public List<Genre> createAllGenresList() {
+//        return genreManager.loadAllGenres();
+//    }
 
     @ModelAttribute(value = "allAuthorsList")
     public List<Author> createAllAuthorsList() {
@@ -74,6 +87,7 @@ public class BookListController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String fillUpGenres(@ModelAttribute ArrayList<Genre> allGenres) {
+
         return "pages/books";
     }
 
@@ -110,6 +124,12 @@ public class BookListController {
             currentBookList = bookManager.getBooksByAuthor(authorManager.findByAuthorName(searchString));
         } else if (searchOption.equals(SearchType.TITLE)) {
             currentBookList = bookManager.findByBookName(searchString);
+        } else if (searchOption.equals(SearchType.ISBN)) {
+            currentBookList = new ArrayList<>();
+            Book book = bookManager.findBookByIsbn(searchString);
+            if (book != null) {
+                currentBookList.add(book);
+            }
         }
         model.addAttribute("allBooks", currentBookList);
         return "pages/books";

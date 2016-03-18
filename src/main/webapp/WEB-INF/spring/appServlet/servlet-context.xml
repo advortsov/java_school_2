@@ -17,43 +17,26 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <context:component-scan base-package="ru.javabegin.training"/>
-    <context:component-scan base-package="com"/>
+    <context:component-scan base-package="com.tsystems.javaschool"/>
 
-    <!--<bean id="genreController" class="ru.javabegin.training.controllers.GenreController"/>-->
-    <!--<bean id="bookListController" class="ru.javabegin.training.controllers.BookListController"/>-->
-    <!-- Resolves views selected for rendering by @Controllers to .jsp resources
-        in the /WEB-INF/views directory -->
-    <bean
-            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/*"/>
-            <!-- <bean class="ru.javabegin.training.interceptors.TimeInterceptor"/> -->
-            <ref bean="localeChangeInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
-
-    <bean id="allGenresList" class="java.util.ArrayList"
-          scope="session" >
-
-    </bean>
-
-<!--<bean id="dataCenter"-->
-      <!--class="com.foo.DataCenter">-->
-<!--<property name="storages" value="#{configurationManager.configuration}"/>-->
-<!--</bean>-->
-
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/*"/>-->
+            <!--&lt;!&ndash; <bean class="ru.javabegin.training.interceptors.TimeInterceptor"/> &ndash;&gt;-->
+            <!--<ref bean="localeChangeInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="/WEB-INF/locales/messages"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
-
 
     <bean id="localeChangeInterceptor"
           class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -68,13 +51,10 @@
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="100000"/>
-
+        <property name="maxUploadSize" value="1000000"/>
     </bean>
 
-    <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
-
     <import resource="spring-database.xml"/>
-
+    <!--<import resource="app-security.xml"/>-->
 
 </beans>

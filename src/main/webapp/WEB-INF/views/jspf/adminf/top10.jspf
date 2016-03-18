@@ -50,17 +50,6 @@
                             <td>user_name</td>
                             <td>Выручка</td>
                         </tr>
-                            <%--<%--%>
-                            <%--Iterator it = topTenClients.entrySet().iterator();--%>
-                            <%--while (it.hasNext()) {--%>
-                            <%--Map.Entry pair = (Map.Entry) it.next();--%>
-                            <%--Client client = (Client) pair.getKey();--%>
-                            <%--%>--%>
-
-                            <%--<c:forEach var="entry" items="${topTenClients}">--%>
-                            <%--Key: <c:out value="${entry.key}"/>--%>
-                            <%--Value: <c:out value="${entry.value}"/>--%>
-                            <%--</c:forEach>--%>
 
                         <c:forEach var="entry" items="${topTenClients}">
                             <tr>
@@ -131,7 +120,7 @@
                         </tr>
                         <c:forEach var="entry" items="${topTenBooks}">
                             <tr>
-                                <td>${entry.key.name}</td>
+                                <td><a href="/books/search?search_string=${entry.key.isbn}&search_option=ISBN">${entry.key.name}</a></td>
                                 <td>${entry.key.isbn}</td>
                                 <td>${entry.key.price}</td>
                                 <td>${entry.key.quantity}</td>

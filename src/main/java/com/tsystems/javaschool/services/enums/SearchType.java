@@ -6,5 +6,5 @@ package com.tsystems.javaschool.services.enums;
  * @since 10.02.2016
  */
 public enum SearchType {
-    AUTHOR, TITLE
+    AUTHOR, TITLE, ISBN
 }

@@ -25,19 +25,42 @@ public class OrderLine implements Serializable {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @OneToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "book_id", nullable = true)
+    private Book book;
+
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @Column(name = "book_isbn", nullable = false)
+    private String bookIsbn; // чтобы при удалении книги, или изменении ее цены, остались данные
+
+    @Column(name = "book_price", nullable = false)
+    private int bookActualPrice; // чтобы при удалении книги, или изменении ее цены, остались данные
 
     public OrderLine() {
+
     }
 
     public OrderLine(int quantity, Book book) {
         this.quantity = quantity;
         this.book = book;
+    }
+
+    public String getBookIsbn() {
+        return bookIsbn;
+    }
+
+    public void setBookIsbn(String bookIsbn) {
+        this.bookIsbn = bookIsbn;
+    }
+
+    public int getBookActualPrice() {
+        return bookActualPrice;
+    }
+
+    public void setBookActualPrice(int bookActualPrice) {
+        this.bookActualPrice = bookActualPrice;
     }
 
     public long getId() {
@@ -60,6 +83,10 @@ public class OrderLine implements Serializable {
 
     public void setBook(Book book) {
         this.book = book;
+
+        // заполняем неизменяемые поля в процессе создания ордерлайна
+        this.setBookIsbn(book.getIsbn());
+        this.setBookActualPrice(book.getPrice());
     }
 
     @ManyToOne

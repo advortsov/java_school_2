@@ -6,11 +6,15 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +44,7 @@ public class AdminController {
     private OrderManager orderManager;
     @Autowired
     private AdminManager adminManager;
-
+//---------------------------past into context------------------
     @ModelAttribute(value = "allOrdersList")
     public List<Order> createAllOrdersList() {
         return orderManager.loadAllOrders();
@@ -70,6 +74,7 @@ public class AdminController {
     public Map<Book, Integer> createTopTenBooksMap() {
         return adminManager.getTopTenBooks();
     }
+    //-----------------------------------------------------------------------------------------
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage() {
@@ -77,17 +82,27 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/proceed", method = RequestMethod.POST)
-    public String getProceedsPerPeriod(@RequestParam("start_date") Date startDate,
-                                       @RequestParam("end_date") Date endDate, Model model) {
+    public String getProceedsPerPeriod(@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                      @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) {
+        System.out.println("startDate " + startDate);
+        System.out.println("endDate " + endDate);
         logger.debug("Try to get orders per period");
         List<Order> ordersPerPeriod = adminManager.getOrdersPerPeriod(startDate, endDate);
         int totalSumm = 0;
         for (Order order : ordersPerPeriod) {
             totalSumm += order.getTotalSumm();
         }
-        model.addAttribute("proceedPerPeriod", totalSumm);
+        //model.addAttribute("proceedPerPeriod", totalSumm);
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
-        return "admin_pages/admin";
+
+//        return model;
+//        ModelAndView mav = new ModelAndView("admin_pages/admin");
+//
+//        mav.addObject("SEARCH_RESULTS_KEY", archivalIssue);                         //Add result object to model
+//        return mav;
+        return "redirect:#tab7";
+//        return "admin_pages/admin";
+        //return "";
     }
 
 //   ---------------------- Genre administrating ---------------------------------------------------
@@ -205,27 +220,43 @@ public class AdminController {
 
 
     @RequestMapping(value = "/edit_order", method = RequestMethod.GET)
-    public String getEdit(@RequestParam(value = "id", required = true) Long id,
+    public String getEdit(@RequestParam(value = "id", required = true) long id,
                           Model model) {
         logger.debug("Received request to show order edit page");
         System.out.println("orderManager.findOrderById(id) = " + orderManager.findOrderById(id).getId());
-        Order actualOrder = orderManager.findOrderById(id);
-        actualOrder.setId(id);
-        model.addAttribute("order", actualOrder);
+//        Order actualOrder = orderManager.findOrderById(id);
+        model.addAttribute("id", id);
         model.addAttribute("orderStatusList", OrderStatus.values());
         return "admin_pages/edit_order";
     }
 
 
     @RequestMapping(value = "/edit_order", method = RequestMethod.POST)
-    public String saveEditBook(@ModelAttribute("order") Order orderForEdit,
-                               @RequestParam("order_status") String orderStatus) {
+    public String saveEditOrder(
+            @RequestParam("order_status") String orderStatus,
+            @RequestParam(value = "id", required = true) long id,
+            Model model,
+            HttpServletRequest request) {
+        System.out.println("saveEditOrder orderStatus = " + orderStatus);
+        System.out.println("id = " + id);
 
-        System.out.println("orderForEdit " + orderForEdit + " order_status = " + orderStatus);
+        // System.out.println("orderForEdit " + orderForEdit + " order_status = " + orderStatus);
+        Order orderForEdit = orderManager.findOrderById(id);
         OrderStatus newOrderStatus = OrderStatus.valueOf(orderStatus);
         orderForEdit.setOrderStatus(newOrderStatus);
         orderManager.updateOrder(orderForEdit);
+        model.addAttribute("allOrdersList", createAllOrdersList());
+
+        //toDo
+//        ModelAndView modelAndView = new ModelAndView("admin_pages/admin#tab5");
+//        modelAndView.addObject("allOrdersList", createAllOrdersList());
+//        return "redirect:admin#tab5";
+        //return modelAndView;
 
         return "admin_pages/admin";
+
+//        return "#tab5";
+//        return "redirect:#tab5";
+
     }
 }

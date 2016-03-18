@@ -26,14 +26,15 @@ public class GenreController {
     @Autowired
     GenreManager genreManager;
 
+
 //    @ModelAttribute("allGenres")
 //    public List<Genre> allGenres() {
 //        List<Genre> resultList = genreManager.loadAllGenres();
 //        return resultList;
 //    }
 
-    @ModelAttribute("allGenres")
-    public List<Genre> getGenres() {
+    //@ModelAttribute("allGenres")
+    public List<Genre> getAllGenres() {
         return genreManager.loadAllGenres();
     }
 
@@ -44,6 +45,7 @@ public class GenreController {
     public String setupForm(Model model) {
         return "pages/books";
     }
+
 
 
 }

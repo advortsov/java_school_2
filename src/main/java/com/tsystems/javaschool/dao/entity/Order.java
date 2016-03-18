@@ -66,7 +66,7 @@ public class Order implements Serializable {
     public int getTotalSumm() {
         int totalSumm = 0;
         for (OrderLine orderLine : orderLines) {
-            totalSumm += (orderLine.getBook().getPrice() * orderLine.getQuantity());
+            totalSumm += (orderLine.getBookActualPrice() * orderLine.getQuantity());
         }
         return totalSumm;
 

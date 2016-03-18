@@ -1,4 +1,3 @@
-<%@ page import="com.tsystems.javaschool.services.enums.OrderStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -14,8 +13,8 @@
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
 
                 <div class="field">
-                    <label for="id">ID заказа:</label> ${order.id}
-                    <input type="text" value="${order.id}"
+                    <label for="id">ID заказа:</label> ${id}
+                    <input type="text" value="${id}"
                            name="id" id="id" hidden>
                 </div>
 

@@ -24,6 +24,85 @@
                 }
             });
         }
+
+        //        function totalSumm() {
+        //            var quantity = document.getElementById("books_quantity").value;
+        //            var bookPrice = document.getElementById("book_price").value;
+        //            document.getElementById('total_summ_of_line').value = quantity * bookPrice;
+        //            totalRefreshOfCart();
+        //
+        //        };
+
+
+
+        function totalRefreshOfCart() {
+
+//            var lines = document.getElementsByClassName('line');
+
+//            var quantities = document.getElementsByName('books_quantity');
+//            var prices = document.getElementsByName('book_price');
+//
+//            var all = 0;
+//
+//            for (var i = 0; i < quantities.length; i++) {
+//                for (var j = 0; j < prices.length; j++) {
+//                    alert(quantities.item(i).attributes.getNamedItem("value"));
+//                    all += parseInt(quantities.item(i).attributes.getNamedItem("value")) * parseInt(prices.item(j).attributes.getNamedItem("value"));
+//                }
+//
+//                alert(all);
+//            }
+
+//
+//            document.getElementById("total_summ_of_order")
+//
+//
+//            for (var i = 0; i < lines.length; i++) {
+//                var childNodes = lines.item(i).childNodes;
+//                for (var h = 0; h < childNodes.length; h++) {
+//                    var childs = childNodes.item(h).childNodes;
+//                    //alert(child);
+//                    for (var g = 0; g < childs.length; g++) {
+//                        var child1 = childs.item(g).childNodes;
+//                        var item = child1.item(g).attributes.getNamedItem("id");
+//                        alert(item);
+//
+//                    }
+//
+//                }
+//            }
+
+                //alert(lines.item(i));
+
+//                var attrs = lines.item(i).attributes;
+//                var isThisLine = false;
+//
+//                for (var g = 0; g < attrs.length; g++) {
+//                    if (attrs[g].name == "id" && attrs[g].value == "books_quantity"){
+//                        isThisLine = true;
+//                    }
+//                    if(isThisLine){
+//                        if(attrs[g].name == "value"){
+//                            alert("books_quantity = " + attrs[g].value);
+//                        }
+//                    }
+
+
+//
+//
+//                alert('books_quantity ' + quantity);
+//
+//                var bookPrice = lines.item(i).attributes.getNamedItem('book_price');
+//                lines.item(i).attributes.getNamedItem('total_summ_of_line').value = quantity * bookPrice;
+//
+//                var currSummOfOrder = document.getElementById('total_summ_of_order').value;
+//                var currSummOfLine = lines.item(i).attributes.getNamedItem('total_summ_of_line');
+//
+//                document.getElementById('total_summ_of_order').value = parseInt(currSummOfOrder) + parseInt(currSummOfLine);
+
+        }
+        ;
+
     </script>
 
 </head>
@@ -91,13 +170,13 @@
                 <% } else { %>
                 <h6><a href="/logout">Вход</a></h6>
                 <% } %>
-                <% if (request.isUserInRole("admin")) {%>
-                <h6><a href="../admin_pages/admin.jsp">Админка</a></h6>
-                <% }
-                    if (request.isUserInRole("user") || request.isUserInRole("admin")) {%>
+                <%--<% if (request.isUserInRole("admin")) {%>--%>
+                <h6><a href="/admin">Админка</a></h6>
+                <%--<% }--%>
+                <%--if (request.isUserInRole("user") || request.isUserInRole("admin")) {%>--%>
                 <h6><a href="../user_pages/profile.jsp">Личный кабинет</a></h6>
-                <%}%>
-                <h6><a href="../pages/cart.jsp">Корзина</a></h6>
+                <%--<%}%>--%>
+                <h6><a href="/cart">Корзина</a></h6>
             </div>
 
         </div>
@@ -110,6 +189,7 @@
                 <select name="search_option">
                     <option value="TITLE">Название</option>
                     <option value="AUTHOR">Автор</option>
+                    <option value="ISBN">ISBN</option>
                 </select>
             </form>
         </div>

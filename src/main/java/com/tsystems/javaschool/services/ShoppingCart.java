@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.services;
 
 
+import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.OrderLine;
 import org.springframework.stereotype.Component;
@@ -48,8 +49,7 @@ public class ShoppingCart {
     @Override
     public String toString() {
         return "ShoppingCart{" +
-                "client=" + client +
-                ", items=" + items +
+                ", items=" + items.size() +
                 '}';
     }
 }

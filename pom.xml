@@ -2,25 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ru.javabegin.training</groupId>
-    <artifactId>SpringMVC</artifactId>
-    <name>SpringMVC</name>
+    <groupId>com.tsystems.javaschool</groupId>
+    <artifactId>bookstore-spring</artifactId>
+    <name>bookstore-spring</name>
     <packaging>war</packaging>
-    <version>1.0.0-BUILD-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
         <java-version>1.7</java-version>
         <org.springframework-version>4.2.4.RELEASE</org.springframework-version>
+        <spring-security.version>3.2.5.RELEASE</spring-security.version>
         <hibernate-version>5.0.7.Final</hibernate-version>
         <org.aspectj-version>1.8.0</org.aspectj-version>
         <org.slf4j-version>1.7.7</org.slf4j-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
     </properties>
+
     <dependencies>
 
-        <!--PERSISTENCE-->
         <!--PERSISTENCE-->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -93,14 +93,14 @@
             <version>5.1.0.Final</version>
         </dependency>
 
-        <!-- AspectJ -->
+         <!--AspectJ-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${org.aspectj-version}</version>
         </dependency>
 
-        <!-- Logging -->
+         <!--Logging-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -196,19 +196,41 @@
             <version>1.1.4.RELEASE</version>
         </dependency>
 
-
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.1</version>
         </dependency>
 
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+
+
+        <!--SECURITY-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <!--======================================-->
 
     </dependencies>
     <build>
@@ -247,8 +269,8 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
-
-
         </plugins>
+
     </build>
+
 </project>
