@@ -60,12 +60,12 @@ public class ShoppingCartManagerImpl implements ShoppingCartManager {
     }
 
     @Override
-    public void removeLine(Book book) {
+    public void removeLine(long id) {
         List<OrderLine> currentLines = shoppingCart.getItems();
         Iterator<OrderLine> i = currentLines.iterator();
         while (i.hasNext()) {
             OrderLine orderLine = i.next();
-            if (orderLine.getBook().equals(book)) {
+            if (orderLine.getBook().getId() == id) {
                 i.remove();
             }
         }

@@ -48,7 +48,7 @@
     <c:choose>
         <c:when test="${not empty shoppingCart.items}">
             <br><strong>Корзина</strong>
-            <br><a href="/clearCart">Очистить корзину</a></br></p>
+            <br><a href="/cart/clearCart">Очистить корзину</a></br></p>
             <form name="order_form" action="/create_order" method="post">
 
                 <style>

@@ -14,7 +14,7 @@ public interface ShoppingCartManager {
 
     void setBookAmount(Book book, int amount);
 
-    void removeLine(Book book);
+    void removeLine(long id);
 
     void clearCart();
 
