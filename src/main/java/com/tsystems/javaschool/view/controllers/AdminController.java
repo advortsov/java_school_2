@@ -95,14 +95,8 @@ public class AdminController {
         //model.addAttribute("proceedPerPeriod", totalSumm);
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
 
-//        return model;
-//        ModelAndView mav = new ModelAndView("admin_pages/admin");
-//
-//        mav.addObject("SEARCH_RESULTS_KEY", archivalIssue);                         //Add result object to model
-//        return mav;
         return "redirect:#tab7";
 //        return "admin_pages/admin";
-        //return "";
     }
 
 //   ---------------------- Genre administrating ---------------------------------------------------

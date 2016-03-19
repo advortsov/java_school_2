@@ -25,4 +25,5 @@ public interface OrderManager {
 
     void updateOrder(Order order);
 
+    void repeatOrder(long orderId);
 }

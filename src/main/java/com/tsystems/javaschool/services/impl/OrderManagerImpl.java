@@ -1,10 +1,10 @@
 package com.tsystems.javaschool.services.impl;
 
 import com.tsystems.javaschool.dao.entity.Order;
-import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.dao.interfaces.BookDAO;
 import com.tsystems.javaschool.dao.interfaces.OrderDAO;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
+import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +21,11 @@ import java.util.List;
 public class OrderManagerImpl implements OrderManager {
 
     @Autowired
-    BookDAO bookDAO;
+    ShoppingCartManager shoppingCartManager;
     @Autowired
-    OrderDAO orderDAO;
-
+    private BookDAO bookDAO;
+    @Autowired
+    private OrderDAO orderDAO;
     @PersistenceContext
     private EntityManager em;
 
@@ -68,5 +69,13 @@ public class OrderManagerImpl implements OrderManager {
     public void updateOrder(Order order) {
         orderDAO.merge(order);
     }
+
+    @Override
+    public void repeatOrder(long orderId) {
+        Order order = findOrderById(orderId);
+        shoppingCartManager.clearCart();
+        shoppingCartManager.getShoppingCart().setItems(order.getOrderLines());
+    }
+
 
 }
