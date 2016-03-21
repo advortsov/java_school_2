@@ -1,9 +1,10 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%--<link href="<c:url value="/resources/css/footer.css" />" rel="stylesheet">--%>
-<%--<link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">--%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<security:authorize access="hasRole('ROLE_USER')" var="isUser"/>
+<security:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<security:authorize var="loggedIn" access="isAuthenticated()"/>
 
 
 <html>
@@ -32,7 +33,6 @@
         //            totalRefreshOfCart();
         //
         //        };
-
 
 
         function totalRefreshOfCart() {
@@ -72,7 +72,7 @@
 //                }
 //            }
 
-                //alert(lines.item(i));
+            //alert(lines.item(i));
 
 //                var attrs = lines.item(i).attributes;
 //                var isThisLine = false;
@@ -142,40 +142,52 @@
         </div>
         <div class="welcome">
             <%
-                String userName = "Guest";
-
-                if (session.getAttribute("j_username") != null) {
-                    userName = (String) session.getAttribute("j_username");
-                }
-
-                session.setAttribute("username", userName);
-
-                String nameForGreeting = null;
-                if (request.getUserPrincipal() != null) {
-                    nameForGreeting = request.getUserPrincipal().getName().toString();
-                } else {
-                    nameForGreeting = userName;
-                }
-
-                session.setAttribute("name_for_greeting", nameForGreeting);
+                //                String userName = "Guest";
+//
+//                if (session.getAttribute("j_username") != null) {
+//                    userName = (String) session.getAttribute("j_username");
+//                }
+//
+//                session.setAttribute("username", userName);
+//
+//                String nameForGreeting = null;
+//                if (request.getUserPrincipal() != null) {
+//                    nameForGreeting = request.getUserPrincipal().getName().toString();
+//                } else {
+//                    nameForGreeting = userName;
+//                }
+//
+//                session.setAttribute("name_for_greeting", nameForGreeting);
 
             %>
 
-            <h5>Добро пожаловать, <%=nameForGreeting%>!</h5>
+            <%--<h5>Добро пожаловать, <%=nameForGreeting%>!</h5>--%>
+
+            <c:choose>
+                <c:when test="${loggedIn}">
+                    <h5>Добро пожаловать, <security:authentication property="principal.username"/>!</h5>
+                </c:when>
+                <c:otherwise>
+                    <h5>Добро пожаловать, Guest!</h5>
+                </c:otherwise>
+            </c:choose>
+
 
             <div class="personal_controllers">
-
-                <% if (request.getUserPrincipal() != null) {%>
-                <h6><a href="/logout">Выход</a></h6>
-                <% } else { %>
-                <h6><a href="/logout">Вход</a></h6>
-                <% } %>
-                <%--<% if (request.isUserInRole("admin")) {%>--%>
-                <h6><a href="/admin">Админка</a></h6>
-                <%--<% }--%>
-                <%--if (request.isUserInRole("user") || request.isUserInRole("admin")) {%>--%>
-                <h6><a href="../user_pages/profile.jsp">Личный кабинет</a></h6>
-                <%--<%}%>--%>
+                <c:choose>
+                    <c:when test="${loggedIn}">
+                        <h6><a href="j_spring_security_logout">Выход</a></h6>
+                    </c:when>
+                    <c:otherwise>
+                        <h6><a href="/login">Вход</a></h6>
+                    </c:otherwise>
+                </c:choose>
+                <c:if test="${isAdmin}">
+                    <h6><a href="/admin">Админка</a></h6>
+                </c:if>
+                <c:if test="${isUser}">
+                    <h6><a href="/profile">Личный кабинет</a></h6>
+                </c:if>
                 <h6><a href="/cart">Корзина</a></h6>
             </div>
 

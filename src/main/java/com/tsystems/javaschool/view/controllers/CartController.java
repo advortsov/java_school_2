@@ -7,15 +7,15 @@ import com.tsystems.javaschool.services.ShoppingCart;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -39,18 +39,37 @@ public class CartController {
 
     public static void writeBooksIntoCookie(HttpServletRequest req, HttpServletResponse resp,
                                             long bookId, int previousQuantity) {
-        deleteExistingCookies(bookId, req, resp);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = auth.getName(); //get logged in username
+        deleteCurrentBookCookies(userName, bookId, req, resp);
+
         Cookie cookie = new Cookie(String.valueOf(bookId),
-                req.getSession().getAttribute("name_for_greeting") + "dlm" + bookId + "dlm" + previousQuantity);
+                userName + "dlm" + bookId + "dlm" + previousQuantity);
         cookie.setMaxAge(60 * 60 * 24 * 30); // for working with browser closing
         resp.addCookie(cookie);
     }
 
+    public static void deleteCurrentBookCookies(String userName, long bookId, HttpServletRequest req, HttpServletResponse resp) {
+        // удаляем куки с таким же айди, чтобы перезаписать количество
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            String value = cookie.getValue();
+            if (value.contains("dlm")) {
+                String[] cookieContent = value.split("dlm");
+                long id = Long.parseLong(cookieContent[1]);
+                if (id == bookId && cookieContent[0].equals(userName)) {
+                    cookie.setPath("cart/");
+                    cookie.setMaxAge(0);
+                    resp.addCookie(cookie);
+                }
+            }
+        }
+    }
+
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
-    public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp) {
+    public String deleteAllBooksCookies(String cookieOwner, HttpServletRequest req, HttpServletResponse resp) {
         //delete all books cookies
         Cookie[] cookies = req.getCookies();
-        String cookieOwner = (String) req.getSession().getAttribute("name_for_greeting");
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
             if (value.contains("dlm")) {
@@ -66,23 +85,6 @@ public class CartController {
         // to empty cart
         cartManager.clearCart();
         return "pages/cart";
-    }
-
-    public static void deleteExistingCookies(long bookId, HttpServletRequest req, HttpServletResponse resp) {
-        // удаляем куки с таким же айди, чтобы перезаписать количество
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            String value = cookie.getValue();
-            if (value.contains("dlm")) {
-                String[] arr = value.split("dlm");
-                long id = Long.parseLong(arr[1]);
-                if (id == bookId) {
-                    cookie.setPath("cart/");
-                    cookie.setMaxAge(0);
-                    resp.addCookie(cookie);
-                }
-            }
-        }
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -153,7 +155,8 @@ public class CartController {
                                            HttpServletRequest req, HttpServletResponse resp) {
         // удаляем строку в куках
         Cookie[] cookies = req.getCookies();
-        String cookieOwner = (String) req.getSession().getAttribute("name_for_greeting");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String cookieOwner = auth.getName(); //get logged in username
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
             if (value.contains("dlm")) {
@@ -166,13 +169,8 @@ public class CartController {
                 }
             }
         }
-
-
         // удаляем строку в корзине
-       cartManager.removeLine(id);
-
-//        mainPage(req);
-//        populateCart();
+        cartManager.removeLine(id);
         return "pages/cart";
     }
 
@@ -185,7 +183,9 @@ public class CartController {
         // заполняем по куки корзину
 
         if (cookies != null) {
-            String cookieOwner = (String) request.getSession().getAttribute("name_for_greeting");
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String cookieOwner = auth.getName(); //get logged in username
+            System.out.println("cookieOwner = " + cookieOwner);
             long id;
             int quantity;
             for (Cookie cookie : cookies) {

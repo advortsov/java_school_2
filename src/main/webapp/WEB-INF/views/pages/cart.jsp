@@ -1,8 +1,3 @@
-<%@ page import="com.tsystems.javaschool.dao.entity.Client" %>
-<%@ page import="com.tsystems.javaschool.dao.entity.OrderLine" %>
-<%@ page import="com.tsystems.javaschool.services.ShoppingCart" %>
-<%@ page import="com.tsystems.javaschool.view.controllers.CartController" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -11,7 +6,7 @@
 
 <%--<jsp:useBean id="bookManager" class="com.tsystems.javaschool.services.impl.BookManagerImpl" scope="page"/>--%>
 <%--&lt;%&ndash;<jsp:useBean id="shoppingCartManager" class="com.tsystems.javaschool.services.impl.ShoppingCartManagerImpl"&ndash;%&gt;--%>
-             <%--&lt;%&ndash;scope="session"/>&ndash;%&gt;--%>
+<%--&lt;%&ndash;scope="session"/>&ndash;%&gt;--%>
 <%--<jsp:useBean id="currentClient" class="com.tsystems.javaschool.dao.entity.Client" scope="page"/>--%>
 <%--<jsp:useBean id="orderLines1" class="java.util.ArrayList" scope="session"/>--%>
 
@@ -19,7 +14,7 @@
 
 
 <%
-//    CartController cartController = new CartController();
+    //    CartController cartController = new CartController();
 //    currentClient = (Client) session.getAttribute("currentClient");
 //    if (currentClient == null) {
 //        //ClientController.actualizeClient(request, userName);
@@ -126,14 +121,14 @@
                 </c:forEach>
             </select>
 
-                    <%--<% if (request.getUserPrincipal() != null) {%>--%>
-                <p></p>
-
-                <p><input type="submit" value="Оформить заказ"></p>
-                    <%--<% } else { %>--%>
-                    <%--<br><a href="/user_pages/profile.jsp">Войдите</a>, чтобы сделать заказ</br></p>--%>
-                    <%--<% } %>--%>
-
+                <c:choose>
+                    <c:when test="${loggedIn}">
+                        <p><input type="submit" value="Оформить заказ"></p>
+                    </c:when>
+                    <c:otherwise>
+                        <br><a href="/profile">Войдите</a>, чтобы сделать заказ</br></p>
+                    </c:otherwise>
+                </c:choose>
 
             </form>
         </c:when>
@@ -149,6 +144,7 @@
     <div class="popup">
         <h2>Заказ</h2>
         <a class="close" href="">×</a>
+
         <div>
             Ваш заказ передан в обработку
         </div>

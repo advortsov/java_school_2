@@ -10,7 +10,9 @@
     <http auto-config="true" use-expressions="true">
         <access-denied-handler error-page="/WEB-INF/views/error.jsp" />
 
-        <intercept-url pattern="/books" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/books/*" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/cart" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
 
         <form-login login-page='/login' default-target-url="/books"
@@ -25,7 +27,6 @@
 
     <authentication-manager>
         <authentication-provider>
-
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
                                        "SELECT user_name, user_pass, TRUE as enabled FROM users WHERE user_name=?"
