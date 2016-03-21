@@ -14,8 +14,7 @@
           rel="stylesheet"/>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
-
+    <title>Login</title>
 
 </head>
 
@@ -26,27 +25,19 @@
       action="<%=request.getContextPath()%>/j_spring_security_check"
       class="box login">
 
-
     <fieldset class="boxBody">
-
-
-        <label> Username </label> <input type='text' name='user_login'
-                                         value=''>
-        <label>Password </label> <input type='password'
-                                     name='password_login'/>
+        <label> Username </label> <input type='text' name='user_login' value=''>
+        <label>Password </label> <input type='password' name='password_login'/>
 
         <c:if test="${not empty error}">
             <div class="error" style="text-align:right;">${error}</div>
         </c:if>
-
-
     </fieldset>
 
 
     <footer>
 
         <input type="submit" class="btnLogin" value="Вход"></footer>
-
 
 </form>
 

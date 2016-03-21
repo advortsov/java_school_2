@@ -38,15 +38,15 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="localeChangeInterceptor"
-          class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="lang"/>
-    </bean>
+    <!--<bean id="localeChangeInterceptor"-->
+          <!--class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">-->
+        <!--<property name="paramName" value="lang"/>-->
+    <!--</bean>-->
 
-    <bean id="localeResolver"
-          class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-        <property name="defaultLocale" value="ru"/>
-    </bean>
+    <!--<bean id="localeResolver"-->
+          <!--class="org.springframework.web.servlet.i18n.SessionLocaleResolver">-->
+        <!--<property name="defaultLocale" value="ru"/>-->
+    <!--</bean>-->
 
 
     <bean id="multipartResolver"
@@ -54,7 +54,7 @@
         <property name="maxUploadSize" value="1000000"/>
     </bean>
 
-    <import resource="spring-database.xml"/>
+    <!--<import resource="spring-database.xml"/>-->
     <!--<import resource="app-security.xml"/>-->
 
 </beans>

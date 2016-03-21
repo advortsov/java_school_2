@@ -19,40 +19,6 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-//    @Autowired
-//    private AccessDecisionManager accessDecisionManager;
-//
-//    @RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
-//    public ModelAndView accesssDenied(Principal user) {
-//
-//        ModelAndView model = new ModelAndView();
-//
-//        // пока русский текст без локализации, хотя так не рекомендуется!
-//        if (user != null) {
-//            model.addObject("errorMsg", user.getName() + " у вас нет доступа к этой странице!");
-//        } else {
-//            model.addObject("errorMsg", "У вас нет доступа к этой странице!");
-//        }
-//
-//        model.setViewName("/content/accessDenied");
-//        return model;
-//
-//    }
-
-//    @RequestMapping(value = "/books", method = RequestMethod.GET)
-//    public String mainPage() {
-//        printUserDetails();
-//
-//        return "/content/user";
-//    }
-//
-//    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-//    public String adminPage() {
-//
-//        return "/content/admin";
-//
-//    }
-
     private void printUserDetails() {
 
         UserDetails userDetails =
