@@ -84,17 +84,13 @@ public class AdminController {
     @RequestMapping(value = "/proceed", method = RequestMethod.POST)
     public String getProceedsPerPeriod(@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                       @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) {
-        System.out.println("startDate " + startDate);
-        System.out.println("endDate " + endDate);
         logger.debug("Try to get orders per period");
         List<Order> ordersPerPeriod = adminManager.getOrdersPerPeriod(startDate, endDate);
         int totalSumm = 0;
         for (Order order : ordersPerPeriod) {
             totalSumm += order.getTotalSumm();
         }
-        //model.addAttribute("proceedPerPeriod", totalSumm);
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
-
         return "redirect:#tab7";
 //        return "admin_pages/admin";
     }
@@ -113,7 +109,6 @@ public class AdminController {
 
     @RequestMapping(value = "/delete_genre", method = RequestMethod.POST)
     public String delGenre(@ModelAttribute("genre_name_del") String genreName, Model model) {
-        System.out.println("genreName: " + genreName);
         Genre genre = genreManager.findByGenreName(genreName);
         genreManager.deleteGenre(genre);
         model.addAttribute("allGenresList", createAllGenresList());

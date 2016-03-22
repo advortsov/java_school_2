@@ -8,9 +8,12 @@ import com.tsystems.javaschool.dao.interfaces.OrderDAO;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -21,16 +24,21 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class ClientManagerImpl implements ClientManager {
 
     @Autowired
     ClientDAO clientDAO;
+
     @Autowired
     OrderDAO orderDAO;
 
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
 
+    public ClientManagerImpl(){
+
+    }
 
     @Override
     public Client findByUserName(String name) throws NotRegisteredUserException {

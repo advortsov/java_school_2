@@ -3,6 +3,7 @@ package com.tsystems.javaschool.dao.impl;
 import com.tsystems.javaschool.dao.interfaces.AbstractJpaDAO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -25,7 +26,7 @@ public abstract class AbstractJpaDAOImpl<T extends Serializable> implements Abst
     private Class<T> clazz;
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     public final void setClazz(final Class<T> clazzToSet) {
         this.clazz = clazzToSet;

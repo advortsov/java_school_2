@@ -1,4 +1,3 @@
-<%@ page import="com.tsystems.javaschool.dao.entity.Client" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -8,7 +7,7 @@
 <jsp:useBean id="currentClient" class="com.tsystems.javaschool.dao.entity.Client" scope="page"/>
 
 <%
-//    currentClient = (Client) session.getAttribute("currentClient");
+    //    currentClient = (Client) session.getAttribute("currentClient");
 //    if (currentClient == null) {
 //        session.invalidate();
 //    }

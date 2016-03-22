@@ -88,8 +88,8 @@ public class CartController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String mainPage(HttpServletRequest request) {
-        Client client = clientController.actualizeClient(request, "Guest");
+    public String mainPage(@ModelAttribute Client client, HttpServletRequest request) {
+        //Client client = clientController.actualizeClient(request, "Guest");
         actualizeCart(request, client); //1
         return "pages/cart";
     }

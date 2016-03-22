@@ -15,10 +15,10 @@ import java.util.Map;
  */
 public interface AdminManager {
 
-    public Map<Book, Integer> getTopTenBooks();
+    Map<Book, Integer> getTopTenBooks();
 
-    public Map<Client, Integer> getTopTenClients();
+    Map<Client, Integer> getTopTenClients();
 
-    public List<Order> getOrdersPerPeriod(Date periodStart, Date periodEnd);
+    List<Order> getOrdersPerPeriod(Date periodStart, Date periodEnd);
 
 }

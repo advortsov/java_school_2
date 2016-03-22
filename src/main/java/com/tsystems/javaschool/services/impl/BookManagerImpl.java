@@ -11,6 +11,7 @@ import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
  * @since 10.02.2016
  */
 @Service
+//@Transactional
 public class BookManagerImpl implements BookManager {
 
     final static Logger logger = Logger.getLogger(BookManagerImpl.class);//    PropertyConfigurator.configure("log4j.properties");
@@ -32,19 +34,8 @@ public class BookManagerImpl implements BookManager {
     @Autowired
     private AuthorDAO authorDAO;
 
-//    private BookDAO bookDAO;
-//    private AuthorDAO authorDAO;
-//
-//    @Autowired
-//    public BookManagerImpl(BookDAO bookDAO, AuthorDAO authorDAO) {
-//        this.bookDAO = bookDAO;
-//        this.authorDAO = authorDAO;
-//    }
-
     public BookManagerImpl() {
     }
-
-
 
     @Override
     public List<Book> findByBookName(String name) {
@@ -69,12 +60,6 @@ public class BookManagerImpl implements BookManager {
         logger.info("Try to save new book...");
         bookDAO.save(book);
         logger.info("New book has been saved.");
-//        } catch (PersistenceException ex) {
-//            logger.error("New book has not been saved!");
-//            ex.printStackTrace();
-//            JpaUtil.rollbackTransaction(em);
-//            throw new DuplicateException();
-//        }
     }
 
     @Override
@@ -82,12 +67,6 @@ public class BookManagerImpl implements BookManager {
         logger.info("Try to update book...");
         bookDAO.merge(book);
         logger.info("New book has been updated.");
-//        } catch (PersistenceException ex) {
-//            logger.error("Book has not been updated!");
-//            ex.printStackTrace();
-//            JpaUtil.rollbackTransaction(em);
-//            throw new DuplicateException();
-//        }
     }
 
     @Override
@@ -101,11 +80,6 @@ public class BookManagerImpl implements BookManager {
         logger.info("Try to delete book...");
         bookDAO.delete(book);
         logger.info("New book has been deleted.");
-//        } catch (PersistenceException ex) {
-//            logger.error("Book has not been deleted!");
-//            ex.printStackTrace();
-//            JpaUtil.rollbackTransaction(em);
-//        }
     }
 
     @Override

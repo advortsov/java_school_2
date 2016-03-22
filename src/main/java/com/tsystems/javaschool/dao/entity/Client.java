@@ -1,6 +1,8 @@
 package com.tsystems.javaschool.dao.entity;
 
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -11,6 +13,8 @@ import java.util.List;
  * @version 1.0
  * @since 09.02.2016
  */
+
+@Component
 @Entity
 @Table(name = "client")
 @NamedQuery(name = "Client.getAll", query = "SELECT b from Client b")

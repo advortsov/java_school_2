@@ -32,8 +32,8 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
     @Autowired
     private BookManager bookManager;
 
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+//    private EntityManager em;
 
     public BookDAOImpl() {
         super();
