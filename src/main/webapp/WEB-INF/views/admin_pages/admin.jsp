@@ -5,6 +5,7 @@
 <%@include file="../jspf/left_menu.jspf" %>
 
 <jsp:useBean id="currentClient" class="com.tsystems.javaschool.dao.entity.Client" scope="page"/>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%
     //    currentClient = (Client) session.getAttribute("currentClient");

@@ -15,7 +15,8 @@
 	<p>Locale ${locale}!</p>
 
 
-	<form:form method="post" enctype="multipart/form-data" modelAttribute="uploadedFile" action="uploadFile">
+	<form:form method="post" enctype="multipart/form-data" modelAttribute="uploadedFile"
+			   action="uploadFile">
 		<table>
 			<tr>
 				<td>Upload File:</td>

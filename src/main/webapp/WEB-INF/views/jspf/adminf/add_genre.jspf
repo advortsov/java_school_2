@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="edit_penal">

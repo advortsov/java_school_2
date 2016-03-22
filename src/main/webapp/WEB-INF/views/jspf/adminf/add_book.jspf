@@ -8,8 +8,13 @@
 
     <p>&nbsp;</p>
 
-    <form name="book_edit_form" enctype="multipart/form-data" accept-charset="utf-8"
-          action="/books/add" method="post">
+    <form:form name="book_edit_form"
+               enctype="multipart/form-data" modelAttribute="uploadedBook" action="/books/add" method="post">
+
+        <%--<form name="book_edit_form" enctype="multipart/form-data" accept-charset="utf-8"--%>
+        <%--action="/books/add" method="post">--%>
+
+
         <div class="edit_book_info">
             <div>
 
@@ -32,6 +37,10 @@
                                                                required
                                                                value="${book.isbn}"
                                                                title="ISBN может содержать от 5 до 35 символов">
+                </div>
+
+                <div class="field">
+                    <td class="error"><form:errors path="book_isbn"/></td>
                 </div>
 
                 <div class="field">
@@ -91,7 +100,9 @@
             </div>
         </div>
 
-    </form>
+        <%--</form>--%>
+    </form:form>
+
 
 </div>
 

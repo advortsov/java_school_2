@@ -1,4 +1,3 @@
-<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style_main.css" type="text/css"/>--%>
 <%@ page pageEncoding="UTF-8" %>
 <link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">
 <link href="<c:url value="/resources/css/tabs.css" />" rel="stylesheet">

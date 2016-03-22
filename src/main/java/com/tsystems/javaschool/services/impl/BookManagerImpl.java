@@ -24,7 +24,7 @@ import java.util.List;
  * @since 10.02.2016
  */
 @Service
-//@Transactional
+@Transactional
 public class BookManagerImpl implements BookManager {
 
     final static Logger logger = Logger.getLogger(BookManagerImpl.class);//    PropertyConfigurator.configure("log4j.properties");

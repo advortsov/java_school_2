@@ -37,7 +37,8 @@ public class FileController {
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	@ResponseBody
-	public ModelAndView uploadFile(@ModelAttribute("uploadedFile") UploadedFile uploadedFile, BindingResult result) throws IOException, BadFileNameException {// имена параметров - как на форме jsp
+	public ModelAndView uploadFile(@ModelAttribute("uploadedFile") UploadedFile uploadedFile, BindingResult result)
+			throws IOException, BadFileNameException {// имена параметров - как на форме jsp
 
 		ModelAndView modelAndView = new ModelAndView();
 

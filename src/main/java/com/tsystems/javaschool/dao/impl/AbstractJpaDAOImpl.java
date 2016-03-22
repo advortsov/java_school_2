@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Repository
-@Transactional
+//@Transactional
 public abstract class AbstractJpaDAOImpl<T extends Serializable> implements AbstractJpaDAO<T> {
     final static Logger logger = Logger.getLogger(AbstractJpaDAOImpl.class);
 

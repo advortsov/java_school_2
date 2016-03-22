@@ -14,8 +14,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import ru.javabegin.training.objects.UploadedBook;
+import ru.javabegin.training.validators.BookValidator;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
@@ -43,6 +47,9 @@ public class BookListController {
     @Autowired
     private BookManager bookManager;
 
+    @Autowired
+    private BookValidator bookValidator;
+
 
     @ModelAttribute("allBooks")
     public List<Book> allBooks() {
@@ -52,25 +59,10 @@ public class BookListController {
         return resultList;
     }
 
-// toDO
-    //private String allGenresList;
-
-//    public void setAllGenresList(String allGenresList) {
-//        this.allGenresList = allGenresList;
-//    }
-//
-//    public String getAllGenresList() {
-//        return allGenresList;
-//    }
-
-    public List<Genre> populateGenresList() {
+    @ModelAttribute(value = "allGenresList")
+    public List<Genre> createAllGenresList() {
         return genreManager.loadAllGenres();
     }
-
-//    @ModelAttribute(value = "allGenresList")
-//    public List<Genre> createAllGenresList() {
-//        return genreManager.loadAllGenres();
-//    }
 
     @ModelAttribute(value = "allAuthorsList")
     public List<Author> createAllAuthorsList() {
@@ -154,46 +146,56 @@ public class BookListController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addBook(@RequestParam("book_name") String name,
-                          @RequestParam("book_isbn") String isbn,
-                          @RequestParam("book_genre") String genre,
-                          @RequestParam("book_publisher") String publisher,
-                          @RequestParam("book_author") String author,
-                          @RequestParam("book_pages") int pages,
-                          @RequestParam("book_year") int year,
-                          @RequestParam("book_count") int quantity,
-                          @RequestParam("book_price") int price,
-                          @RequestParam(value = "cover", required = false) CommonsMultipartFile locationMapFileData) {
+    public ModelAndView addBook(
+            @ModelAttribute("uploadedBook") UploadedBook uploadedBook,
+            BindingResult result,
+            @RequestParam("book_name") String name,
+            @RequestParam("book_isbn") String isbn,
+            @RequestParam("book_genre") String genre,
+            @RequestParam("book_publisher") String publisher,
+            @RequestParam("book_author") String author,
+            @RequestParam("book_pages") int pages,
+            @RequestParam("book_year") int year,
+            @RequestParam("book_count") int quantity,
+            @RequestParam("book_price") int price,
+            @RequestParam(value = "cover", required = false)
+            CommonsMultipartFile locationMapFileData) {
 
         logger.debug("Received request to show edit page");
-        Book book = new Book();
 
-        book.setName(name);
-        book.setIsbn(isbn);
-        book.setGenre(genreManager.findByGenreName(genre));
-        book.setPublisher(publisherManager.findByPublisherName(publisher));
-        book.setAuthor(authorManager.findByAuthorName(author));
-        book.setPageCount(pages);
-        book.setPublishYear(year);
-        book.setQuantity(quantity);
-        book.setPrice(price);
+//        verifyIsbnUniqueness(isbn);
+        ModelAndView mav = new ModelAndView();
+        bookValidator.validate(uploadedBook, result);
+        if (result.hasErrors()) {
+            mav.setViewName("admin_pages/admin");
+        } else {
+            Book book = new Book();
 
-        if (locationMapFileData.getBytes().length != 0) {
-            book.setImage(locationMapFileData.getBytes());
+            book.setName(name);
+            book.setIsbn(isbn);
+            book.setGenre(genreManager.findByGenreName(genre));
+            book.setPublisher(publisherManager.findByPublisherName(publisher));
+            book.setAuthor(authorManager.findByAuthorName(author));
+            book.setPageCount(pages);
+            book.setPublishYear(year);
+            book.setQuantity(quantity);
+            book.setPrice(price);
+
+            if (locationMapFileData.getBytes().length != 0) {
+                book.setImage(locationMapFileData.getBytes());
+            }
+
+            try {
+                bookManager.saveNewBook(book);
+            } catch (DuplicateException e) {
+                e.printStackTrace();
+            }
+
+            mav.setViewName("admin_pages/admin");
+
         }
 
-        // The "bookAttribute" model has been passed to the controller from the JSP
-        // We use the name "bookAttribute" because the JSP uses that name
-
-        // Call PersonService to do the actual adding
-        try {
-            bookManager.saveNewBook(book);
-        } catch (DuplicateException e) {
-            e.printStackTrace();
-        }
-
-        // This will resolve to /WEB-INF/jsp/addedpage.jsp
-        return "admin_pages/admin";
+        return mav;
     }
 
     /**
@@ -250,16 +252,32 @@ public class BookListController {
         return "pages/books";
     }
 
-    private void verifyIsbnUniqueness(String value, Book verifyBook) throws DuplicateException {
-        Book book = null;
+    private void verifyIsbnUniqueness(String isbn) throws DuplicateException {
         try {
-            book = bookManager.findBookByIsbn(value);
-        } catch (NoResultException exception) {
-            book = null;
-        }
-        if (verifyBook.getName() != null) {
-            if (book != null && !book.getName().equals(verifyBook.getName())) throw new DuplicateException();
+            if (bookManager.findBookByIsbn(isbn) != null) {
+                System.out.println("verifyIsbnUniqueness throws DuplEx");
+                throw new DuplicateException();
+            }
+        } catch (NoResultException ex) {
+            //ignore
         }
     }
 
+    @ExceptionHandler(DuplicateException.class)
+    public ModelAndView handleDuplicateException(ModelAndView mav) {
+        System.out.println("handleDuplicateException is worked!");
+        logger.error("Trying to write not unique isbn!");
+//        ModelAndView mav = new ModelAndView("error");
+        mav.addObject("error", "This isbn is already exist");
+        return mav;
+    }
+
+
+//    @ExceptionHandler(BadFileNameException.class)
+//    public ModelAndView handleBadFileNameException(Exception ex) {
+//        logger.error("IOException handler executed");
+//        ModelAndView modelAndView = new ModelAndView("error");
+//        modelAndView.addObject("error", ex.getMessage());
+//        return modelAndView;
+//    }
 }

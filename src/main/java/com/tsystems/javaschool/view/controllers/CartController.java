@@ -66,6 +66,21 @@ public class CartController {
         }
     }
 
+    public void deleteCookiesByOwnerName(String userName, HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            String value = cookie.getValue();
+            if (value.contains("dlm")) {
+                String[] cookieContent = value.split("dlm");
+                if (cookieContent[0].equals(userName)) {
+                    cookie.setPath("cart/");
+                    cookie.setMaxAge(0);
+                    resp.addCookie(cookie);
+                }
+            }
+        }
+    }
+
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
     public String deleteAllBooksCookies(String cookieOwner, HttpServletRequest req, HttpServletResponse resp) {
         //delete all books cookies
@@ -88,15 +103,15 @@ public class CartController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String mainPage(@ModelAttribute Client client, HttpServletRequest request) {
+    public String mainPage(@ModelAttribute Client client, HttpServletRequest request, HttpServletResponse resp) {
         //Client client = clientController.actualizeClient(request, "Guest");
-        actualizeCart(request, client); //1
+        actualizeCart(request, resp, client); //1
         return "pages/cart";
     }
 
-    public void actualizeCart(HttpServletRequest request, Client client) {
+    public void actualizeCart(HttpServletRequest request, HttpServletResponse resp, Client client) {
         ShoppingCart cart = cartManager.getShoppingCart();
-        fillUpFromCookies(cart, request); // заполняем ее из кукисов
+        fillUpFromCookies(cart, request, resp); // заполняем ее из кукисов
         cart.setClient(client);
         cartManager.setShoppingCart(cart);
         populateCart();
@@ -175,7 +190,7 @@ public class CartController {
     }
 
     public void fillUpFromCookies(ShoppingCart cart,
-                                  HttpServletRequest request) {
+                                  HttpServletRequest request, HttpServletResponse resp) {
 
         Cookie[] cookies = request.getCookies();
 
@@ -185,15 +200,17 @@ public class CartController {
         if (cookies != null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String cookieOwner = auth.getName(); //get logged in username
-            System.out.println("cookieOwner = " + cookieOwner);
             long id;
             int quantity;
             for (Cookie cookie : cookies) {
                 String value = cookie.getValue();
                 if (value.contains("dlm")) {
                     String[] cookieContent = value.split("dlm");
-                    if (cookieContent[0].equals(cookieOwner)) {
+                    if (cookieContent[0].equals(cookieOwner) || cookieContent[0].equals("Guest")) {
                         id = Long.parseLong(cookieContent[1]);
+                        if (cookieContent[0].equals("Guest")) {
+                            deleteCookiesByOwnerName("Guest", request, resp);
+                        }
                         quantity = Integer.parseInt(cookieContent[2]);
                         newItems.add(new OrderLine(quantity, bookManager.findBookById(id)));
                     }

@@ -17,7 +17,6 @@ public class FileValidator implements Validator {
 		if (file.getFile().getSize() == 0) {
 			errors.rejectValue("file", "uploadForm.selectFile", "Please select a file!");
 		}
-
 	}
 
 	@Override

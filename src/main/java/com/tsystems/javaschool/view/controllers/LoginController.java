@@ -45,12 +45,11 @@ public class LoginController {
         for (GrantedAuthority auth : userDetails.getAuthorities()) {
             logger.info(auth.getAuthority());
         }
-
     }
 
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
     public ModelAndView addDetails(@RequestParam(value = "error", required = false) String error,
-                              HttpSession session) {
+                                   HttpSession session) {
         // erase cart for giving the clear cart to the next auth user
         cartManager.clearCart();
 
@@ -61,7 +60,6 @@ public class LoginController {
                         .getAuthentication().getPrincipal();
 
         String userName = userDetails.getUsername();
-        System.out.println("String userName = userDetails.getUsername(); === " + userName);
 
         Client client = null;
         try {
@@ -76,17 +74,19 @@ public class LoginController {
         session.setAttribute("client", client);
         // теперь у нас в сессии есть наш клиент из базы или подложка для анонимуса
 
-        if (error != null) {
-            mav.addObject("error", "Invalid username or password!");
-        }
         mav.setViewName("pages/books");
         return mav;
     }
 
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-    public String goLogin(){
+    public ModelAndView goLogin(@RequestParam(value = "error", required = false) String error, ModelAndView mav) {
         logger.debug("Returning login.jsp page");
-        return "login";
+        mav.setViewName("login");
+
+        if (error != null) {
+            mav.addObject("error", "Invalid username or password");
+        }
+        return mav;
     }
 }

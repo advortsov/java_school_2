@@ -8,8 +8,6 @@
 <html>
 <head>
 
-    <%--<link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">--%>
-
     <link href="<%=request.getContextPath()%>/resources/css/home.css"
           rel="stylesheet"/>
 
@@ -26,18 +24,19 @@
       class="box login">
 
     <fieldset class="boxBody">
-        <label> Username </label> <input type='text' name='user_login' value=''>
+        <label>Username </label> <input type='text' name='user_login' value=''>
         <label>Password </label> <input type='password' name='password_login'/>
+
+        <h6><a href="/books">Войти анонимно</a></h6>
 
         <c:if test="${not empty error}">
             <div class="error" style="text-align:right;">${error}</div>
         </c:if>
     </fieldset>
 
-
     <footer>
-
-        <input type="submit" class="btnLogin" value="Вход"></footer>
+        <input type="submit" class="btnLogin" value="Вход">
+    </footer>
 
 </form>
 

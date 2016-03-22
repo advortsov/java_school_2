@@ -20,7 +20,7 @@ public class User implements Serializable {
     @Column(name = "user_name", length = 15, unique = true, nullable = false)
     private String userName;
 
-    @Column(name = "user_pass", length = 15, nullable = false)
+    @Column(name = "user_pass", length = 255, nullable = false)
     private String userPass;
 
     public String getUserName() {

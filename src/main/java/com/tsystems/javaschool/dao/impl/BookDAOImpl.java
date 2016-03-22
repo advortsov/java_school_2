@@ -24,7 +24,7 @@ import java.util.*;
  * @since 10.02.2016
  */
 @Repository
-@Transactional
+//@Transactional
 public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
 
     final static Logger logger = Logger.getLogger(BookDAOImpl.class);

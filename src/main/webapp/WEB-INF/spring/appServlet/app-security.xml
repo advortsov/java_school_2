@@ -11,18 +11,17 @@
         <access-denied-handler error-page="/WEB-INF/views/error.jsp" />
 
         <intercept-url pattern="/books/*" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/cart" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/profile" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/cart/*" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile/*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
 
-        <form-login login-page='/goLogin' default-target-url="/addDetails"
+        <form-login login-page='/login' default-target-url="/addDetails"
                     authentication-failure-url="/login?error=true"
                     username-parameter="user_login"
                     password-parameter="password_login"/>
 
         <logout logout-success-url="/login"/>
         <anonymous username="Guest" granted-authority="anonymous" />
-
     </http>
 
     <authentication-manager>

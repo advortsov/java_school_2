@@ -61,19 +61,6 @@
         <url-pattern>/ShowImage</url-pattern>
     </servlet-mapping>
 
-    <!--<jsp-config>-->
-    <!--<jsp-property-group>-->
-    <!--<display-name>header_and_footer</display-name>-->
-    <!--<url-pattern>/views/*</url-pattern>-->
-    <!--&lt;!&ndash;<url-pattern>/admin_pages/*</url-pattern>&ndash;&gt;-->
-    <!--&lt;!&ndash;<url-pattern>/user_pages/*</url-pattern>&ndash;&gt;-->
-    <!--<page-encoding>UTF-8</page-encoding>-->
-    <!--<include-prelude>/WEB-INF/views/jspf/header.jspf</include-prelude>-->
-    <!--<include-coda>/WEB-INF/views/jspf/footer.jspf</include-coda>-->
-    <!--</jsp-property-group>-->
-    <!--</jsp-config>-->
-
-    <!--  для прописывания файлов css, а также js -->
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.css</url-pattern>
