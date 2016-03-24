@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.List;
 
@@ -31,11 +32,11 @@ public class ClientController {
     @Autowired
     private ClientManager clientManager;
 
-    private Client client;
+//    private Client client;
 
     @ModelAttribute(value = "clientOrdersList")
-    public List<Order> createClientOrdersList() {
-        return clientManager.getClientOrders(client);
+    public List<Order> createClientOrdersList(HttpSession session) {
+        return clientManager.getClientOrders((Client) session.getAttribute("client"));
     }
 
     public Client actualizeClient(HttpServletRequest request, String userName) {
@@ -57,7 +58,7 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage() {
-        return "user_pages/profile";
+        return "user_pages/profile.jsp";
     }
 
 //    /**

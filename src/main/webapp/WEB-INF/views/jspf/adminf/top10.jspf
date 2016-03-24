@@ -4,11 +4,6 @@
     <div class="top10_penal">
 
         <div class="admin_penal">
-            <%--<%--%>
-            <%--Map<Client, Integer> topTenClients = Managers.getAdminManager().getTopTenClients();--%>
-            <%--if (!topTenClients.isEmpty()) {--%>
-            <%--%>--%>
-
             <c:choose>
                 <c:when test="${not empty topTenClients}">
                     <br><strong>Топ-10 клиентов</strong>
@@ -44,7 +39,7 @@
                         <tr>
                             <td>Имя</td>
                             <td>Фамилия</td>
-                            <td>Адресс</td>
+                            <td>Адрес</td>
                             <td>E-mail</td>
                             <td>Дата рождения</td>
                             <td>user_name</td>
@@ -114,7 +109,7 @@
                         <tr>
                             <td>Название</td>
                             <td>ISBN</td>
-                            <td>Цена</td>
+                            <td>Текущая цена</td>
                             <td>Остаток на складе</td>
                             <td>Продано</td>
                         </tr>

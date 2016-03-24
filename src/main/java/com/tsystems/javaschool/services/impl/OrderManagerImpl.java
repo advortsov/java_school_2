@@ -73,8 +73,12 @@ public class OrderManagerImpl implements OrderManager {
     @Override
     public void repeatOrder(long orderId) {
         Order order = findOrderById(orderId);
+        System.out.println("order.getId() = " + order.getId());
         shoppingCartManager.clearCart();
         shoppingCartManager.getShoppingCart().setItems(order.getOrderLines());
+        System.out.println("shoppingCartManager.getShoppingCart().getItems().size() = "
+                + shoppingCartManager.getShoppingCart().getItems().size());
+
     }
 
 

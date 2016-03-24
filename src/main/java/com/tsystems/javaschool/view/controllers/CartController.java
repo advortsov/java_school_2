@@ -125,8 +125,12 @@ public class CartController {
 
     public void actualizeCart(HttpServletRequest request, HttpServletResponse resp, Client client) {
         ShoppingCart cart = cartManager.getShoppingCart();
-        fillUpFromCookies(cart, request, resp); // заполняем ее из кукисов
-        cart.setClient(client);
+        if (cart.getItems().isEmpty()) {
+            fillUpFromCookies(cart, request, resp); // заполняем ее из кукисов
+        }
+        if (cart.getClient() == null) {
+            cart.setClient(client);
+        }
         cartManager.setShoppingCart(cart);
         populateCart();
     } // В менеджере теперь есть норм карта заполненная из кукисов
@@ -136,6 +140,8 @@ public class CartController {
         System.out.println("populateCart = " + cartManager.getShoppingCart().getItems().size());
         return cartManager.getShoppingCart();
     } // записываем карту в сессию
+
+
 
     @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
     public String addToCart(@RequestParam(value = "book_id", required = true) long id,

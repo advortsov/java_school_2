@@ -51,13 +51,13 @@ public class OrderListController {
     @Autowired
     BookManager bookManager;
 
-    @Autowired
-    private OrderValidator orderValidator;
+//    @Autowired
+//    private OrderValidator orderValidator;
 
     /**
      * Puts in the shopping cart content of the last order (additional task)
      */
-    @RequestMapping(value = "/repeatOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/repeatOrder", method = RequestMethod.GET)
     public String repeatOrder(@RequestParam(value = "id", required = true) long id) {
         orderManager.repeatOrder(id);
         return "pages/cart.jsp";

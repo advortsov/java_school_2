@@ -30,10 +30,10 @@
                         <td>${order.totalSumm}</td>
                             <%--логика находится в классе Order (что делать?)--%>
                         <td>
-                            <%--<a href="edit_order.jsp?order_id=${order.id}">--%>
                             <a href="admin/edit_order?id=${order.id}">
                                 <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>
                         </td>
+
 
                     </tr>
                 </c:forEach>

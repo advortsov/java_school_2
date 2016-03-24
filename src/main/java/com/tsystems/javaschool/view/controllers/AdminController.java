@@ -92,7 +92,7 @@ public class AdminController {
             totalSumm += order.getTotalSumm();
         }
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
-        return "admin_pages/admin.jsp#tab7";
+        return "admin_pages/admin.jsp";
     }
 
     // services
@@ -274,7 +274,7 @@ public class AdminController {
 //        Order actualOrder = orderManager.findOrderById(id);
         model.addAttribute("id", id);
         model.addAttribute("orderStatusList", OrderStatus.values());
-        return "admin_pages/edit_order";
+        return "admin_pages/edit_order.jsp";
     }
 
 

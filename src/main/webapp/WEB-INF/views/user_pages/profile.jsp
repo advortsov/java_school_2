@@ -77,7 +77,7 @@
             <c:when test="${not empty clientOrdersList}">
                 <br><strong>Заказы</strong>
 
-                <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>--%>
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>
 
                 <table border="1">
                     <tr>
@@ -90,7 +90,7 @@
                         <td>Статус оплаты</td>
                         <td>Сумма заказа</td>
                     </tr>
-                    <c:forEach items="${allOrdersList}" var="order">
+                    <c:forEach items="${clientOrdersList}" var="order">
                         <tr>
                             <td>${order.id}</td>
                             <td>${order.date}</td>
@@ -101,11 +101,19 @@
                             <td>${order.paymentStatus}</td>
                             <td>${order.totalSumm}</td>
                                 <%--логика находится в классе Order (что делать?)--%>
+                            <c:choose>
+                                <c:when test="${loggedIn}">
+                                    <td>
+                                        <a href="admin/edit_order?id=${order.id}">
+                                            <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>
+                                    </td>
+                                </c:when>
+                            </c:choose>
                             <td>
-                                    <%--<a href="edit_order.jsp?order_id=${order.id}">--%>
-                                <a href="admin/edit_order?id=${order.id}">
-                                    <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>
+                                <a href="/order/repeatOrder?id=${order.id}">
+                                    <img src="/resources/images/repeat.png" alt="Повторить заказ" name="repeat"/></a>
                             </td>
+
 
                         </tr>
                     </c:forEach>

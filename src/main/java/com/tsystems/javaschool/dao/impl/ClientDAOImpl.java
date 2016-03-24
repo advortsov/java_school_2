@@ -66,7 +66,7 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
 
         Map<Client, Integer> topClients = new HashMap<>();
 
-        String sql = "SELECT buy.client_id as clientId, SUM(book.price*order_line.quantity) as total " +
+        String sql = "SELECT buy.client_id as clientId, SUM(order_line.book_price*order_line.quantity) as total " +
                 "FROM buy JOIN order_line ON buy.id = order_line.order_id " +
                 "JOIN book ON order_line.book_id = book.id " +
                 "GROUP BY clientId ORDER BY total DESC LIMIT 10";
@@ -82,9 +82,7 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
                 int summ = clientSumm.intValue();
 
                 topClients.put(this.findByID(Client.class, id), summ);
-//            } catch (NotRegisteredUserException e) {
-//                e.printStackTrace();
-//            }
+
         }
 
         return sortByValue(topClients);

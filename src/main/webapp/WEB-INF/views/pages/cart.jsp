@@ -153,11 +153,6 @@
                         });
 
                         alert("jqXHR.responseTex = " + jqXHR.responseText);
-
-//                        if (jqXHR.length > 2) {
-//                            isOk = false;
-//                            alert("isOk = false = " + isOk);
-//                        }
                     }
 
                     alert('finish!');
