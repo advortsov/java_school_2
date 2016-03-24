@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <%@include file="../jspf/header.jspf" %>
@@ -7,6 +8,7 @@
 
 <link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">
 
+<body onload="total(${fn:length(shoppingCart.items)})">
 <div class="cart_penal">
 
     <c:choose>
@@ -14,10 +16,8 @@
             <br><strong>Корзина</strong>
             <br><a href="/cart/clearCart">Очистить корзину</a></br></p>
 
-            <form:form name="order_form"
+            <form:form name="order_form" id="order_form"
                        modelAttribute="createdOrder" action="/order/create-order" method="post">
-                <%--<form name="order_form" action="/create_order" method="post">--%>
-
                 <style>
                     table {
                         font-size: 13px;
@@ -48,22 +48,28 @@
                         <td>Стоимость</td>
                         <td></td>
                     </tr>
-                    <c:forEach items="${shoppingCart.items}" var="line">
+                    <c:forEach items="${shoppingCart.items}" var="line" varStatus="count">
+                        <input type="hidden" name="list_size" id="list_size" value="${fn:length(shoppingCart.items)}"></p>
+
                         <tr>
                             <div class="line">
-                                <td>${line.book.id}</td>
+                                <td>
+                                    <div id='book_id${count.index}' name="book_id">${line.book.id}</div>
+                                </td>
                                 <td>${line.book.name}</td>
-                                <td><input type="number" value="${line.book.price}" name="book_price" id="book_price"
-                                           readonly></td>
+                                <td>
+                                    <div id='book_price${count.index}' name="book_price">${line.book.price}</div>
+                                </td>
 
                                 <td><input type="number" name="q-${line.book.id}" min="1" value="${line.quantity}"
-                                           id="books_quantity"
+                                           id="books_quantity${count.index}"
                                            name="books_quantity"
+                                           onchange="total(${fn:length(shoppingCart.items)})"
                                            style="width:45px"></td>
 
-                                <td><input type="number" name="total_summ_of_line"
-                                           id="total_summ_of_line"
-                                           contenteditable="false">
+                                <td>
+                                    <div id='total_summ_of_line${count.index}'
+                                         name="total_summ_of_line">${line.book.price}</div>
                                 </td>
 
                                 <td><a href="/cart/removeOrderLine?id=${line.book.id}">
@@ -75,9 +81,8 @@
 
                 </table>
 
-                <br>Общая сумма заказа:<input type="number" name="total_summ_of_order"
-                id="total_summ_of_order"
-                style="width:100px">
+                <br>Общая сумма заказа:
+                <div id='total_summ_of_order' name="total_summ_of_order"></div>
 
 
                 <br>Способ доставки:<select name="shipping_type">
@@ -93,9 +98,8 @@
                 </c:forEach>
                 </select>
 
-                <div class="field">
-                    <td class="error"><form:errors path="book_count"/></td>
-                </div>
+                <span style="color: red; float: right" id="books_quantity_error"></span>
+
 
                 <c:choose>
                     <c:when test="${loggedIn}">
@@ -106,8 +110,71 @@
                     </c:otherwise>
                 </c:choose>
 
-                <%--</form>--%>
             </form:form>
+
+
+            <script>
+                function total(linesSize) {
+                    // total lines and order summ counting:
+                    var orderSumm = 0;
+                    for (var i = 0; i < linesSize; i++) {
+                        var item = document.getElementById("total_summ_of_line" + i);
+                        var res = parseInt(document.getElementById("book_price" + i).innerHTML) *
+                                parseInt(document.getElementById("books_quantity" + i).value);
+                        item.innerHTML = res.toString();
+                        orderSumm += parseInt(item.innerHTML);
+                    }
+                    document.getElementById("total_summ_of_order").innerHTML = orderSumm.toString();
+                }
+
+
+                function booksQuantityValidate() {
+                    var size = parseInt(document.getElementById("list_size").value);
+                    alert('linesSize = 2 = ' + size);
+                    var isOk = true;
+
+                    for (var i = 0; i < size; i++) {
+                        var bookId = parseInt(document.getElementById("book_id" + i).innerHTML);
+                        var bookQuantity = parseInt(document.getElementById("books_quantity" + i).value);
+                        alert('bookId = ' + bookId);
+                        alert('bookQuantity = ' + bookQuantity);
+
+                        var jqXHR = $.ajax({
+                            url: 'order/ajaxBooksQuantityValidation',
+                            data: ({bookId: bookId, bookQuantity: bookQuantity}),
+                            async: false,
+                            success: function (data) {
+                                if (data.length > 1) {
+                                    alert("isOk = false = " + isOk);
+                                    isOk = false;
+                                    $('#books_quantity_error').html(data);
+                                }
+                            }
+                        });
+
+                        alert("jqXHR.responseTex = " + jqXHR.responseText);
+
+//                        if (jqXHR.length > 2) {
+//                            isOk = false;
+//                            alert("isOk = false = " + isOk);
+//                        }
+                    }
+
+                    alert('finish!');
+                    alert("isOk in end = " + isOk);
+                    return isOk;
+                }
+
+                $(document).ready(function () {
+                    $("#order_form").submit(function () {
+                        alert('submit');
+                        var isValidated = booksQuantityValidate();
+                        return isValidated;
+                    });
+                });
+            </script>
+
+
         </c:when>
         <c:otherwise>
             <br><strong>Ваша корзина пока пуста</strong>
