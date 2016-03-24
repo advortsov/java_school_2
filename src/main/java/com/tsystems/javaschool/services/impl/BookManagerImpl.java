@@ -10,6 +10,8 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ import java.util.List;
  * @since 10.02.2016
  */
 @Service
+//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Transactional
 public class BookManagerImpl implements BookManager {
 

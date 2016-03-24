@@ -1,9 +1,6 @@
 package com.tsystems.javaschool.view.controllers;
 
-import com.tsystems.javaschool.dao.entity.Author;
-import com.tsystems.javaschool.dao.entity.Book;
-import com.tsystems.javaschool.dao.entity.Genre;
-import com.tsystems.javaschool.dao.entity.Publisher;
+import com.tsystems.javaschool.dao.entity.*;
 import com.tsystems.javaschool.services.enums.SearchType;
 import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.AuthorManager;
@@ -51,6 +48,14 @@ public class BookListController {
     private BookValidator bookValidator;
 
 
+//    @RequestMapping(value = "/get-json-user", method = RequestMethod.GET, produces = "application/json")
+//    @ResponseBody
+//    public User getJsonUser(@RequestParam("name") String name) {
+//        User user = new User();
+//        user.setUserName(name);
+//        return user;
+//    }
+
     @ModelAttribute("allBooks")
     public List<Book> allBooks() {
 
@@ -80,7 +85,7 @@ public class BookListController {
     @RequestMapping(method = RequestMethod.GET)
     public String fillUpGenres(@ModelAttribute ArrayList<Genre> allGenres) {
 
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/subView")
@@ -102,7 +107,7 @@ public class BookListController {
         }
         model.addAttribute("allBooks", currentBookList);
         model.addAttribute("currentGenre", name);
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
 
@@ -124,7 +129,7 @@ public class BookListController {
             }
         }
         model.addAttribute("allBooks", currentBookList);
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
 
@@ -136,13 +141,8 @@ public class BookListController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getAdd(Model model) {
         logger.debug("Received request to show the book add page");
-
-        // Create new Book and add to model
-        // This is the formBackingOBject
         model.addAttribute("bookAttribute", new Book());
-
-        // This will resolve to /WEB-INF/jsp/addpage.jsp
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -163,11 +163,10 @@ public class BookListController {
 
         logger.debug("Received request to show edit page");
 
-//        verifyIsbnUniqueness(isbn);
         ModelAndView mav = new ModelAndView();
         bookValidator.validate(uploadedBook, result);
         if (result.hasErrors()) {
-            mav.setViewName("admin_pages/admin");
+            mav.setViewName("admin_pages/admin.jsp");
         } else {
             Book book = new Book();
 
@@ -191,7 +190,7 @@ public class BookListController {
                 e.printStackTrace();
             }
 
-            mav.setViewName("admin_pages/admin");
+            mav.setViewName("admin_pages/admin.jsp");
 
         }
 
@@ -249,7 +248,7 @@ public class BookListController {
         } catch (DuplicateException e) {
             e.printStackTrace();
         }
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
     private void verifyIsbnUniqueness(String isbn) throws DuplicateException {

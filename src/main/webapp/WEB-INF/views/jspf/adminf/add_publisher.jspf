@@ -3,7 +3,7 @@
 <div class="edit_penal">
     <br><strong>Добавление издателя</strong>
 
-    <form name="publisher_add_form" action="/admin/add_publisher" method="post">
+    <form name="publisher_add_form" id="publisher_add_form" action="/admin/add_publisher" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
@@ -12,6 +12,8 @@
                     <label for="publisher_name_add">Имя издателя:</label><input name="publisher_name_add" type="text"
                                                                                 id="publisher_name_add">
                 </div>
+                <span style="color: red; float: right" id="publisher_error"></span>
+
                 <input type="hidden" name="action" value="add"></p>
                 <p><input type="submit" value="Сохранить"></p>
             </div>
@@ -20,6 +22,29 @@
     <p>&nbsp;</p>
 
     <p>&nbsp;</p>
+
+    <script>
+        function publisherValidate() {
+            var jqXHR = $.ajax({
+                url: 'admin/ajaxPublisherValidation',
+                data: ({publisherName: $('#publisher_name_add').val()}),
+                async: false,
+                success: function (data) {
+                    if (data.length > 1) {
+                        $('#publisher_error').html(data);
+                    }
+                }
+            });
+            return jqXHR.responseText < 2;
+        }
+
+        $(document).ready(function () {
+            $("#publisher_add_form").submit(function () {
+                var isValidated = publisherValidate();
+                return isValidated;
+            });
+        });
+    </script>
 
 
     <br><strong>Удаление издателя</strong>

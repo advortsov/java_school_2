@@ -92,7 +92,7 @@ public class ClientController {
 
         clientManager.updateClient(client);
 
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
 

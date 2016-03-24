@@ -1,50 +1,22 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <%@include file="../jspf/header.jspf" %>
 <%@include file="../jspf/left_menu.jspf" %>
 
-<%--<jsp:useBean id="bookManager" class="com.tsystems.javaschool.services.impl.BookManagerImpl" scope="page"/>--%>
-<%--&lt;%&ndash;<jsp:useBean id="shoppingCartManager" class="com.tsystems.javaschool.services.impl.ShoppingCartManagerImpl"&ndash;%&gt;--%>
-<%--&lt;%&ndash;scope="session"/>&ndash;%&gt;--%>
-<%--<jsp:useBean id="currentClient" class="com.tsystems.javaschool.dao.entity.Client" scope="page"/>--%>
-<%--<jsp:useBean id="orderLines1" class="java.util.ArrayList" scope="session"/>--%>
-
 <link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">
 
-
-<%
-    //    CartController cartController = new CartController();
-//    currentClient = (Client) session.getAttribute("currentClient");
-//    if (currentClient == null) {
-//        //ClientController.actualizeClient(request, userName);
-//        currentClient = new Client();
-//        currentClient.setName("Guest");
-//    }
-//
-//    List<OrderLine> orderLines = null;
-//
-//    if (request.getSession().getAttribute("cart") == null) {
-//        shoppingCartManager.setShoppingCart(
-//                cartController.actualizeCart(request, currentClient)
-//        );
-//    } else {
-//        shoppingCartManager.setShoppingCart((ShoppingCart) session.getAttribute("cart"));
-//    }
-//
-//    orderLines = shoppingCartManager.getShoppingCart().getItems();
-//    session.setAttribute("cartManager", shoppingCartManager);
-
-%>
-
 <div class="cart_penal">
-
 
     <c:choose>
         <c:when test="${not empty shoppingCart.items}">
             <br><strong>Корзина</strong>
             <br><a href="/cart/clearCart">Очистить корзину</a></br></p>
-            <form name="order_form" action="/create_order" method="post">
+
+            <form:form name="order_form"
+                       modelAttribute="createdOrder" action="/order/create-order" method="post">
+                <%--<form name="order_form" action="/create_order" method="post">--%>
 
                 <style>
                     table {
@@ -104,22 +76,26 @@
                 </table>
 
                 <br>Общая сумма заказа:<input type="number" name="total_summ_of_order"
-                                              id="total_summ_of_order"
-                                              style="width:100px">
+                id="total_summ_of_order"
+                style="width:100px">
 
 
                 <br>Способ доставки:<select name="shipping_type">
                 <c:forEach items="${shippingTypeList}" var="shippingType">
                     <option>${shippingType}</option>
                 </c:forEach>
-            </select>
+                </select>
 
 
                 <br>Способ оплаты:<select name="payment_type">
                 <c:forEach items="${paymentTypeList}" var="paymentType">
                     <option>${paymentType}</option>
                 </c:forEach>
-            </select>
+                </select>
+
+                <div class="field">
+                    <td class="error"><form:errors path="book_count"/></td>
+                </div>
 
                 <c:choose>
                     <c:when test="${loggedIn}">
@@ -130,7 +106,8 @@
                     </c:otherwise>
                 </c:choose>
 
-            </form>
+                <%--</form>--%>
+            </form:form>
         </c:when>
         <c:otherwise>
             <br><strong>Ваша корзина пока пуста</strong>

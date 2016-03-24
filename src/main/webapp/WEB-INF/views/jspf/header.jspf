@@ -12,7 +12,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Онлайн-магазин</title>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
         //        $(document).ready(doAjaxPost);
 
@@ -25,6 +24,8 @@
                 }
             });
         }
+
+
 
         //        function totalSumm() {
         //            var quantity = document.getElementById("books_quantity").value;

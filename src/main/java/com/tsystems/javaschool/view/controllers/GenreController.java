@@ -43,7 +43,7 @@ public class GenreController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm(Model model) {
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
 

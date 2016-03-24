@@ -4,6 +4,8 @@ import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.ShoppingCart;
+import com.tsystems.javaschool.services.enums.PaymentType;
+import com.tsystems.javaschool.services.enums.ShippingType;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +39,17 @@ public class CartController {
 
     @Autowired
     ShoppingCartManager cartManager;
+
+
+    @ModelAttribute(value = "shippingTypeList")
+    public ShippingType[] createShippingTypeList() {
+        return ShippingType.values();
+    }
+
+    @ModelAttribute(value = "paymentTypeList")
+    public PaymentType[] createPaymentTypeList() {
+        return PaymentType.values();
+    }
 
     public static void writeBooksIntoCookie(HttpServletRequest req, HttpServletResponse resp,
                                             long bookId, int previousQuantity) {
@@ -99,14 +113,14 @@ public class CartController {
 
         // to empty cart
         cartManager.clearCart();
-        return "pages/cart";
+        return "pages/cart.jsp";
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage(@ModelAttribute Client client, HttpServletRequest request, HttpServletResponse resp) {
         //Client client = clientController.actualizeClient(request, "Guest");
         actualizeCart(request, resp, client); //1
-        return "pages/cart";
+        return "pages/cart.jsp";
     }
 
     public void actualizeCart(HttpServletRequest request, HttpServletResponse resp, Client client) {
@@ -162,7 +176,7 @@ public class CartController {
 //        req.setAttribute("cartManager", cartManager);
         writeBooksIntoCookie(req, resp, newBook.getId(), previousQuantity);
 
-        return "pages/books";
+        return "pages/books.jsp";
     }
 
     @RequestMapping(value = "/removeOrderLine", method = RequestMethod.GET)
@@ -186,7 +200,7 @@ public class CartController {
         }
         // удаляем строку в корзине
         cartManager.removeLine(id);
-        return "pages/cart";
+        return "pages/cart.jsp";
     }
 
     public void fillUpFromCookies(ShoppingCart cart,

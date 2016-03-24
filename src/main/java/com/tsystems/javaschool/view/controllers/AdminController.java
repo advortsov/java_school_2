@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
@@ -78,7 +79,7 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage() {
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/proceed", method = RequestMethod.POST)
@@ -91,9 +92,29 @@ public class AdminController {
             totalSumm += order.getTotalSumm();
         }
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
-        return "redirect:#tab7";
-//        return "admin_pages/admin";
+        return "admin_pages/admin.jsp#tab7";
     }
+
+    // services
+//localhost:8080/admin/get-proceed-report/01-01-2012/01-31-2012
+    @RequestMapping(value = "/get-proceed-report/{startDate}/{endDate}", method = RequestMethod.GET,
+            produces = "application/json")
+    @ResponseBody
+    public List<Order> getJsonOrdersPerPeriod(@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                            @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        logger.debug("Try to get orders per period in json");
+        return adminManager.getOrdersPerPeriod(startDate, endDate);
+    }
+
+
+    @RequestMapping(value = "/get-json-user", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public User getJsonUser(@RequestParam("name") String name) {
+        User user = new User();
+        user.setUserName(name);
+        return user;
+    }
+
 
 //   ---------------------- Genre administrating ---------------------------------------------------
 
@@ -104,7 +125,7 @@ public class AdminController {
         genre.setName(genreName);
         genreManager.updateGenre(genre);
         model.addAttribute("allGenresList", createAllGenresList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/delete_genre", method = RequestMethod.POST)
@@ -112,13 +133,13 @@ public class AdminController {
         Genre genre = genreManager.findByGenreName(genreName);
         genreManager.deleteGenre(genre);
         model.addAttribute("allGenresList", createAllGenresList());
-        return "admin_pages/admin";
-    }
+        return "admin_pages/admin.jsp";
+}
 
     @RequestMapping(value = "/add_genre", method = RequestMethod.POST)
     public String addGenre(@Valid @ModelAttribute("add_genre_name") String genreName, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "admin_pages/admin";
+            return "admin_pages/admin.jsp";
         }
         Genre genre = new Genre();
         genre.setName(genreName);
@@ -128,7 +149,44 @@ public class AdminController {
             e.printStackTrace();
         }
         model.addAttribute("allGenresList", createAllGenresList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
+    }
+
+
+    @RequestMapping(value = "/ajaxGenreValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
+    public @ResponseBody String ajaxGenreValidation(@RequestParam String genreName) {
+        Genre genre = null;
+        try {
+            genre = genreManager.findByGenreName(genreName);
+            return "This genre is already exists";
+        } catch (NoResultException ex){
+            //ignore
+        }
+        return " ";
+    }
+
+    @RequestMapping(value = "/ajaxAuthorValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
+    public @ResponseBody String ajaxAuthorValidation(@RequestParam String authorName) {
+        Author author = null;
+        try {
+            author = authorManager.findByAuthorName(authorName);
+            return "This author is already exists";
+        } catch (NoResultException ex){
+            //ignore
+        }
+        return " ";
+    }
+
+    @RequestMapping(value = "/ajaxPublisherValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
+    public @ResponseBody String ajaxPublisherValidation(@RequestParam String publisherName) {
+        Publisher publisher = null;
+        try {
+            publisher = publisherManager.findByPublisherName(publisherName);
+            return "This publisher is already exists";
+        } catch (NoResultException ex){
+            //ignore
+        }
+        return " ";
     }
 
     // ----------------------------------------------------------------------------------------------------------
@@ -142,7 +200,7 @@ public class AdminController {
         publisher.setName(publisherName);
         publisherManager.updatePublisher(publisher);
         model.addAttribute("allPublishersList", createAllPublishersList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/delete_publisher", method = RequestMethod.POST)
@@ -150,7 +208,7 @@ public class AdminController {
         Publisher publisher = publisherManager.findByPublisherName(publisherName);
         publisherManager.deletePublisher(publisher);
         model.addAttribute("allPublishersList", createAllPublishersList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/add_publisher", method = RequestMethod.POST)
@@ -163,7 +221,7 @@ public class AdminController {
             e.printStackTrace();
         }
         model.addAttribute("allPublishersList", createAllPublishersList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
     // ----------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------
@@ -179,7 +237,7 @@ public class AdminController {
         author.setName(authorName);
         authorManager.updateAuthor(author);
         model.addAttribute("allAuthorsList", createAllAuthorsList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/delete_author", method = RequestMethod.POST)
@@ -189,7 +247,7 @@ public class AdminController {
         authorManager.deleteAuthor(author);
 
         model.addAttribute("allAuthorsList", createAllAuthorsList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
 
     @RequestMapping(value = "/add_author", method = RequestMethod.POST)
@@ -202,7 +260,7 @@ public class AdminController {
             e.printStackTrace();
         }
         model.addAttribute("allAuthorsList", createAllAuthorsList());
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
     }
     // ----------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------
@@ -237,12 +295,12 @@ public class AdminController {
         model.addAttribute("allOrdersList", createAllOrdersList());
 
         //toDo
-//        ModelAndView modelAndView = new ModelAndView("admin_pages/admin#tab5");
+//        ModelAndView modelAndView = new ModelAndView("admin_pages/admin.jsp#tab5");
 //        modelAndView.addObject("allOrdersList", createAllOrdersList());
 //        return "redirect:admin#tab5";
         //return modelAndView;
 
-        return "admin_pages/admin";
+        return "admin_pages/admin.jsp";
 
 //        return "#tab5";
 //        return "redirect:#tab5";

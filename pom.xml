@@ -93,6 +93,17 @@
             <version>5.1.0.Final</version>
         </dependency>
 
+
+        <!--Services-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+        <!--Services-->
+
+
          <!--AspectJ-->
         <dependency>
             <groupId>org.aspectj</groupId>

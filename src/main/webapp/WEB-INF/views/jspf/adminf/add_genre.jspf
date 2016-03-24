@@ -1,4 +1,3 @@
-<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="edit_penal">
@@ -9,7 +8,7 @@
     </form:form>        
 
 
-    <form name="genre_add_form" action="/admin/add_genre" method="post">
+    <form name="genre_add_form" id="genre_add_form" action="/admin/add_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
@@ -17,12 +16,38 @@
                     <label for="add_genre_name">Название:</label><input name="add_genre_name" type="text"
                                                                         id="add_genre_name">
                 </div>
-                <form:errors path="add_genre_name" cssClass="error"/>
+                <span style="color: red; float: right" id="error"></span>
+
                 <input type="hidden" name="action" value="add"></p>
                 <p><input type="submit" name="submit" id="submit1" value="Сохранить"></p>
             </div>
         </div>
-    </form> 
+    </form>
+     
+    <script>
+
+        function genreValidate() {
+            var jqXHR = $.ajax({
+                url: 'admin/ajaxGenreValidation',
+                data: ({genreName: $('#add_genre_name').val()}),
+                async: false,
+                success: function (data) {
+                    if (data.length > 1) {
+                        $('#error').html(data);
+                    }
+                }
+            });
+            return jqXHR.responseText < 2;
+        }
+
+        $(document).ready(function () {
+            $("#genre_add_form").submit(function () {
+                var isValidated = genreValidate();
+                return isValidated;
+            });
+        });
+
+    </script>
 
     <p>&nbsp;</p>
 

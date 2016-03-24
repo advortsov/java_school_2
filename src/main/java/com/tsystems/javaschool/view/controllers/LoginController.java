@@ -32,21 +32,6 @@ public class LoginController {
     @Autowired
     private ClientManager clientManager;
 
-
-    private void printUserDetails() {
-
-        UserDetails userDetails =
-                (UserDetails) SecurityContextHolder.getContext()
-                        .getAuthentication().getPrincipal();
-
-        logger.info("password = " + userDetails.getPassword());
-        logger.info("username = " + userDetails.getUsername());
-
-        for (GrantedAuthority auth : userDetails.getAuthorities()) {
-            logger.info(auth.getAuthority());
-        }
-    }
-
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
     public ModelAndView addDetails(@RequestParam(value = "error", required = false) String error,
                                    HttpSession session) {
@@ -74,7 +59,7 @@ public class LoginController {
         session.setAttribute("client", client);
         // теперь у нас в сессии есть наш клиент из базы или подложка для анонимуса
 
-        mav.setViewName("pages/books");
+        mav.setViewName("pages/books.jsp");
         return mav;
     }
 
@@ -82,7 +67,7 @@ public class LoginController {
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView goLogin(@RequestParam(value = "error", required = false) String error, ModelAndView mav) {
         logger.debug("Returning login.jsp page");
-        mav.setViewName("login");
+        mav.setViewName("login.jsp");
 
         if (error != null) {
             mav.addObject("error", "Invalid username or password");

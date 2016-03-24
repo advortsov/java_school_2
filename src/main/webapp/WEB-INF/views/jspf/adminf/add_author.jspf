@@ -4,13 +4,14 @@
 <div class="edit_penal">
     <br><strong>Добавление автора</strong>
 
-    <form name="genre_add_form" action="/admin/add_author" method="post">
+    <form name="author_add_form" id="author_add_form" action="/admin/add_author" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
                 <div class="field">
                     <label for="author_name_add">Имя автора:</label><input name="author_name_add" type="text" id="author_name_add">
                 </div>
+                <span style="color: red; float: right" id="author_error"></span>
                 <input type="hidden" name="action" value="add"></p>
                 <p><input type="submit" value="Сохранить"></p>
             </div>
@@ -20,6 +21,28 @@
 
     <p>&nbsp;</p>
 
+    <script>
+        function authorValidate() {
+            var jqXHR = $.ajax({
+                url: 'admin/ajaxAuthorValidation',
+                data: ({authorName: $('#author_name_add').val()}),
+                async: false,
+                success: function (data) {
+                    if (data.length > 1) {
+                        $('#author_error').html(data);
+                    }
+                }
+            });
+            return jqXHR.responseText < 2;
+        }
+
+        $(document).ready(function () {
+            $("#author_add_form").submit(function () {
+                var isValidated = authorValidate();
+                return isValidated;
+            });
+        });
+    </script>
 
     <br><strong>Удаление автора</strong>
 
