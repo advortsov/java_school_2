@@ -18,9 +18,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/spring/root-context.xml
-            /WEB-INF/spring/appServlet/app-security.xml
-            /WEB-INF/spring/appServlet/spring-database.xml
+            /WEB-INF/spring/appServlet/root-context.xml
+            <!--/WEB-INF/spring/appServlet/spring-database.xml-->
         </param-value>
     </context-param>
 
@@ -66,5 +65,13 @@
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
 
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>login.jsp</welcome-file>-->
+    <!--</welcome-file-list>-->
+
+    <!--<persistence-context-ref>-->
+        <!--<persistence-context-ref-name>EntityManager</persistence-context-ref-name>-->
+        <!--<persistence-unit-name>BOOKSTORE1</persistence-unit-name>-->
+    <!--</persistence-context-ref>-->
 
 </web-app>

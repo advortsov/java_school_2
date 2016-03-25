@@ -33,7 +33,7 @@ public class LoginController {
     private ClientManager clientManager;
 
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
-    public ModelAndView addDetails(@RequestParam(value = "error", required = false) String error,
+    public String addDetails(@RequestParam(value = "error", required = false) String error,
                                    HttpSession session) {
         // erase cart for giving the clear cart to the next auth user
         cartManager.clearCart();
@@ -59,8 +59,9 @@ public class LoginController {
         session.setAttribute("client", client);
         // теперь у нас в сессии есть наш клиент из базы или подложка для анонимуса
 
-        mav.setViewName("pages/books.jsp");
-        return mav;
+//        mav.setViewName("pages/books.jsp");
+//        return mav;
+        return  "forward:/books";
     }
 
 
