@@ -1,4 +1,4 @@
-package ru.javabegin.training.objects;
+package com.tsystems.javaschool.view.controllers.wrappers;
 
 /**
  * @author Alexander Dvortsov

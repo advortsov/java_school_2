@@ -26,7 +26,6 @@ import java.util.List;
  * @since 10.02.2016
  */
 @Service
-//@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Transactional
 public class BookManagerImpl implements BookManager {
 

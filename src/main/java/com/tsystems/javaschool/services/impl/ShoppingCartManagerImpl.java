@@ -21,9 +21,6 @@ import java.util.List;
 public class ShoppingCartManagerImpl implements ShoppingCartManager {
 
     @Autowired
-    private BookManager bookManager;
-
-    @Autowired
     private ShoppingCart shoppingCart;
 
     public ShoppingCartManagerImpl() {
@@ -78,17 +75,5 @@ public class ShoppingCartManagerImpl implements ShoppingCartManager {
         shoppingCart.setItems(items);
     }
 
-    @Override
-    public boolean isEnoughBooksInStock(int id) {
-        for (OrderLine orderLine : shoppingCart.getItems()) {
-            int wantedQuantity = orderLine.getQuantity();
-            int storeQuantity = bookManager.getBookQuantity(orderLine.getBook().getId());
-
-            if (wantedQuantity > storeQuantity) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }

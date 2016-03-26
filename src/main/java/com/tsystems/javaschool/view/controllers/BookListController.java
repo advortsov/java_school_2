@@ -15,8 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javabegin.training.objects.UploadedBook;
-import ru.javabegin.training.validators.BookValidator;
+import com.tsystems.javaschool.view.controllers.wrappers.UploadedBook;
+import com.tsystems.javaschool.view.controllers.validators.BookValidator;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;

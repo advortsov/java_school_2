@@ -130,39 +130,28 @@
 
                 function booksQuantityValidate() {
                     var size = parseInt(document.getElementById("list_size").value);
-                    alert('linesSize = 2 = ' + size);
                     var isOk = true;
 
                     for (var i = 0; i < size; i++) {
                         var bookId = parseInt(document.getElementById("book_id" + i).innerHTML);
                         var bookQuantity = parseInt(document.getElementById("books_quantity" + i).value);
-                        alert('bookId = ' + bookId);
-                        alert('bookQuantity = ' + bookQuantity);
-
                         var jqXHR = $.ajax({
                             url: 'order/ajaxBooksQuantityValidation',
                             data: ({bookId: bookId, bookQuantity: bookQuantity}),
                             async: false,
                             success: function (data) {
                                 if (data.length > 1) {
-                                    alert("isOk = false = " + isOk);
                                     isOk = false;
                                     $('#books_quantity_error').html(data);
                                 }
                             }
                         });
-
-                        alert("jqXHR.responseTex = " + jqXHR.responseText);
                     }
-
-                    alert('finish!');
-                    alert("isOk in end = " + isOk);
                     return isOk;
                 }
 
                 $(document).ready(function () {
                     $("#order_form").submit(function () {
-                        alert('submit');
                         var isValidated = booksQuantityValidate();
                         return isValidated;
                     });

@@ -1,14 +1,11 @@
-package ru.javabegin.training.validators;
+package com.tsystems.javaschool.view.controllers.validators;
 
-import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import ru.javabegin.training.objects.CreatedOrder;
-
-import java.util.List;
+import com.tsystems.javaschool.view.controllers.wrappers.CreatedOrder;
 
 /**
  * @author Alexander Dvortsov

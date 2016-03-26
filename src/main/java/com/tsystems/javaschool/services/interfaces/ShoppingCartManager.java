@@ -18,8 +18,6 @@ public interface ShoppingCartManager {
 
     void clearCart();
 
-    boolean isEnoughBooksInStock(int quantity);
-
     ShoppingCart getShoppingCart();
 
     void setShoppingCart(ShoppingCart shoppingCart);

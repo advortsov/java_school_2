@@ -97,14 +97,14 @@ public class AdminController {
 
     // services
 //localhost:8080/admin/get-proceed-report/01-01-2012/01-31-2012
-    @RequestMapping(value = "/get-proceed-report/{startDate}/{endDate}", method = RequestMethod.GET,
-            produces = "application/json")
-    @ResponseBody
-    public List<Order> getJsonOrdersPerPeriod(@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                            @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
-        logger.debug("Try to get orders per period in json");
-        return adminManager.getOrdersPerPeriod(startDate, endDate);
-    }
+//    @RequestMapping(value = "/get-proceed-report/{startDate}/{endDate}", method = RequestMethod.GET,
+//            produces = "application/json")
+//    @ResponseBody
+//    public List<Order> getJsonOrdersPerPeriod(@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+//                            @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+//        logger.debug("Try to get orders per period in json");
+//        return adminManager.getOrdersPerPeriod(startDate, endDate);
+//    }
 
 
     @RequestMapping(value = "/get-json-user", method = RequestMethod.GET, produces = "application/json")

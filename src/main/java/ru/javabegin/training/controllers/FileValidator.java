@@ -1,4 +1,4 @@
-package ru.javabegin.training.validators;
+package ru.javabegin.training.controllers;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

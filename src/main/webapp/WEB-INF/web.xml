@@ -53,7 +53,7 @@
 
     <servlet>
         <servlet-name>ShowImage</servlet-name>
-        <servlet-class>com.tsystems.javaschool.view.controllers.servlet.ShowImage</servlet-class>
+        <servlet-class>com.tsystems.javaschool.view.servlet.ShowImage</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ShowImage</servlet-name>

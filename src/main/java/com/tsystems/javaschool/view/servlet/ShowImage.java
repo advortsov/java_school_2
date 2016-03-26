@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.view.controllers.servlet;
+package com.tsystems.javaschool.view.servlet;
 
 
 import com.tsystems.javaschool.dao.entity.Book;
@@ -7,10 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 public class ShowImage extends HttpServlet {

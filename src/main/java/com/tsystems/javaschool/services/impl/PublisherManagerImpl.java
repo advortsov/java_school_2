@@ -18,6 +18,7 @@ import java.util.List;
  * @since 11.02.2016
  */
 @Service
+@Transactional
 public class PublisherManagerImpl implements PublisherManager {
 
     @Autowired

@@ -75,7 +75,7 @@
         <div class="admin_penal">
 
             <c:choose>
-                <c:when test="${not empty topTenClients}">
+                <c:when test="${not empty topTenBooks}">
                     <br><strong>Топ-10 товаров</strong>
 
                     <style>

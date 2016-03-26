@@ -39,7 +39,6 @@ public class OrderDAOImpl extends AbstractJpaDAOImpl<Order> implements OrderDAO 
     }
 
     @Override
-    @Transactional
     public void saveOrder(Order order) {
         deductBooksFromStore(order);
         this.save(order);

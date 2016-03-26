@@ -16,13 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.javabegin.training.objects.CreatedOrder;
-import ru.javabegin.training.validators.OrderValidator;
 
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
@@ -82,7 +78,6 @@ public class OrderListController {
             BindingResult result,
             HttpServletRequest req, HttpServletResponse resp, ModelAndView mav) throws EmptyOrderException, NotEnoughBooksInTheStockException {
 
-        System.out.println("createdOrder = " + createdOrder);
         List<OrderLine> orderLines = shoppingCartManager.getShoppingCart().getItems();
         createdOrder.setOrderLines(orderLines);
 
@@ -91,14 +86,8 @@ public class OrderListController {
         for (OrderLine orderLine : orderLines) {
             long id = orderLine.getBook().getId();
             int wantedQuantity = Integer.parseInt(req.getParameter("q-" + id));
-            System.out.println("wantedQuantity = " + wantedQuantity);
-//            orderValidator.validate(createdOrder, result);
 
             if (wantedQuantity > bookManager.getBookQuantity(orderLine.getBook().getId())) {
-//                System.out.println("rejectValue = = = ");
-//                result.rejectValue("orderLines", "Not enough books '" + orderLine.getBook().getName() + "' in stock. Please, choose more less number.");
-//                result.addError(new ObjectError("orderLines", "Not enough books '" + orderLine.getBook().getName() + "' in stock. Please, choose more less number."));
-//
                 throw new NotEnoughBooksInTheStockException(wantedQuantity);
             }
 
@@ -106,6 +95,8 @@ public class OrderListController {
                 mav.setViewName("pages/cart.jsp");
             } else {
                 orderLine.setQuantity(wantedQuantity);
+                orderLine.setBookIsbn(orderLine.getBook().getIsbn());
+                orderLine.setBookActualPrice(orderLine.getBook().getPrice());
                 orderLine.setOrder(order);
             }
         }

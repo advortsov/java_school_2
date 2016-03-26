@@ -16,6 +16,7 @@ import java.util.List;
  * @since 11.02.2016
  */
 @Service
+@Transactional
 public class AuthorManagerImpl implements AuthorManager {
 
     @Autowired

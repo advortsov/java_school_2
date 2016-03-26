@@ -7,6 +7,7 @@ import com.tsystems.javaschool.services.interfaces.OrderManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,7 @@ import java.util.List;
  * @since 17.02.2016
  */
 @Service
+@Transactional
 public class OrderManagerImpl implements OrderManager {
 
     @Autowired

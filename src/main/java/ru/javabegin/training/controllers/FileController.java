@@ -24,7 +24,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import ru.javabegin.training.exceptions.BadFileNameException;
 import ru.javabegin.training.objects.UploadedFile;
-import ru.javabegin.training.validators.FileValidator;
 
 @Controller
 @SessionAttributes("filename")
