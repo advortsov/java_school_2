@@ -24,12 +24,11 @@ public class BookValidator implements Validator {
 
     @Override
     public void validate(Object uploadedBook, Errors errors) {
-
-        UploadedBook upBook = (UploadedBook) uploadedBook;
-        Book bookWithThisIsbn = bookManager.findBookByIsbn(upBook.getBook_isbn());
+        Book upBook = (Book) uploadedBook;
         try {
+            Book bookWithThisIsbn = bookManager.findBookByIsbn(upBook.getIsbn());
             if (bookWithThisIsbn != null) {
-                errors.rejectValue("book_isbn", "uploadForm.selectFile", "This isbn is already exist!");
+                errors.rejectValue("isbn", "uploadForm.selectFile", "This isbn is already exist!");
             }
         } catch (NoResultException ex) {
             //ignored

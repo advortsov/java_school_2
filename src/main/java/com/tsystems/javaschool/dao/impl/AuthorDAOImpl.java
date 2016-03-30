@@ -5,12 +5,9 @@ import com.tsystems.javaschool.dao.entity.Author;
 import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.interfaces.AuthorDAO;
 import com.tsystems.javaschool.dao.interfaces.BookDAO;
-import com.tsystems.javaschool.services.impl.BookManagerImpl;
-import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -41,8 +38,8 @@ public class AuthorDAOImpl extends AbstractJpaDAOImpl<Author> implements AuthorD
     }
 
     @Override
-    //@Transactional (propagation = Propagation.REQUIRED)
     public void delete(Author entity) { // to unite different methods in the one transaction
+        logger.info("Staring author deleting by author entity...");
         setNullBeforeDelete(entity);
         super.delete(entity);
     }
@@ -57,7 +54,6 @@ public class AuthorDAOImpl extends AbstractJpaDAOImpl<Author> implements AuthorD
         return author;
     }
 
-    //@Transactional (propagation = Propagation.MANDATORY)
     public void setNullBeforeDelete(Author author) {
         logger.info("Setting null current genre fields in the books.");
         List<Book> allBooks = bookDAO.findByAuthor(author);

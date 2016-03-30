@@ -73,12 +73,9 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(ModelAndView mav, HttpSession session) {
+    public String logout() {
         logger.debug("Logout and returning login.jsp page");
         cartManager.clearCart();
-
-//        mav.setViewName("login.jsp");
-//        return mav;
         return "redirect:/j_spring_security_logout";
     }
 

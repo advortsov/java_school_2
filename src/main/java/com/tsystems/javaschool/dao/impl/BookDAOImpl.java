@@ -9,10 +9,7 @@ import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -31,15 +28,11 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
     @Autowired
     private BookManager bookManager;
 
-//    @PersistenceContext
-//    private EntityManager em;
-
     public BookDAOImpl() {
         super();
         setClazz(Book.class);
     }
 
-    // duplicate code
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
@@ -110,6 +103,7 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
 
     @Override
     public Map<Book, Integer> getTopTenBooks() {
+        logger.info("Finding top ten books...");
 
         Map<Book, Integer> topBooks = new HashMap<>();
 
@@ -127,6 +121,7 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
 
             topBooks.put(bookManager.findBookById(id), summ);
         }
+        logger.info("Returning top ten books.");
 
         return sortByValue(topBooks);
     }

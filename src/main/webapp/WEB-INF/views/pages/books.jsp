@@ -6,7 +6,7 @@
 <%@include file="../jspf/left_menu.jspf" %>
 <div class="book_list">
 
-    <h5 style="text-align: left; margin-top:20px;">Найдено книг: ${allBooks.size()}</h5>
+    <h5 style="text-align: left; margin-top:20px;">Found books: ${allBooks.size()}</h5>
 
     <c:forEach items="${allBooks}" var="book">
         <div class="book_info">
@@ -20,17 +20,15 @@
             </div>
             <div class="book_details">
                 <br><strong>ISBN:</strong> ${book.isbn}
-                <br><strong>Издательство:</strong> ${book.publisher}
-                <br><strong>Количество страниц:</strong> ${book.pageCount}
-                <br><strong>Год издания:</strong> ${book.publishYear}
-                <br><strong>Автор:</strong> ${book.author.name}
-                <br><strong>Цена:</strong> ${book.price} <strong> руб.</strong>
+                <br><strong>Publisher:</strong> ${book.publisher}
+                <br><strong>Page count:</strong> ${book.pageCount}
+                <br><strong>Year:</strong> ${book.publishYear}
+                <br><strong>Author:</strong> ${book.author.name}
+                <br><strong>Price:</strong> ${book.price} <strong> руб.</strong>
                 <c:if test="${isAdmin}">
-                    <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Редактировать</a>
+                    <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Edit</a>
                 </c:if>
-
-                <p style="margin:10px;"><a href="<%=request.getContextPath()%>/cart/addToCart?book_id=${book.id}">Добавить
-                    в корзину</a></p>
+                <p style="margin:10px;"><a href="<%=request.getContextPath()%>/cart/addToCart?book_id=${book.id}">Add to cart</a></p>
             </div>
         </div>
     </c:forEach>

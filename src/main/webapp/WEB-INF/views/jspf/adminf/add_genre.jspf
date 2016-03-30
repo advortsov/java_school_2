@@ -2,24 +2,20 @@
 
 <div class="edit_penal">
 
-    <br><strong>Добавление жанра</strong>
-    <form:form method="POST" action="check-user" name="d"
-               class="box login">
-    </form:form>        
-
+    <br><strong>Adding genre</strong>
 
     <form name="genre_add_form" id="genre_add_form" action="/admin/add_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
                 <div class="field">
-                    <label for="add_genre_name">Название:</label><input name="add_genre_name" type="text"
+                    <label for="add_genre_name">Name:</label><input name="add_genre_name" type="text"
                                                                         id="add_genre_name">
                 </div>
                 <span style="color: red; float: left" id="error"></span>
 
                 <input type="hidden" name="action" value="add"></p>
-                <p><input type="submit" name="submit" id="submit1" value="Сохранить"></p>
+                <p><input type="submit" name="submit" id="submit1" value="Save"></p>
             </div>
         </div>
     </form>
@@ -53,20 +49,20 @@
 
     <p>&nbsp;</p>
 
-    <br><strong>Удаление жанра</strong>
+    <br><strong>Deleting genre</strong>
 
     <form name="genre_del_form" action="/admin/delete_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="genre_name_del">Жанр:</label><select name="genre_name_del" id="genre_name_del">
+                    <label for="genre_name_del">Genre:</label><select name="genre_name_del" id="genre_name_del">
                     <c:forEach items="${allGenresList}" var="genre">
                         <option>${genre.name}</option>
                     </c:forEach>
                 </select>
                 </div>
                 <input type="hidden" name="action" value="delete"></p>
-                <p><input type="submit" value="Удалить"></p>
+                <p><input type="submit" value="Delete"></p>
             </div>
         </div>
     </form>
@@ -75,13 +71,13 @@
     <p>&nbsp;</p>
 
 
-    <br><strong>Редактирование жанра</strong>
+    <br><strong>Editing genre</strong>
 
     <form name="genre_edit_form" id="genre_edit_form" action="/admin/edit_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="genre_name_ed">Выберите жанр для редактирования:</label><select name="genre_name_ed"
+                    <label for="genre_name_ed">Choose genre for editing:</label><select name="genre_name_ed"
                                                                                                 id="genre_name_ed">
                     <c:forEach items="${allGenresList}" var="genre">
                         <option>${genre.name}</option>
@@ -89,13 +85,13 @@
                 </select>
                 </div>
                 <div class="field">
-                    <label for="genre_name_new">Введите его новое имя:</label>
+                    <label for="genre_name_new">Enter new genre name:</label>
                     <input name="genre_name_new" type="text" id="genre_name_new">
                 </div>
                 <span style="color: red; float: right" id="error_name_uniq"></span>
 
                 <div class="field">
-                    <p><input type="submit" value="Редактировать"></p>
+                    <p><input type="submit" value="Edit"></p>
                 </div>
 
             </div>

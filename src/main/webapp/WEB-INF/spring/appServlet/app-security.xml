@@ -17,7 +17,7 @@
 
         <intercept-url pattern="/cart/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/profile/editProfile" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/profile/" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/profile/register" access="anonymous"/>
         <intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')"/>
 

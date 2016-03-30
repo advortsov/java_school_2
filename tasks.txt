@@ -1,7 +1,12 @@
 1. Fix deleting guest cookie bug
-2. Logging into separate files
-3. Global Exc Handler
-4. Spring Validation
+2. Logging into separate files + timber
+3. Global Exc Handler ++
+4. Spring Validation -
 5. PrimeFaces for rest app
 6. Fix standard book image bug
+7. TESTS!
+8. WildFly with DS
+
+Optional:
+mysql csv
 

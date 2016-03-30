@@ -7,20 +7,6 @@
 <jsp:useBean id="currentClient" class="com.tsystems.javaschool.dao.entity.Client" scope="page"/>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%
-    //    currentClient = (Client) session.getAttribute("currentClient");
-//    if (currentClient == null) {
-//        session.invalidate();
-//    }
-//
-//    OrderManager orderManager1 = Managers.getOrderManager();
-//
-//    List<Order> orders = orderManager1.loadAllOrders();
-%>
-
-
-<%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/tabs.css" type="text/css"/>--%>
-
 <div class="menu1">
     <br id="tab2"/>
     <br id="tab3"/>
@@ -28,13 +14,13 @@
     <br id="tab5"/>
     <br id="tab6"/>
     <br id="tab7"/>
-    <a href="#tab1">Книги</a>
-    <a href="#tab2">Жанры</a>
-    <a href="#tab3">Издатели</a>
-    <a href="#tab4">Авторы</a>
-    <a href="#tab5">Заказы</a>
-    <a href="#tab6">Топ-10</a>
-    <a href="#tab7">Выручка</a>
+    <a href="#tab1">Books</a>
+    <a href="#tab2">Genres</a>
+    <a href="#tab3">Publishers</a>
+    <a href="#tab4">Authors</a>
+    <a href="#tab5">Orders</a>
+    <a href="#tab6">Top-10</a>
+    <a href="#tab7">Proceed</a>
 
     <%--tab1 - Книги--%>
     <%@include file="../jspf/adminf/add_book.jspf" %>

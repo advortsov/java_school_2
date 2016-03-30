@@ -1,11 +1,14 @@
 package com.tsystems.javaschool.view.controllers.validators;
 
+import com.tsystems.javaschool.dao.entity.Order;
+import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import com.tsystems.javaschool.view.controllers.wrappers.CreatedOrder;
+
+import java.util.List;
 
 /**
  * @author Alexander Dvortsov
@@ -21,16 +24,16 @@ public class OrderValidator implements Validator {
     @Override
     public void validate(Object createdOrder, Errors errors) {
 
-        CreatedOrder crOrder = (CreatedOrder) createdOrder;
+        Order crOrder = (Order) createdOrder;
 
-//        List<OrderLine> lines = crOrder.getItems();
-//
-//        for (OrderLine line : lines) {
-//            if (line.getQuantity() > bookManager.getBookQuantity(line.getBook().getId())) {
-//                errors.rejectValue("book_isbn", "uploadForm.selectFile",
-//                        "Not enough books '" + line.getBook().getName() + "' in stock. Please, choose more less number.");
-//            }
-//        }
+        List<OrderLine> lines = crOrder.getOrderLines();
+
+        for (OrderLine line : lines) {
+            if (line.getQuantity() > bookManager.getBookQuantity(line.getBook().getId())) {
+                errors.rejectValue("orderLines", "uploadForm.selectFile",
+                        "Not enough books '" + line.getBook().getName() + "' in stock. Please, choose less number.");
+            }
+        }
     }
 
     @Override

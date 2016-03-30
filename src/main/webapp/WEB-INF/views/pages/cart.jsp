@@ -13,8 +13,8 @@
 
     <c:choose>
         <c:when test="${not empty shoppingCart.items}">
-            <br><strong>Корзина</strong>
-            <br><a href="/cart/clearCart">Очистить корзину</a></br></p>
+            <br><strong>Shopping cart</strong>
+            <br><a href="/cart/clearCart">Clear cart</a></br></p>
 
             <form:form name="order_form" id="order_form"
                        modelAttribute="createdOrder" action="/order/create-order" method="post">
@@ -42,10 +42,10 @@
                 <table border="1">
                     <tr>
                         <td>id</td>
-                        <td>Название</td>
-                        <td>Цена</td>
-                        <td>Количество</td>
-                        <td>Стоимость</td>
+                        <td>Name</td>
+                        <td>Price</td>
+                        <td>Count</td>
+                        <td>Total</td>
                         <td></td>
                     </tr>
                     <c:forEach items="${shoppingCart.items}" var="line" varStatus="count">
@@ -81,32 +81,38 @@
 
                 </table>
 
-                <br>Общая сумма заказа:
-                <div id='total_summ_of_order' name="total_summ_of_order"></div>
+                <br>Total order summary:
+                <div style="font-size: x-large" id='total_summ_of_order' name="total_summ_of_order"></div>
+                <p>&nbsp;</p>
+
+                <td style="color: red;"><form:errors path="orderLines"/></td>
 
 
-                <br>Способ доставки:<select name="shipping_type">
+                <br>Shipping type:<select name="shipping_type">
                 <c:forEach items="${shippingTypeList}" var="shippingType">
                     <option>${shippingType}</option>
                 </c:forEach>
                 </select>
 
+                <p>&nbsp;</p>
 
-                <br>Способ оплаты:<select name="payment_type">
+
+                <br>Payment type:<select name="payment_type">
                 <c:forEach items="${paymentTypeList}" var="paymentType">
                     <option>${paymentType}</option>
                 </c:forEach>
                 </select>
 
-                <span style="color: red; float: right" id="books_quantity_error"></span>
+                <p>&nbsp;</p>
 
+                <span style="color: red; float: right" id="books_quantity_error"></span>
 
                 <c:choose>
                     <c:when test="${loggedIn}">
                         <p><input type="submit" value="Оформить заказ"></p>
                     </c:when>
                     <c:otherwise>
-                        <br><a href="/profile">Войдите</a>, чтобы сделать заказ</br></p>
+                        <br><a href="/logout">Войдите</a>, чтобы сделать заказ</br></p>
                     </c:otherwise>
                 </c:choose>
 
@@ -151,7 +157,7 @@
                 }
 
                 $(document).ready(function () {
-                    $("#order_form").submit(function () {
+                    $("#order_form1").submit(function () {
                         var isValidated = booksQuantityValidate();
                         return isValidated;
                     });
@@ -161,7 +167,7 @@
 
         </c:when>
         <c:otherwise>
-            <br><strong>Ваша корзина пока пуста</strong>
+            <br><strong>Your shopping cart is empty</strong>
         </c:otherwise>
     </c:choose>
 

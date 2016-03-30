@@ -5,10 +5,13 @@ package com.tsystems.javaschool.services.exception;
  * @version 1.0
  * @since 17.02.2016
  */
-public class NotEnoughBooksInTheStockException extends Exception{
+public class NotEnoughBooksInTheStockException extends Exception {
     private int wantedQuantity;
 
-    public NotEnoughBooksInTheStockException(int wantedQuantity) {
+    public NotEnoughBooksInTheStockException(String message, int wantedQuantity) {
+        super(message);
         this.wantedQuantity = wantedQuantity;
     }
+
+
 }

@@ -11,7 +11,6 @@ import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.PublisherManager;
 import com.tsystems.javaschool.view.controllers.validators.BookValidator;
-import com.tsystems.javaschool.view.controllers.wrappers.UploadedBook;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -89,15 +89,6 @@ public class BookListController {
         return "pages/books.jsp";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/subView")
-    public String getSubView(Model model) {
-        System.out.println("getSubView            ");
-        model.addAttribute("user", "Joe Dirt");
-        model.addAttribute("time", new Date());
-        return "pages/subView";
-//        return new ModelAndView("pages/subView");
-    }
-
     @RequestMapping(value = "/genre", method = RequestMethod.GET) // /books/genre?name=Maths
     public String getBooksByGenre(@RequestParam(value = "name", required = true) String name, Model model) {
         List<Book> currentBookList;
@@ -148,53 +139,59 @@ public class BookListController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addBook(
-            @ModelAttribute("uploadedBook") UploadedBook uploadedBook,
+            @ModelAttribute("uploadedBook") Book uploadedBook,
             BindingResult result,
-            @RequestParam("book_name") String name,
-            @RequestParam("book_isbn") String isbn,
-            @RequestParam("book_genre") String genre,
-            @RequestParam("book_publisher") String publisher,
-            @RequestParam("book_author") String author,
-            @RequestParam("book_pages") int pages,
-            @RequestParam("book_year") int year,
-            @RequestParam("book_count") int quantity,
-            @RequestParam("book_price") int price,
+            @RequestParam("name") String name,
+            @RequestParam("isbn") String isbn,
+            @RequestParam("genre") String genre,
+            @RequestParam("publisher") String publisher,
+            @RequestParam("author") String author,
+            @RequestParam("pages") int pages,
+            @RequestParam("publishYear") int year,
+            @RequestParam("quantity") int quantity,
+            @RequestParam("price") int price,
             @RequestParam(value = "cover", required = false)
-            CommonsMultipartFile locationMapFileData) {
+            CommonsMultipartFile locationMapFileData,
+            ModelAndView mav,
+            HttpSession session) {
 
         logger.debug("Received request to show edit page");
 
-        ModelAndView mav = new ModelAndView();
-        bookValidator.validate(uploadedBook, result);
+//        ModelAndView mav = new ModelAndView();
+
+        Book book = new Book();
+
+        book.setName(name);
+        book.setIsbn(isbn);
+        book.setGenre(genreManager.findByGenreName(genre));
+        book.setPublisher(publisherManager.findByPublisherName(publisher));
+        book.setAuthor(authorManager.findByAuthorName(author));
+        book.setPageCount(pages);
+        book.setPublishYear(year);
+        book.setQuantity(quantity);
+        book.setPrice(price);
+
+        bookValidator.validate(book, result);
+
         if (result.hasErrors()) {
+            session.setAttribute("book", book);
             mav.setViewName("admin_pages/admin.jsp");
-        } else {
-            Book book = new Book();
-
-            book.setName(name);
-            book.setIsbn(isbn);
-            book.setGenre(genreManager.findByGenreName(genre));
-            book.setPublisher(publisherManager.findByPublisherName(publisher));
-            book.setAuthor(authorManager.findByAuthorName(author));
-            book.setPageCount(pages);
-            book.setPublishYear(year);
-            book.setQuantity(quantity);
-            book.setPrice(price);
-
-            if (locationMapFileData.getBytes().length != 0) {
-                book.setImage(locationMapFileData.getBytes());
-            }
-
-            try {
-                bookManager.saveNewBook(book);
-            } catch (DuplicateException e) {
-                e.printStackTrace();
-            }
-
-            mav.setViewName("admin_pages/admin.jsp");
-
+            return mav;
         }
 
+        if (locationMapFileData.getBytes().length != 0) {
+            book.setImage(locationMapFileData.getBytes());
+        }
+
+        try {
+            bookManager.saveNewBook(book);
+        } catch (DuplicateException e) {
+            e.printStackTrace();
+        }
+
+        session.setAttribute("book", null);
+        mav.addObject("book_added", "The book has been added");
+        mav.setViewName("admin_pages/admin.jsp");
         return mav;
     }
 

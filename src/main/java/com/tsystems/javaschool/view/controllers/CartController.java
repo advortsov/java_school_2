@@ -7,6 +7,7 @@ import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.ShoppingCart;
 import com.tsystems.javaschool.services.enums.PaymentType;
 import com.tsystems.javaschool.services.enums.ShippingType;
+import com.tsystems.javaschool.services.exception.NotEnoughBooksInTheStockException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
@@ -48,6 +49,7 @@ public class CartController {
 
     @ModelAttribute(value = "allGenresList")
     public List<Genre> createAllGenresList() {
+
         return genreManager.loadAllGenres();
     }
 
@@ -105,7 +107,10 @@ public class CartController {
     }
 
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
-    public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp) {
+    public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp){
+//        if (3 > 2) throw new Exception();
+//        if (3 > 2) throw new NotEnoughBooksInTheStockException("Not enough books in the stock :(", 5);
+
         //delete all books cookies
         String cookieOwner = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("cookieOwner = " + cookieOwner);

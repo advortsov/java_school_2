@@ -92,7 +92,8 @@ public class AdminController {
             totalSumm += order.getTotalSumm();
         }
         model.addAttribute("ordersPerPeriod", ordersPerPeriod);
-        return "redirect:/admin#tab7";
+        return "admin_pages/admin.jsp";
+//        return "forward:/admin#tab7";
     }
 
 

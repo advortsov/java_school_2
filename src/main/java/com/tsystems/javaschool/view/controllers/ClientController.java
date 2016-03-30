@@ -1,11 +1,9 @@
 package com.tsystems.javaschool.view.controllers;
 
-import com.tsystems.javaschool.dao.entity.Client;
-import com.tsystems.javaschool.dao.entity.Order;
-import com.tsystems.javaschool.dao.entity.User;
-import com.tsystems.javaschool.dao.entity.UserRole;
+import com.tsystems.javaschool.dao.entity.*;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
+import com.tsystems.javaschool.services.interfaces.GenreManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,8 +25,15 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
+    private GenreManager genreManager;
+
+    @Autowired
     private ClientManager clientManager;
 
+    @ModelAttribute(value = "allGenresList")
+    public List<Genre> createAllGenresList() {
+        return genreManager.loadAllGenres();
+    }
 
     @ModelAttribute(value = "clientOrdersList")
     public List<Order> createClientOrdersList(HttpSession session) {

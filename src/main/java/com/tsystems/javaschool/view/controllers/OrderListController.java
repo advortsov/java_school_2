@@ -9,13 +9,12 @@ import com.tsystems.javaschool.services.enums.PaymentStatus;
 import com.tsystems.javaschool.services.enums.PaymentType;
 import com.tsystems.javaschool.services.enums.ShippingType;
 import com.tsystems.javaschool.services.exception.EmptyOrderException;
-import com.tsystems.javaschool.services.exception.NotEnoughBooksInTheStockException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
+import com.tsystems.javaschool.view.controllers.validators.OrderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +52,8 @@ public class OrderListController {
     @Autowired
     GenreManager genreManager;
 
-//    @Autowired
-//    private OrderValidator orderValidator;
+    @Autowired
+    private OrderValidator orderValidator;
 
     @ModelAttribute(value = "allGenresList")
     public List<Genre> createAllGenresList() {
@@ -81,7 +81,8 @@ public class OrderListController {
 
 
     @RequestMapping(value = "/ajaxBooksQuantityValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
-    public @ResponseBody
+    public
+    @ResponseBody
     String ajaxBooksQuantityValidation(@RequestParam int bookId, @RequestParam int bookQuantity) {
 
         if (bookQuantity > bookManager.getBookQuantity(bookId)) {
@@ -95,7 +96,7 @@ public class OrderListController {
     public ModelAndView createOrder(
             @ModelAttribute("createdOrder") Order createdOrder,
             BindingResult result,
-            HttpServletRequest req, HttpServletResponse resp, ModelAndView mav) throws EmptyOrderException, NotEnoughBooksInTheStockException {
+            HttpServletRequest req, HttpServletResponse resp, HttpSession session, ModelAndView mav) throws EmptyOrderException {
 
 
         System.out.println("1req.getCookies().length = " + req.getCookies().length);
@@ -108,27 +109,18 @@ public class OrderListController {
         for (OrderLine orderLine : orderLines) {
             long id = orderLine.getBook().getId();
             int wantedQuantity = Integer.parseInt(req.getParameter("q-" + id));
-
-            if (wantedQuantity > bookManager.getBookQuantity(orderLine.getBook().getId())) {
-                throw new NotEnoughBooksInTheStockException(wantedQuantity);
-            }
-
-            if (result.hasErrors()) {
-                mav.setViewName("pages/cart.jsp");
-            } else {
-                orderLine.setQuantity(wantedQuantity);
-                orderLine.setBookIsbn(orderLine.getBook().getIsbn());
-                orderLine.setBookActualPrice(orderLine.getBook().getPrice());
-                orderLine.setOrder(order);
-            }
+            orderLine.setQuantity(wantedQuantity);
+            orderLine.setBookIsbn(orderLine.getBook().getIsbn());
+            orderLine.setBookActualPrice(orderLine.getBook().getPrice());
+            orderLine.setOrder(order);
         }
 
+        mav.setViewName("pages/cart.jsp");
 
         if (orderLines.isEmpty()) throw new EmptyOrderException();
 
         List<OrderLine> copy = new ArrayList<>();
         for (OrderLine line : orderLines) {
-            //line.setId(Long.parseLong(null));
             copy.add(line);
         }
 
@@ -138,15 +130,22 @@ public class OrderListController {
         order.setPaymentStatus(PaymentStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setOrderStatus(OrderStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setClient((Client) req.getSession().getAttribute("client"));
-        System.out.println("(Client) req.getSession().getAttribute(\"client\") = " + (Client) req.getSession().getAttribute("client"));
+        //System.out.println("(Client) req.getSession().getAttribute(\"client\") = " + (Client) req.getSession().getAttribute("client"));
         order.setDate(new Date(System.currentTimeMillis()));
 
-        System.out.println("order = " + order);
+
+        orderValidator.validate(order, result);
+
+        if (result.hasErrors()) {
+            session.setAttribute("order", order);
+            return mav;
+        }
+
+        //System.out.println("order = " + order);
         orderManager.saveNewOrder(order);
-        System.out.println("req.getCookies().length = " + req.getCookies().length);
+        //System.out.println("req.getCookies().length = " + req.getCookies().length);
         cartController.deleteAllBooksCookies(req, resp);
 
-        mav.setViewName("pages/cart.jsp");
         return mav;
     }
 

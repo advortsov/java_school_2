@@ -9,12 +9,12 @@ import org.apache.log4j.Logger;
  * specified in log4j config (i.e. resources/log4j.xml). It is also useful for a
  * quick visual test when you change the pattern of log statements via
  * ConversionPattern in log4j.xml.
- *
+ * <p>
  * <p>
  * Right-click Log4jConsoleTest.java and either select Run As > Java Application
  * or press ALT+SHIFT+X,J.
  * </p>
- *
+ * <p>
  * <p>
  * As a result, you should typically see test messages from all log levels
  * (TRACE, DEBUG, INFO, WARN, ERROR, FATAL) both on the console view of your IDE
@@ -23,9 +23,12 @@ import org.apache.log4j.Logger;
  *
  * @author Cody Burleson
  */
-public class 	Log4jConsoleTest {
+public class Log4jConsoleTest {
 
     static final Logger log = Logger.getLogger(Log4jConsoleTest.class);
+
+    public Log4jConsoleTest() {
+    }
 
     /**
      * @param args
@@ -33,9 +36,6 @@ public class 	Log4jConsoleTest {
     public static void main(String[] args) {
         Log4jConsoleTest console = new Log4jConsoleTest();
         console.execute();
-    }
-
-    public Log4jConsoleTest() {
     }
 
     public void execute() {
