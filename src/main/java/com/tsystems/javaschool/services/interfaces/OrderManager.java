@@ -21,7 +21,7 @@ public interface OrderManager {
 
     void deleteOrder(Order order);
 
-    int orderTotalSumm(Order order);
+    //int orderTotalSumm(Order order);
 
     void updateOrder(Order order);
 

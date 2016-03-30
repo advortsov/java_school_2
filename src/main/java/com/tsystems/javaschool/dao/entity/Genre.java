@@ -19,7 +19,6 @@ public class Genre implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(min = 6, message = "{genre.name.size.error}")
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 

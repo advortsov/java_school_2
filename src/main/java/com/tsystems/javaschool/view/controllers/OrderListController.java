@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.view.controllers;
 
 import com.tsystems.javaschool.dao.entity.Client;
+import com.tsystems.javaschool.dao.entity.Genre;
 import com.tsystems.javaschool.dao.entity.Order;
 import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.enums.OrderStatus;
@@ -10,6 +11,7 @@ import com.tsystems.javaschool.services.enums.ShippingType;
 import com.tsystems.javaschool.services.exception.EmptyOrderException;
 import com.tsystems.javaschool.services.exception.NotEnoughBooksInTheStockException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
+import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +49,26 @@ public class OrderListController {
     @Autowired
     BookManager bookManager;
 
+    @Autowired
+    GenreManager genreManager;
+
 //    @Autowired
 //    private OrderValidator orderValidator;
+
+    @ModelAttribute(value = "allGenresList")
+    public List<Genre> createAllGenresList() {
+        return genreManager.loadAllGenres();
+    }
+
+    @ModelAttribute(value = "shippingTypeList")
+    public ShippingType[] createShippingTypeList() {
+        return ShippingType.values();
+    }
+
+    @ModelAttribute(value = "paymentTypeList")
+    public PaymentType[] createPaymentTypeList() {
+        return PaymentType.values();
+    }
 
     /**
      * Puts in the shopping cart content of the last order (additional task)
@@ -63,7 +83,6 @@ public class OrderListController {
     @RequestMapping(value = "/ajaxBooksQuantityValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
     public @ResponseBody
     String ajaxBooksQuantityValidation(@RequestParam int bookId, @RequestParam int bookQuantity) {
-        System.out.println("WORKED!");
 
         if (bookQuantity > bookManager.getBookQuantity(bookId)) {
             System.out.println("YES ITS BIGGER!");
@@ -77,6 +96,9 @@ public class OrderListController {
             @ModelAttribute("createdOrder") Order createdOrder,
             BindingResult result,
             HttpServletRequest req, HttpServletResponse resp, ModelAndView mav) throws EmptyOrderException, NotEnoughBooksInTheStockException {
+
+
+        System.out.println("1req.getCookies().length = " + req.getCookies().length);
 
         List<OrderLine> orderLines = shoppingCartManager.getShoppingCart().getItems();
         createdOrder.setOrderLines(orderLines);
@@ -106,6 +128,7 @@ public class OrderListController {
 
         List<OrderLine> copy = new ArrayList<>();
         for (OrderLine line : orderLines) {
+            //line.setId(Long.parseLong(null));
             copy.add(line);
         }
 
@@ -115,13 +138,13 @@ public class OrderListController {
         order.setPaymentStatus(PaymentStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setOrderStatus(OrderStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setClient((Client) req.getSession().getAttribute("client"));
+        System.out.println("(Client) req.getSession().getAttribute(\"client\") = " + (Client) req.getSession().getAttribute("client"));
         order.setDate(new Date(System.currentTimeMillis()));
 
+        System.out.println("order = " + order);
         orderManager.saveNewOrder(order);
-
-        String userName = SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal().toString();
-        cartController.deleteAllBooksCookies(userName, req, resp);
+        System.out.println("req.getCookies().length = " + req.getCookies().length);
+        cartController.deleteAllBooksCookies(req, resp);
 
         mav.setViewName("pages/cart.jsp");
         return mav;

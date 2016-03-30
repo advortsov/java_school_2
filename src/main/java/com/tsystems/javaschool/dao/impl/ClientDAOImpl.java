@@ -1,10 +1,9 @@
 package com.tsystems.javaschool.dao.impl;
 
 import com.tsystems.javaschool.dao.entity.Client;
+import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.dao.interfaces.ClientDAO;
-import com.tsystems.javaschool.services.interfaces.ClientManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,19 +32,6 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
         setClazz(Client.class);
     }
 
-    public Client findByUserName(String name) throws NotRegisteredUserException {
-        Client client = null;
-        String sql = "SELECT c FROM Client c WHERE c.user.userName = :name";
-        Query query = em.createQuery(sql).
-                setParameter("name", name);
-        try {
-            client = findOne(query);
-        } catch (NoResultException ex) {
-            throw new NotRegisteredUserException();
-        }
-        return client;
-    }
-
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
@@ -59,6 +45,19 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
             result.put(entry.getKey(), entry.getValue());
         }
         return result;
+    }
+
+    public Client findByUserName(String name) throws NotRegisteredUserException {
+        Client client = null;
+        String sql = "SELECT c FROM Client c WHERE c.user.userName = :name";
+        Query query = em.createQuery(sql).
+                setParameter("name", name);
+        try {
+            client = findOne(query);
+        } catch (NoResultException ex) {
+            throw new NotRegisteredUserException();
+        }
+        return client;
     }
 
     @Override
@@ -75,16 +74,28 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
 
         for (Object[] result : resultList) {
             //try {
-                BigInteger clientId = (BigInteger) result[0];
-                long id = clientId.longValue();
+            BigInteger clientId = (BigInteger) result[0];
+            long id = clientId.longValue();
 
-                BigDecimal clientSumm = (BigDecimal) result[1];
-                int summ = clientSumm.intValue();
+            BigDecimal clientSumm = (BigDecimal) result[1];
+            int summ = clientSumm.intValue();
 
-                topClients.put(this.findByID(Client.class, id), summ);
+            topClients.put(this.findByID(Client.class, id), summ);
 
         }
 
         return sortByValue(topClients);
+    }
+
+    @Override
+    public UserRole getUserRoleByName(String name) {
+        logger.info("Searching one of user roles...");
+        UserRole userRole = null;
+        String sql = "SELECT u FROM UserRole u WHERE u.userRole = :name";
+        Query query = em.createQuery(sql).
+                setParameter("name", name);
+        userRole = (UserRole) query.getSingleResult();
+        logger.info("Returning found user role.");
+        return userRole;
     }
 }

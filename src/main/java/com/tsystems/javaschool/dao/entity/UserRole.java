@@ -9,27 +9,25 @@ import javax.persistence.*;
  */
 
 @Entity
-@IdClass(UserRoleId.class)
 @Table(name = "user_roles")
 public class UserRole {
 
     @Id
-    @Column(name = "user_name", length = 15, nullable = false) // changed on not unique 3 march
-    private String userName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Id
-    @Column(name = "role_name", length = 15, nullable = false)
+    @Column(name = "role_name", length = 15, nullable = false, unique = true)
     private String userRole;
 
     public UserRole() {
     }
 
-    public String getUserName() {
-        return userName;
+    public long getId() {
+        return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUserRole() {
@@ -47,14 +45,14 @@ public class UserRole {
 
         UserRole userRole1 = (UserRole) o;
 
-        if (!userName.equals(userRole1.userName)) return false;
+        if (id != userRole1.id) return false;
         return userRole.equals(userRole1.userRole);
 
     }
 
     @Override
     public int hashCode() {
-        int result = userName.hashCode();
+        int result = (int) (id ^ (id >>> 32));
         result = 31 * result + userRole.hashCode();
         return result;
     }

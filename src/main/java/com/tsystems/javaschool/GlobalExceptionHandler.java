@@ -1,4 +1,4 @@
-package ru.javabegin.training.exceptions;
+package com.tsystems.javaschool;
 
 import java.io.IOException;
 

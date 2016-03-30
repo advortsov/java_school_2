@@ -1,9 +1,6 @@
 package com.tsystems.javaschool.dao.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -17,18 +14,26 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @Column(name = "user_name", length = 15, unique = true, nullable = false)
     private String userName;
 
     @Column(name = "user_pass", length = 255, nullable = false)
     private String userPass;
 
+    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "user_role_id", nullable = false)
+    private UserRole userRole;
+
+
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String user_name) {
-        this.userName = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getUserPass() {
@@ -39,12 +44,12 @@ public class User implements Serializable {
         this.userPass = userPass;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_name='" + userName + '\'' +
-                ", userPass='" + userPass + '\'' +
-                '}';
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     @Override
@@ -54,11 +59,17 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        return userName.equals(user.userName);
+        if (!userName.equals(user.userName)) return false;
+        if (!userPass.equals(user.userPass)) return false;
+        return userRole.equals(user.userRole);
+
     }
 
     @Override
     public int hashCode() {
-        return userName.hashCode();
+        int result = userName.hashCode();
+        result = 31 * result + userPass.hashCode();
+        result = 31 * result + userRole.hashCode();
+        return result;
     }
 }

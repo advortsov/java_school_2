@@ -8,5 +8,6 @@
 </head>
 <body>
 <h3>${error}</h3>
+<h3>FORBIDEN!</h3>
 </body>
 </html>

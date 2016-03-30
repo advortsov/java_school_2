@@ -2,21 +2,18 @@ package com.tsystems.javaschool.view.controllers;
 
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.Order;
+import com.tsystems.javaschool.dao.entity.User;
+import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -32,11 +29,30 @@ public class ClientController {
     @Autowired
     private ClientManager clientManager;
 
-//    private Client client;
 
     @ModelAttribute(value = "clientOrdersList")
     public List<Order> createClientOrdersList(HttpSession session) {
-        return clientManager.getClientOrders((Client) session.getAttribute("client"));
+        if (session.getAttribute("client") != null) {
+            return clientManager.getClientOrders((Client) session.getAttribute("client"));
+        } else {
+            return null;
+        }
+    }
+
+    //    ajaxLoginUniqValidation
+    @RequestMapping(value = "/ajaxLoginUniqValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
+    public
+    @ResponseBody
+    String ajaxLoginUniqValidation(@RequestParam String login) {
+        Client user = null;
+        try {
+            System.out.println("ajaxLoginUniqValidation = ");
+            user = clientManager.findByUserName(login);
+            return "This user is already exists";
+        } catch (NotRegisteredUserException ex) {
+            //ignore
+        }
+        return " ";
     }
 
     public Client actualizeClient(HttpServletRequest request, String userName) {
@@ -46,8 +62,6 @@ public class ClientController {
         } catch (NotRegisteredUserException ex) {
             client = new Client();
             client.setName("Guest");
-            //userName = "Guest";
-            //session.setAttribute("username", userName);
         }
 
         request.getSession().setAttribute("currentClient", client);
@@ -61,30 +75,62 @@ public class ClientController {
         return "user_pages/profile.jsp";
     }
 
-//    /**
-//     * Retrieves the edit page
-//     *
-//     * @return the name of the JSP page
-//     */
-//    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-//    public String getEdit(@RequestParam(value = "id", required = true) Integer id,
-//                          Model model) {
-//        logger.debug("Received request to show book edit page");
-//        model.addAttribute("book", bookManager.findBookById(id));
-//        return "admin_pages/edit";
-//    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerPage() {
+        return "pages/register.jsp";
+    }
+
+    @RequestMapping(value = "/register_new", method = RequestMethod.POST)
+    public String saveNewClient(@RequestParam("client_name") String name,
+                                @RequestParam("client_surname") String surname,
+                                @RequestParam("client_address") String address,
+                                @RequestParam("client_bday") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date bday,
+                                @RequestParam("client_user_name") String username,
+                                @RequestParam("client_password") String password,
+                                @RequestParam("client_email") String email) {
+
+        Client client = new Client();
+
+        client.setName(name);
+        client.setSurname(surname);
+        client.setAddress(address);
+        client.setBirthday(new java.sql.Date(bday.getTime()));
+        client.setEmail(email);
+
+        User user = new User();
+
+        UserRole userRole = clientManager.getUserRoleByName("ROLE_USER");
+
+        user.setUserName(username);
+        user.setUserPass(encrypt(password));
+        user.setUserRole(userRole);
+
+        client.setUser(user);
+
+        clientManager.updateClient(client);
+        return "forward:login.jsp";
+
+    }
+
+    private String encrypt(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+        return hashedPassword;
+    }
 
     @RequestMapping(value = "/editProfile", method = RequestMethod.POST)
-    public String saveEditClient(@ModelAttribute("client") Client client,
-                                 @RequestParam("client_name") String name,
+    public String saveEditClient(@RequestParam("client_name") String name,
                                  @RequestParam("client_surname") String surname,
                                  @RequestParam("client_address") String address,
                                  @RequestParam("client_bday") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date bday,
-                                 @RequestParam("client_email") String email) {
+                                 @RequestParam("client_email") String email,
+                                 HttpSession session) {
 
 //        logger.debug("Received request to show edit page");
 
-        System.out.println("saveEditClient");
+        Client client = (Client) session.getAttribute("client");
+
         client.setName(name);
         client.setSurname(surname);
         client.setAddress(address);
@@ -92,8 +138,7 @@ public class ClientController {
         client.setEmail(email);
 
         clientManager.updateClient(client);
-
-        return "pages/books.jsp";
+        return "forward:user_pages/profile.jsp";
     }
 
 

@@ -102,7 +102,7 @@
                             <td>${order.totalSumm}</td>
                                 <%--логика находится в классе Order (что делать?)--%>
                             <c:choose>
-                                <c:when test="${loggedIn}">
+                                <c:when test="${isAdmin}">
                                     <td>
                                         <a href="admin/edit_order?id=${order.id}">
                                             <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>

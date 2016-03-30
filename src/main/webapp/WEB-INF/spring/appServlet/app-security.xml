@@ -8,12 +8,18 @@
                  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <http auto-config="true" use-expressions="true">
-        <access-denied-handler error-page="/WEB-INF/views/error.jsp" />
 
-        <intercept-url pattern="/books/*" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/cart/*" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/profile/*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <access-denied-handler error-page="/WEB-INF/views/error.jsp"/>
+        <!--<access-denied-handler error-page="/WEB-INF/views/error.jsp"/>-->
+
+        <intercept-url pattern="/books/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/books/edit" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/cart/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile/editProfile" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile/" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile/register" access="anonymous"/>
+        <intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')"/>
 
         <form-login login-page='/login' default-target-url="/addDetails"
                     authentication-failure-url="/login?error=true"
@@ -21,19 +27,28 @@
                     password-parameter="password_login"/>
 
         <logout logout-success-url="/login"/>
-        <anonymous username="Guest" granted-authority="anonymous" />
+        <anonymous username="Guest" granted-authority="anonymous"/>
     </http>
 
     <authentication-manager>
         <authentication-provider>
+            <password-encoder ref="encoder"/>
+
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
                                        "SELECT user_name, user_pass, TRUE as enabled FROM users WHERE user_name=?"
                                authorities-by-username-query=
-                                       "SELECT user_name, role_name FROM user_roles WHERE user_name=?"/>
+                                       "SELECT u.user_name, r.role_name AS role_name FROM users u INNER JOIN user_roles r
+                                       ON u.user_role_id = r.id WHERE user_name=?;" />
 
         </authentication-provider>
+
     </authentication-manager>
+
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <!--<beans:constructor-arg name="strength" value="6"/>-->
+    </beans:bean>
 
 
 </beans:beans>

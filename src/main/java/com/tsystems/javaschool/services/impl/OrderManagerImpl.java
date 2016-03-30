@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.services.impl;
 
 import com.tsystems.javaschool.dao.entity.Order;
+import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.dao.interfaces.BookDAO;
 import com.tsystems.javaschool.dao.interfaces.OrderDAO;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +45,7 @@ public class OrderManagerImpl implements OrderManager {
 
     @Override
     public void saveNewOrder(Order order) {
-        orderDAO.save(order);
+        orderDAO.saveOrder(order);
     }
 
 
@@ -57,15 +59,15 @@ public class OrderManagerImpl implements OrderManager {
         throw new UnsupportedOperationException();
     }
 
-    public int orderTotalSumm(Order order) {
-//        List<OrderLine> orderLines = order.getOrderLines();
-//        int totalSumm = 0;
-//        for (OrderLine orderLine : orderLines) {
-//            totalSumm += (orderLine.getBook().getPrice() * orderLine.getQuantity());
-//        }
-//        return totalSumm;
-        return -1;
-    }
+//    public int orderTotalSumm(Order order) {
+////        List<OrderLine> orderLines = order.getOrderLines();
+////        int totalSumm = 0;
+////        for (OrderLine orderLine : orderLines) {
+////            totalSumm += (orderLine.getBook().getPrice() * orderLine.getQuantity());
+////        }
+////        return totalSumm;
+//        return -1;
+//    }
 
     @Override
     public void updateOrder(Order order) {
@@ -77,7 +79,19 @@ public class OrderManagerImpl implements OrderManager {
         Order order = findOrderById(orderId);
         System.out.println("order.getId() = " + order.getId());
         shoppingCartManager.clearCart();
-        shoppingCartManager.getShoppingCart().setItems(order.getOrderLines());
+        List<OrderLine> prevLines = order.getOrderLines();
+        List<OrderLine> currLines = new ArrayList<>();
+
+        for (OrderLine line : prevLines){
+            OrderLine newLine = new OrderLine();
+            newLine.setBook(line.getBook());
+            newLine.setQuantity(line.getQuantity());
+            newLine.setBookActualPrice(line.getBookActualPrice());
+            newLine.setBookActualPrice(line.getBook().getPrice());
+            currLines.add(newLine);
+        }
+
+        shoppingCartManager.getShoppingCart().setItems(currLines);
         System.out.println("shoppingCartManager.getShoppingCart().getItems().size() = "
                 + shoppingCartManager.getShoppingCart().getItems().size());
 

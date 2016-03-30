@@ -2,6 +2,7 @@ package com.tsystems.javaschool.services.interfaces;
 
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.Order;
+import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ClientManager {
     void updateClient(Client client);
 
     List<Order> getClientOrders(Client client);
+
+    UserRole getUserRoleByName(String userRole);
 }

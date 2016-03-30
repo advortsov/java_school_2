@@ -1,12 +1,17 @@
 package com.tsystems.javaschool.view.controllers;
 
-import com.tsystems.javaschool.dao.entity.*;
+import com.tsystems.javaschool.dao.entity.Author;
+import com.tsystems.javaschool.dao.entity.Book;
+import com.tsystems.javaschool.dao.entity.Genre;
+import com.tsystems.javaschool.dao.entity.Publisher;
 import com.tsystems.javaschool.services.enums.SearchType;
 import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.AuthorManager;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.PublisherManager;
+import com.tsystems.javaschool.view.controllers.validators.BookValidator;
+import com.tsystems.javaschool.view.controllers.wrappers.UploadedBook;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import com.tsystems.javaschool.view.controllers.wrappers.UploadedBook;
-import com.tsystems.javaschool.view.controllers.validators.BookValidator;
 
-import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,7 +86,6 @@ public class BookListController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String fillUpGenres(@ModelAttribute ArrayList<Genre> allGenres) {
-
         return "pages/books.jsp";
     }
 
@@ -206,12 +207,8 @@ public class BookListController {
     public String getEdit(@RequestParam(value = "id", required = true) Integer id,
                           Model model) {
         logger.debug("Received request to show book edit page");
-        // Retrieve existing Person and add to model
-        // This is the formBackingOBject
         model.addAttribute("book", bookManager.findBookById(id));
-
-        // This will resolve to /WEB-INF/jsp/editpage.jsp
-        return "admin_pages/edit";
+        return "admin_pages/edit.jsp";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -251,16 +248,16 @@ public class BookListController {
         return "pages/books.jsp";
     }
 
-    private void verifyIsbnUniqueness(String isbn) throws DuplicateException {
-        try {
-            if (bookManager.findBookByIsbn(isbn) != null) {
-                System.out.println("verifyIsbnUniqueness throws DuplEx");
-                throw new DuplicateException();
-            }
-        } catch (NoResultException ex) {
-            //ignore
-        }
-    }
+//    private void verifyIsbnUniqueness(String isbn) throws DuplicateException {
+//        try {
+//            if (bookManager.findBookByIsbn(isbn) != null) {
+//                System.out.println("verifyIsbnUniqueness throws DuplEx");
+//                throw new DuplicateException();
+//            }
+//        } catch (NoResultException ex) {
+//            //ignore
+//        }
+//    }
 
     @ExceptionHandler(DuplicateException.class)
     public ModelAndView handleDuplicateException(ModelAndView mav) {

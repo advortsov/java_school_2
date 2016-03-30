@@ -27,7 +27,8 @@
         <label>Username </label> <input type='text' name='user_login' value=''>
         <label>Password </label> <input type='password' name='password_login'/>
 
-        <h6><a href="/books">Войти анонимно</a></h6>
+        <h6><a href="/books">I'm guest</a></h6>
+        <h6><a href="profile/register">Register</a></h6>
 
         <c:if test="${not empty error}">
             <div class="error" style="text-align:right;">${error}</div>

@@ -75,6 +75,10 @@ public class OrderLine implements Serializable {
         this.quantity = quantity;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @OneToOne
     @JoinColumn(name = "book_id")
     public Book getBook() {
@@ -126,8 +130,12 @@ public class OrderLine implements Serializable {
     @Override
     public String toString() {
         return "OrderLine{" +
+                "id=" + id +
+                ", order.id=" + order.getId() +
+                ", book=" + book +
                 ", quantity=" + quantity +
-                ", book=" + book.getName() +
+                ", bookIsbn='" + bookIsbn + '\'' +
+                ", bookActualPrice=" + bookActualPrice +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.tsystems.javaschool.dao.interfaces;
 
 
 import com.tsystems.javaschool.dao.entity.Client;
+import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 
 import java.util.Map;
@@ -18,4 +19,5 @@ public interface ClientDAO extends AbstractJpaDAO<Client> {
 
     Map<Client, Integer> getTopTenClients();
 
+    UserRole getUserRoleByName(String userRole);
 }

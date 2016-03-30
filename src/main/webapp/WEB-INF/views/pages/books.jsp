@@ -25,11 +25,12 @@
                 <br><strong>Год издания:</strong> ${book.publishYear}
                 <br><strong>Автор:</strong> ${book.author.name}
                 <br><strong>Цена:</strong> ${book.price} <strong> руб.</strong>
-                    <%--<% if (request.isUserInRole("admin")) {%>--%>
-                    <%--<br><a href="../admin_pages/edit.jsp?book_id=${book.id}">Редактировать</a>--%>
-                <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Редактировать</a>
-                    <%--<% } %>--%>
-                <p style="margin:10px;"><a href="<%=request.getContextPath()%>/cart/addToCart?book_id=${book.id}">Добавить в корзину</a></p>
+                <c:if test="${isAdmin}">
+                    <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Редактировать</a>
+                </c:if>
+
+                <p style="margin:10px;"><a href="<%=request.getContextPath()%>/cart/addToCart?book_id=${book.id}">Добавить
+                    в корзину</a></p>
             </div>
         </div>
     </c:forEach>

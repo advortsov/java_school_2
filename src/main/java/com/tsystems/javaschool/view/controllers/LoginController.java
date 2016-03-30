@@ -2,12 +2,12 @@ package com.tsystems.javaschool.view.controllers;
 
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
+import com.tsystems.javaschool.services.ShoppingCart;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -33,8 +33,7 @@ public class LoginController {
     private ClientManager clientManager;
 
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
-    public String addDetails(@RequestParam(value = "error", required = false) String error,
-                                   HttpSession session) {
+    public String addDetails(HttpSession session) {
         // erase cart for giving the clear cart to the next auth user
         cartManager.clearCart();
 
@@ -57,11 +56,8 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("userName", client.getName());
         session.setAttribute("client", client);
-        // теперь у нас в сессии есть наш клиент из базы или подложка для анонимуса
 
-//        mav.setViewName("pages/books.jsp");
-//        return mav;
-        return  "forward:/books";
+        return "redirect:/books";
     }
 
 
@@ -75,4 +71,16 @@ public class LoginController {
         }
         return mav;
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(ModelAndView mav, HttpSession session) {
+        logger.debug("Logout and returning login.jsp page");
+        cartManager.clearCart();
+
+//        mav.setViewName("login.jsp");
+//        return mav;
+        return "redirect:/j_spring_security_logout";
+    }
+
+
 }

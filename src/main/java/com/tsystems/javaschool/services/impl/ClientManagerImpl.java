@@ -2,6 +2,7 @@ package com.tsystems.javaschool.services.impl;
 
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.Order;
+import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.dao.interfaces.ClientDAO;
 import com.tsystems.javaschool.dao.interfaces.OrderDAO;
@@ -64,5 +65,10 @@ public class ClientManagerImpl implements ClientManager {
                 setParameter("currClient", currClient);
         orders = orderDAO.findMany(query);
         return orders;
+    }
+
+    @Override
+    public UserRole getUserRoleByName(String userRole) {
+        return clientDAO.getUserRoleByName(userRole);
     }
 }
