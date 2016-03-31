@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,8 +33,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/books")
 @SessionAttributes("allBooks")
-public class BookListController {
-    private static Logger logger = Logger.getLogger(BookListController.class);
+public class BookController {
+    private static Logger logger = Logger.getLogger(BookController.class);
 
     @Autowired
     private PublisherManager publisherManager;

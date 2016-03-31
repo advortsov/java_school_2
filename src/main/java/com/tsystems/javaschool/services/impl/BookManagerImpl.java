@@ -39,6 +39,15 @@ public class BookManagerImpl implements BookManager {
     public BookManagerImpl() {
     }
 
+    public BookManagerImpl(BookDAO mockBookDAO, AuthorDAO mockAuthorDAO) {
+        this.bookDAO = mockBookDAO;
+        this.authorDAO = mockAuthorDAO;
+    }
+
+    public BookManagerImpl(BookDAO mockBookDAO) {
+        this.bookDAO = mockBookDAO;
+    }
+
     @Override
     public List<Book> findByBookName(String name) {
         logger.info("Try to get books by book name...");
@@ -48,7 +57,8 @@ public class BookManagerImpl implements BookManager {
     @Override
     public List<Book> findByAuthorName(String name) {
         logger.info("Try to get books by author name...");
-        return bookDAO.findByAuthor(authorDAO.findByName(name));
+        Author author = authorDAO.findByName(name);
+        return bookDAO.findByAuthor(author);
     }
 
     @Override

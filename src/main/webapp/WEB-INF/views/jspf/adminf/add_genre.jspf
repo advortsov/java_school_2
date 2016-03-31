@@ -38,6 +38,7 @@
 
         $(document).ready(function () {
             $("#genre_add_form").submit(function () {
+                alert('dfdfd');
                 var isValidated = genreValidate();
                 return isValidated;
             });
@@ -117,6 +118,7 @@
 
     $(document).ready(function () {
         $("#genre_edit_form").submit(function () {
+            alert('Works!');
             var isValidated = genreNameUniqValidate();
             return isValidated;
         });

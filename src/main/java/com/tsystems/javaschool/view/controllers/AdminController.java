@@ -7,16 +7,12 @@ import com.tsystems.javaschool.services.interfaces.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +29,7 @@ import java.util.Map;
         "allAuthorsList", "allPublishersList", "topTenClients", "topTenBooks"})
 public class AdminController {
 
-    private static Logger logger = Logger.getLogger(BookListController.class);
+    private static Logger logger = Logger.getLogger(BookController.class);
 
     @Autowired
     private PublisherManager publisherManager;
@@ -95,7 +91,6 @@ public class AdminController {
         return "admin_pages/admin.jsp";
 //        return "forward:/admin#tab7";
     }
-
 
 
 

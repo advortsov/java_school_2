@@ -157,7 +157,7 @@
                 }
 
                 $(document).ready(function () {
-                    $("#order_form1").submit(function () {
+                    $("#order_form").submit(function () {
                         var isValidated = booksQuantityValidate();
                         return isValidated;
                     });

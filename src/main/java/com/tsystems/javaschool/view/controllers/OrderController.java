@@ -35,7 +35,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/order")
-public class OrderListController {
+public class OrderController {
 
     @Autowired
     OrderManager orderManager;

@@ -20,7 +20,22 @@ import java.util.List;
 public class AuthorManagerImpl implements AuthorManager {
 
     @Autowired
-    AuthorDAO authorDAO;
+    private AuthorDAO authorDAO;
+
+    public AuthorManagerImpl() {
+    }
+
+//    public AuthorManagerImpl(AuthorDAO authorDAO) {
+//        this.authorDAO = authorDAO;
+//    }
+
+    public AuthorDAO getAuthorDAO() {
+        return authorDAO;
+    }
+
+    public void setAuthorDAO(AuthorDAO authorDAO) {
+        this.authorDAO = authorDAO;
+    }
 
     @Override
     public Author findByAuthorName(String name) {

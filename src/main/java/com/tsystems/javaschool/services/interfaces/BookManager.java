@@ -14,29 +14,27 @@ import java.util.List;
  * @since 10.02.2016
  */
 public interface BookManager {
-    public List<Book> findByBookName(String name);
+    List<Book> findByBookName(String name);
 
-    public List<Book> loadAllBooks();
+    List<Book> loadAllBooks();
 
-    public void saveNewBook(Book book) throws DuplicateException;
+    void saveNewBook(Book book) throws DuplicateException;
 
-    public Book findBookById(long id);
+    Book findBookById(long id);
 
-    public void deleteBook(Book book);
+    void deleteBook(Book book);
 
-    //////
+    List<Book> getBooksByGenre(Genre genre);
 
-    public List<Book> getBooksByGenre(Genre genre);
+    List<Book> findByAuthorName(String name);
 
-    public List<Book> findByAuthorName(String name);
+    List<Book> getBooksBySearch(String searchStr, SearchType type);
 
-    public List<Book> getBooksBySearch(String searchStr, SearchType type);
+    void updateBook(Book book) throws DuplicateException;
 
-    public void updateBook(Book book) throws DuplicateException;
+    int getBookQuantity(long id);
 
-    public int getBookQuantity(long id);
-
-    public List<Book> getBooksByAuthor(Author author);
+    List<Book> getBooksByAuthor(Author author);
 
     Book findBookByIsbn(String value);
 }
