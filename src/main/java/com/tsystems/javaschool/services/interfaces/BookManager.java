@@ -14,6 +14,13 @@ import java.util.List;
  * @since 10.02.2016
  */
 public interface BookManager {
+
+    /**
+     * Returns books entity by the name
+     *
+     * @param name the title of book (or books)
+     * @return List<Book>
+     */
     List<Book> findByBookName(String name);
 
     List<Book> loadAllBooks();

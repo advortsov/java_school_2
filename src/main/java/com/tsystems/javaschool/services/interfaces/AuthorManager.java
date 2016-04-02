@@ -6,20 +6,58 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import java.util.List;
 
 /**
+ *
+ * Provides method to interaction with Author entity
+ *
  * @author Alexander Dvortsov
  * @version 1.0
  * @since 11.02.2016
  */
 public interface AuthorManager {
-    public Author findByAuthorName(String name);
 
-    public List<Author> loadAllAuthors();
+    /**
+     * Returns author entity by it name
+     *
+     * @param name the author name
+     * @return Author
+     */
+    Author findByAuthorName(String name);
 
-    public void saveNewAuthor(Author author) throws DuplicateException;
+    /**
+     * Returns all author's entities
+     *
+     * @return List<Author>
+     */
+    List<Author> loadAllAuthors();
 
-    public Author findAuthorById(long id);
 
-    public void deleteAuthor(Author author);
+    /**
+     * Saved new author to database
+     *
+     * @throws DuplicateException
+     * @return List<Author>
+     */
+    void saveNewAuthor(Author author) throws DuplicateException;
 
+    /**
+     * Returns author entity by it id
+     *
+     * @param id the author id
+     * @return Author
+     */
+    Author findAuthorById(long id);
+
+    /**
+     * Deletes author row from db by author entity
+     *
+     * @param author the author to deleting
+     */
+    void deleteAuthor(Author author);
+
+    /**
+     * Updates some changed author entity fields in db
+     *
+     * @param author the author to updating
+     */
     void updateAuthor(Author author);
 }

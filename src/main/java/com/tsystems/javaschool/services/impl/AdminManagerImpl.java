@@ -31,13 +31,13 @@ import java.util.Map;
 public class AdminManagerImpl implements AdminManager {
 
     @Autowired
-    OrderDAO orderDAO;
+    private OrderDAO orderDAO;
 
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
 
     @Autowired
-    ClientDAO clientDAO;
+    private ClientDAO clientDAO;
 
     public Map<Book, Integer> getTopTenBooks() {
         return bookDAO.getTopTenBooks();
@@ -64,42 +64,22 @@ public class AdminManagerImpl implements AdminManager {
             orderDTO.setClientEmail(order.getClient().getEmail());
             orderDTO.setTotalSumm(order.getTotalSumm());
 
-            //===================
             List<OrderLineDTO> orderLineDTOs = new ArrayList<>();
             for (OrderLine orderLine : order.getOrderLines()) {
-
                 BookDTO bookDTO = new BookDTO();
                 bookDTO.setName(orderLine.getBook().getName());
                 bookDTO.setActualPrice(orderLine.getBook().getPrice());
                 bookDTO.setIsbn(orderLine.getBook().getIsbn());
                 bookDTO.setStoreCount(orderLine.getBook().getQuantity());
-
-
                 OrderLineDTO orderLineDTO = new OrderLineDTO();
                 orderLineDTO.setBookDTO(bookDTO);
-//                orderLineDTO.setName(orderLine.getBook().getName());
                 orderLineDTO.setCount(orderLine.getQuantity());
                 orderLineDTOs.add(orderLineDTO);
             }
             orderDTO.setItems(orderLineDTOs);
-            //===================
-
-
             ordersDTO.add(orderDTO);
-
         }
 
         return ordersDTO;
-    }
-
-    @Override
-    public List<ClientDTO> getClientsDTOPerPeriod(Date startDate, Date endDate) {
-        //List<Client> clients = clientDAO.getTopTenClients();
-        return null;
-    }
-
-    @Override
-    public List<BookDTO> getBooksDTOPerPeriod(Date startDate, Date endDate) {
-        return null;
     }
 }
