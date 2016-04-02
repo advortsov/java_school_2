@@ -84,31 +84,21 @@ public class GenreController {
 
         genreManager.saveNewGenre(genre);
 
-
         session.setAttribute("allGenresList", genreManager.loadAllGenres());
         return "redirect:/admin#tab2";
     }
 
-
     @RequestMapping(value = "/ajaxGenreValidation", method = RequestMethod.GET,
             produces = {"text/html; charset=UTF-8"})
-    public
-    @ResponseBody
-    String ajaxGenreValidation(@RequestParam String genreName) {
+    public @ResponseBody String ajaxGenreValidation(@RequestParam String genreName) {
         Genre genre = null;
         try {
-
-            System.out.println("ajaxGenreValidation = exists!");
             genre = genreManager.findByGenreName(genreName);
             return "This genre is already exists";
         } catch (NoResultException ex) {
             //ignore
         }
-        System.out.println("return ok");
-
         return " ";
     }
-    //------------------------------------------------------------------------------------
-
 
 }

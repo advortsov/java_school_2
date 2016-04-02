@@ -222,9 +222,7 @@ public class BookController {
             book.setImage(coverFileData.getBytes());
         }
 
-
         bookManager.updateBook(book);
-
         return "redirect:/books/genre?name=all";
     }
 

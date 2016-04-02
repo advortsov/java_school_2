@@ -34,8 +34,8 @@ public class LoginController {
 
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
     public String addDetails(HttpSession session) {
-        // erase cart for giving the clear cart to the next auth user
-        cartManager.clearCart();
+
+        cartManager.clearCart(); // erase cart for giving the clear cart to the next auth user
 
         logger.debug("Adding details to user");
 

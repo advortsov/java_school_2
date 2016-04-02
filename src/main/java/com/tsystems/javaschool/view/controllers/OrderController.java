@@ -38,19 +38,19 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    OrderManager orderManager;
+    private OrderManager orderManager;
 
     @Autowired
-    ShoppingCartManager shoppingCartManager;
+    private ShoppingCartManager shoppingCartManager;
 
     @Autowired
-    CartController cartController;
+    private CartController cartController;
 
     @Autowired
-    BookManager bookManager;
+    private BookManager bookManager;
 
     @Autowired
-    GenreManager genreManager;
+    private GenreManager genreManager;
 
     @Autowired
     private OrderValidator orderValidator;
@@ -76,17 +76,14 @@ public class OrderController {
     @RequestMapping(value = "/repeatOrder", method = RequestMethod.GET)
     public String repeatOrder(@RequestParam(value = "id", required = true) long id) {
         orderManager.repeatOrder(id);
-        return "pages/cart.jsp";
+        return "redirect:/cart";
     }
-
 
     @RequestMapping(value = "/ajaxBooksQuantityValidation", method = RequestMethod.GET, produces = {"text/html; charset=UTF-8"})
     public
     @ResponseBody
     String ajaxBooksQuantityValidation(@RequestParam int bookId, @RequestParam int bookQuantity) {
-
         if (bookQuantity > bookManager.getBookQuantity(bookId)) {
-            System.out.println("YES ITS BIGGER!");
             return "Not enough books '" + bookManager.findBookById(bookId).getName() + "' in stock. Please, choose less number.";
         }
         return " ";

@@ -14,11 +14,27 @@
 
         <intercept-url pattern="/books/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/books/edit" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/books/add" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/genre/edit_genre" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/genre/delete_genre" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/genre/add_genre" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/author/add_author" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/author/delete_author" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/author/edit_author" access="hasRole('ROLE_ADMIN')"/>
+
+        <intercept-url pattern="/publisher/add_publisher" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/publisher/delete_publisher" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/publisher/edit_publisher" access="hasRole('ROLE_ADMIN')"/>
+
 
         <intercept-url pattern="/cart/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
+
         <intercept-url pattern="/profile/editProfile" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/profile*" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/profile/register" access="anonymous"/>
+
         <intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')"/>
 
         <form-login login-page='/login' default-target-url="/addDetails"

@@ -2,14 +2,15 @@
          pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>--%>
+<%--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>--%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 
-    <link href="<%=request.getContextPath()%>/resources/css/register.css"
-          rel="stylesheet"/>
+    <link href="<%=request.getContextPath()%>/resources/css/register.css" rel="stylesheet"/>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Register</title>
@@ -19,34 +20,33 @@
 <body>
 
 
-<form method="POST" name="register_form" id="register_form" action="/profile/register_new" class="box login">
+<form method="POST" name="register_form" id="register_form" action="/reg/register_new" class="box login">
 
     <fieldset class="boxBody">
 
-        <label for="client_user_name">Логин:</label><input name="client_user_name"
+        <label for="client_user_name">Login:</label><input name="client_user_name"
                                                            id="client_user_name" type="text"
                                                            value=""
                                                            pattern=".{3,16}"
                                                            required
                                                            title="Логин может содержать от 3 до 255 символов">
-        <span style="color: red; float: right" id="error_login"></span>
 
-        <label for="client_password">Пароль:</label><input name="client_password"
-                                                           id="client_password" type="password"
-                                                           value=""
-                                                           pattern=".{3,16}"
-                                                           required
-                                                           title="Пароль может содержать от 3 до 16 символов">
+        <label for="client_password">Password:</label><input name="client_password"
+                                                             id="client_password" type="password"
+                                                             value=""
+                                                             pattern=".{3,16}"
+                                                             required
+                                                             title="Пароль может содержать от 3 до 16 символов">
 
 
         <label for="client_name">Name:</label><input name="client_name"
-                                                    id="client_name" type="text"
-                                                    value=""
-                                                    pattern=".{3,255}"
-                                                    required
-                                                    title="Name может содержать от 3 до 255 символов">
+                                                     id="client_name" type="text"
+                                                     value=""
+                                                     pattern=".{3,255}"
+                                                     required
+                                                     title="Name может содержать от 3 до 255 символов">
 
-        <label for="client_surname">Фамилия:</label><input name="client_surname"
+        <label for="client_surname">Surname:</label><input name="client_surname"
                                                            id="client_surname" type="text"
                                                            value=""
                                                            pattern=".{3,255}"
@@ -54,42 +54,47 @@
                                                            title="Фамилия может содержать от 3 до 255 символов">
 
 
-        <label for="client_address">Адрес:</label><input name="client_address"
-                                                         id="client_address" type="text"
-                                                         value=""
-                                                         pattern=".{5,255}"
-                                                         required
-                                                         title="Адрес может содержать от 5 до 255 символов">
+        <label for="client_address">Address:</label><input name="client_address"
+                                                           id="client_address" type="text"
+                                                           value=""
+                                                           pattern=".{5,255}"
+                                                           required
+                                                           title="Адрес может содержать от 5 до 255 символов">
 
-        <label for="client_email">Почта:</label><input name="client_email"
+        <label for="client_email">Email:</label><input name="client_email"
                                                        id="client_email" type="email"
                                                        value=""
                                                        required
                                                        title="Введите валидный e-mail">
 
-        <label for="client_bday">Дата рождения:</label><input name="client_bday"
-                                                              id="client_bday" type="date"
-                                                              value=""
-                                                              required
-                                                              title="Выберите дату вашего рождения">
+        <label for="client_bday">Born:</label><input name="client_bday"
+                                                     id="client_bday" type="date"
+                                                     value=""
+                                                     required
+                                                     title="Выберите дату вашего рождения">
+
+        <div style="color: red; float: right" name="error_login_name" id="error_login_name"></div>
+
     </fieldset>
 
     <footer>
-        <input type="submit" class="btnLogin" value="Зарегистрироваться">
+        <input type="submit" class="btnLogin" value="Register">
     </footer>
 
 </form>
 
-<script>
+<script type="text/javascript"
+        src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
 
     function loginUniqValidate() {
         var jqXHR = $.ajax({
-            url: 'profile/ajaxLoginUniqValidation',
-            data: ({login: $('#client_user_name').val()}),
+            url: '/reg/ajaxLoginUniqValidation',
+            data: ({userLogin: $('#client_user_name').val()}),
             async: false,
             success: function (data) {
                 if (data.length > 1) {
-                    $('#error_login').html(data);
+                    $('#error_login_name').html(data);
                 }
             }
         });

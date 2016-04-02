@@ -355,12 +355,12 @@ body {
 }
 
 .box.login {
-	height: 612px;
+	height: 640px;
 	width: 332px;
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin: -130px 0 0 -166px;
+	margin: -300px 0 0 -166px;
 }
 
 .boxBody {
@@ -395,7 +395,7 @@ body {
 	margin-right: 10px;
 }
 
-.box input[type=text],.box input[type=password],.txtField,.cjComboBox {
+.box input[type=text],.box input[type=password], .box input[type=email], .box input[type=date], .txtField,.cjComboBox {
 	border: 6px solid #F7F9FA;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
