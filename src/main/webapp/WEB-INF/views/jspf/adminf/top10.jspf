@@ -37,7 +37,7 @@
 
                     <table border="1">
                         <tr>
-                            <td>Имя</td>
+                            <td>Name</td>
                             <td>Фамилия</td>
                             <td>Адрес</td>
                             <td>E-mail</td>

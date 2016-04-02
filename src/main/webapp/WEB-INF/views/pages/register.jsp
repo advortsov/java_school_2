@@ -39,12 +39,12 @@
                                                            title="Пароль может содержать от 3 до 16 символов">
 
 
-        <label for="client_name">Имя:</label><input name="client_name"
+        <label for="client_name">Name:</label><input name="client_name"
                                                     id="client_name" type="text"
                                                     value=""
                                                     pattern=".{3,255}"
                                                     required
-                                                    title="Имя может содержать от 3 до 255 символов">
+                                                    title="Name может содержать от 3 до 255 символов">
 
         <label for="client_surname">Фамилия:</label><input name="client_surname"
                                                            id="client_surname" type="text"

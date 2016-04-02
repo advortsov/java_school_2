@@ -9,7 +9,7 @@
 
 <div class="edit_penal">
 
-    <br><strong>Редактирование книги</strong>
+    <br><strong>Editing book</strong>
 
     <p>&nbsp;</p>
 
@@ -22,11 +22,11 @@
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
 
                 <div class="field">
-                    <label for="cover">Обложка:</label><input type="file" name="cover" id="cover" multiple
+                    <label for="cover">Cover:</label><input type="file" name="cover" id="cover" multiple
                                                               accept="image/jpeg">
                 </div>
                 <div class="field">
-                    <label for="book_name">Название:</label><input name="book_name" type="text" id="book_name"
+                    <label for="book_name">Name:</label><input name="book_name" type="text" id="book_name"
                                                                    pattern=".{5,255}"
                                                                    required
                                                                    value="${book.name}"
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="book_genre">Жанр:</label><select name="book_genre" id="book_genre">
+                    <label for="book_genre">Genre:</label><select name="book_genre" id="book_genre">
                     <c:forEach items="${allGenresList}" var="genre">
                         <option>${genre.name}</option>
                     </c:forEach>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="book_publisher">Издательство:</label><select name="book_publisher" id="book_publisher">
+                    <label for="book_publisher">Publisher:</label><select name="book_publisher" id="book_publisher">
                     <c:forEach items="${allPublishersList}" var="publisher">
                         <option>${publisher.name}</option>
                     </c:forEach>
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="field">
-                    <label for="book_author">Автор:</label><select name="book_author" id="book_author">
+                    <label for="book_author">Author:</label><select name="book_author" id="book_author">
                     <c:forEach items="${allAuthorsList}" var="author">
                         <option>${author.name}</option>
                     </c:forEach>
@@ -65,35 +65,35 @@
                 </div>
 
                 <div class="field">
-                    <label for="book_pages">Количество страниц:</label><input name="book_pages" type="number"
+                    <label for="book_pages">Pages:</label><input name="book_pages" type="number"
                                                                               id="book_pages" pattern="[0-9]{2,4}"
                                                                               required
                                                                               value="${book.pageCount}"
                                                                               title="Количество страниц может быть от 10 до 9999">
                 </div>
                 <div class="field">
-                    <label for="book_year">Год издания:</label><input name="book_year" type="number" id="book_year"
+                    <label for="book_year">Year:</label><input name="book_year" type="number" id="book_year"
                                                                       pattern="[0-9]{4,4}"
                                                                       required
                                                                       value="${book.publishYear}"
                                                                       title="Год должен состоять из 4 цифр">
                 </div>
                 <div class="field">
-                    <label for="book_count">Количество:</label><input name="book_count" type="number" id="book_count"
+                    <label for="book_count">Quantity:</label><input name="book_count" type="number" id="book_count"
                                                                       pattern="[0-9]{1,3}"
                                                                       required
                                                                       value="${book.quantity}"
                                                                       title="Количество экземпляров одной книги на складе может быть до 999">
                 </div>
                 <div class="field">
-                    <label for="book_price">Цена, руб:</label><input name="book_price" type="number" id="book_price"
+                    <label for="book_price">Price, rub:</label><input name="book_price" type="number" id="book_price"
                                                                      pattern="[0-9]{1,5}"
                                                                      value="${book.price}"
                                                                      required title="Цена может быть до 99 999 руб.">
                 </div>
 
                 <input type="hidden" name="action" value="edit"></p>
-                <p><input type="submit" value="Сохранить"></p>
+                <p><input type="submit" value="Save"></p>
             </div>
         </div>
 

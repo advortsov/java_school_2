@@ -2,6 +2,7 @@ package com.tsystems.javaschool.dao.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author Alexander Dvortsov
@@ -203,12 +204,16 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
+        String  img = "nulll";
+        if(image != null) img = String.valueOf(image.length);
+
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", pageCount=" + pageCount +
                 ", isbn='" + isbn + '\'' +
                 ", publishYear=" + publishYear +
+                ", image length=" + img +
                 ", descr='" + descr + '\'' +
                 ", author=" + author +
                 ", genre=" + genre +

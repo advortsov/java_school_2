@@ -5,32 +5,52 @@
 <%@include file="../jspf/left_menu.jspf" %>
 
 <div class="edit_penal">
-    <br><strong>Изменение статуса заказа</strong>
+    <br><strong>Order properties</strong>
 
     <form name="order_set_status_form" action="/admin/edit_order" method="post">
+
         <div class="edit_book_info">
             <div>
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
-
                 <div class="field">
-                    <label for="id">ID заказа:</label> ${id}
+                    <label for="id">Order ID:</label> ${id}
                     <input type="text" value="${id}"
                            name="id" id="id" hidden>
                 </div>
 
                 <div class="field">
-                    <label for="order_status">Статус выполнения заказа:</label>
-
-
+                    <label for="order_status">Order status:</label>
                     <select name="order_status" id="order_status">
                         <c:forEach items="${orderStatusList}" var="status">
-                            <option>${status}</option>
+                            <option value="${status}" ${status == editOrder.orderStatus ? 'selected' : ''}>${status}</option>
                         </c:forEach>
                     </select>
                 </div>
-                <%--<input type="hidden" name="action" value="set"></p>--%>
-                <p><input type="submit" value="Задать"></p>
+
+                <div class="field">
+                    <label for="payment_status">Payment status:</label>
+                    <select name="payment_status" id="payment_status">
+                        <c:forEach items="${paymentStatusList}" var="pStatus">
+                            <option value="${pStatus}" ${pStatus == editOrder.paymentStatus ? 'selected' : ''}>${pStatus}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="shipping_type">Shipping type:</label>
+                    <select name="shipping_type" id="shipping_type">
+                        <c:forEach items="${shippingTypeList}" var="type">
+                            <option value="${type}" ${type == editOrder.shippingType ? 'selected' : ''}>${type}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <p><input type="submit" value="Save"></p>
             </div>
         </div>
+
+
     </form>
+
+
 </div>
+
+<%@include file="../jspf/footer.jspf" %>

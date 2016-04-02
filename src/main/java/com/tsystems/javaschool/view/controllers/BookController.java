@@ -48,20 +48,9 @@ public class BookController {
     @Autowired
     private BookValidator bookValidator;
 
-
-//    @RequestMapping(value = "/get-json-user", method = RequestMethod.GET, produces = "application/json")
-//    @ResponseBody
-//    public User getJsonUser(@RequestParam("name") String name) {
-//        User user = new User();
-//        user.setUserName(name);
-//        return user;
-//    }
-
     @ModelAttribute("allBooks")
     public List<Book> allBooks() {
-
         List<Book> resultList = bookManager.loadAllBooks();
-        System.out.println("book allBook");
         return resultList;
     }
 
@@ -103,7 +92,6 @@ public class BookController {
 
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    // /books/search?search_string=gkgkg&search_option=TITLE
     public String getBooksBySearch(@RequestParam(value = "search_string", required = true) String searchString,
                                    @RequestParam(value = "search_option", required = true) SearchType searchOption,
                                    Model model) {
@@ -152,11 +140,9 @@ public class BookController {
             @RequestParam(value = "cover", required = false)
             CommonsMultipartFile locationMapFileData,
             ModelAndView mav,
-            HttpSession session) {
+            HttpSession session) throws DuplicateException {
 
         logger.debug("Received request to show edit page");
-
-//        ModelAndView mav = new ModelAndView();
 
         Book book = new Book();
 
@@ -182,11 +168,8 @@ public class BookController {
             book.setImage(locationMapFileData.getBytes());
         }
 
-        try {
-            bookManager.saveNewBook(book);
-        } catch (DuplicateException e) {
-            e.printStackTrace();
-        }
+        bookManager.saveNewBook(book);
+
 
         session.setAttribute("book", null);
         mav.addObject("book_added", "The book has been added");
@@ -204,6 +187,8 @@ public class BookController {
                           Model model) {
         logger.debug("Received request to show book edit page");
         model.addAttribute("book", bookManager.findBookById(id));
+        System.out.println("RABOTAET get!");
+        System.out.println("GET book START: " + bookManager.findBookById(id));
         return "admin_pages/edit.jsp";
     }
 
@@ -218,7 +203,8 @@ public class BookController {
                                @RequestParam("book_year") int year,
                                @RequestParam("book_count") int quantity,
                                @RequestParam("book_price") int price,
-                               @RequestParam(value = "cover", required = false) CommonsMultipartFile locationMapFileData) {
+                               @RequestParam(value = "cover", required = false) CommonsMultipartFile coverFileData) throws DuplicateException {
+
 
         logger.debug("Received request to show edit page");
 
@@ -232,44 +218,22 @@ public class BookController {
         book.setQuantity(quantity);
         book.setPrice(price);
 
-        if (locationMapFileData.getBytes().length != 0) {
-            book.setImage(locationMapFileData.getBytes());
+        if (coverFileData.getBytes().length != 0) {
+            book.setImage(coverFileData.getBytes());
         }
 
-        try {
-            bookManager.updateBook(book);
-        } catch (DuplicateException e) {
-            e.printStackTrace();
-        }
-        return "pages/books.jsp";
+
+        bookManager.updateBook(book);
+
+        return "redirect:/books/genre?name=all";
     }
 
-//    private void verifyIsbnUniqueness(String isbn) throws DuplicateException {
-//        try {
-//            if (bookManager.findBookByIsbn(isbn) != null) {
-//                System.out.println("verifyIsbnUniqueness throws DuplEx");
-//                throw new DuplicateException();
-//            }
-//        } catch (NoResultException ex) {
-//            //ignore
-//        }
-//    }
-
     @ExceptionHandler(DuplicateException.class)
-    public ModelAndView handleDuplicateException(ModelAndView mav) {
+    public ModelAndView handleDuplicateException(ModelAndView mav, DuplicateException ex) {
         System.out.println("handleDuplicateException is worked!");
-        logger.error("Trying to write not unique isbn!");
-//        ModelAndView mav = new ModelAndView("error");
+        logger.error("Trying to write not unique isbn!", ex);
         mav.addObject("error", "This isbn is already exist");
         return mav;
     }
 
-
-//    @ExceptionHandler(BadFileNameException.class)
-//    public ModelAndView handleBadFileNameException(Exception ex) {
-//        logger.error("IOException handler executed");
-//        ModelAndView modelAndView = new ModelAndView("error");
-//        modelAndView.addObject("error", ex.getMessage());
-//        return modelAndView;
-//    }
 }

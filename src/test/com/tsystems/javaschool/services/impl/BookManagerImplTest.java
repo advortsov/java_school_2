@@ -131,7 +131,33 @@ public class BookManagerImplTest {
 
     @Test
     public void testSaveNewBook() throws Exception {
+        Mockery context = new Mockery();
 
+        final BookDAO mockBookDAO = context.mock(BookDAO.class);
+
+        bookManager = new BookManagerImpl(mockBookDAO);
+
+        Genre genre4 = new Genre("Algs4");
+        Publisher publisher1 = new Publisher("Publisher1");
+
+        byte[] img = {4, 3, 5};
+        Book book4 = new Book("Java4", 3525, "ISlBN-1052", 2013, img,
+                "descr", author2, genre4,
+                publisher1, 3, 2184);
+
+        allBooks.add(book4);
+
+        context.checking(new Expectations() {
+            {
+                oneOf(mockBookDAO).save(book2);
+            }
+        });
+
+        bookManager.saveNewBook(book4);
+        Book actual = bookManager.findBookByIsbn("ISlBN-1052");
+        assertTrue("The actual book is not equals to expected book!",
+                actual.equals(book4));
+        context.assertIsSatisfied();
     }
 
     @Test

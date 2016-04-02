@@ -4,17 +4,19 @@
 
     <br><strong>Adding genre</strong>
 
-    <form name="genre_add_form" id="genre_add_form" action="/admin/add_genre" method="post">
+    <form name="genre_add_form" id="genre_add_form" action="/genre/add_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
                 <div class="field">
                     <label for="add_genre_name">Name:</label><input name="add_genre_name" type="text"
-                                                                        id="add_genre_name">
+                                                                    id="add_genre_name" pattern=".{5,255}" required>
                 </div>
                 <span style="color: red; float: left" id="error"></span>
 
-                <input type="hidden" name="action" value="add"></p>
+                <div class="field">
+                    <td style="color: red;"><form:errors path="name"/></td>
+                </div>
                 <p><input type="submit" name="submit" id="submit1" value="Save"></p>
             </div>
         </div>
@@ -24,7 +26,7 @@
 
         function genreValidate() {
             var jqXHR = $.ajax({
-                url: 'admin/ajaxGenreValidation',
+                url: 'genre/ajaxGenreValidation',
                 data: ({genreName: $('#add_genre_name').val()}),
                 async: false,
                 success: function (data) {
@@ -38,7 +40,6 @@
 
         $(document).ready(function () {
             $("#genre_add_form").submit(function () {
-                alert('dfdfd');
                 var isValidated = genreValidate();
                 return isValidated;
             });
@@ -52,7 +53,7 @@
 
     <br><strong>Deleting genre</strong>
 
-    <form name="genre_del_form" action="/admin/delete_genre" method="post">
+    <form name="genre_del_form" action="/genre/delete_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
@@ -62,7 +63,6 @@
                     </c:forEach>
                 </select>
                 </div>
-                <input type="hidden" name="action" value="delete"></p>
                 <p><input type="submit" value="Delete"></p>
             </div>
         </div>
@@ -74,12 +74,12 @@
 
     <br><strong>Editing genre</strong>
 
-    <form name="genre_edit_form" id="genre_edit_form" action="/admin/edit_genre" method="post">
+    <form name="genre_edit_form" id="genre_edit_form" action="/genre/edit_genre" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
                     <label for="genre_name_ed">Choose genre for editing:</label><select name="genre_name_ed"
-                                                                                                id="genre_name_ed">
+                                                                                        id="genre_name_ed">
                     <c:forEach items="${allGenresList}" var="genre">
                         <option>${genre.name}</option>
                     </c:forEach>
@@ -87,13 +87,11 @@
                 </div>
                 <div class="field">
                     <label for="genre_name_new">Enter new genre name:</label>
-                    <input name="genre_name_new" type="text" id="genre_name_new">
+                    <input name="genre_name_new" type="text" id="genre_name_new" pattern=".{5,255}" required>
                 </div>
                 <span style="color: red; float: right" id="error_name_uniq"></span>
 
-                <div class="field">
-                    <p><input type="submit" value="Edit"></p>
-                </div>
+                <p><input type="submit" value="Edit"></p>
 
             </div>
         </div>
@@ -104,7 +102,7 @@
 
     function genreNameUniqValidate() {
         var jqXHR = $.ajax({
-            url: 'admin/ajaxGenreValidation',
+            url: 'genre/ajaxGenreValidation',
             data: ({genreName: $('#genre_name_new').val()}),
             async: false,
             success: function (data) {
@@ -118,7 +116,6 @@
 
     $(document).ready(function () {
         $("#genre_edit_form").submit(function () {
-            alert('Works!');
             var isValidated = genreNameUniqValidate();
             return isValidated;
         });

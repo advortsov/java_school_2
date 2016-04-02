@@ -2,18 +2,17 @@
 
 
 <div class="edit_penal">
-    <br><strong>Добавление автора</strong>
+    <br><strong>Adding author</strong>
 
-    <form name="author_add_form" id="author_add_form" action="/admin/add_author" method="post">
+    <form name="author_add_form" id="author_add_form" action="/author/add_author" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
                 <div class="field">
-                    <label for="author_name_add">Имя автора:</label><input name="author_name_add" type="text" id="author_name_add">
+                    <label for="author_name_add">Author name:</label><input name="author_name_add" type="text" id="author_name_add" pattern=".{5,255}" required>
                 </div>
                 <span style="color: red; float: right" id="author_error"></span>
-                <input type="hidden" name="action" value="add"></p>
-                <p><input type="submit" value="Сохранить"></p>
+                <p><input type="submit" value="Save"></p>
             </div>
         </div>
     </form>
@@ -24,7 +23,7 @@
     <script>
         function authorValidate() {
             var jqXHR = $.ajax({
-                url: 'admin/ajaxAuthorValidation',
+                url: 'author/ajaxAuthorValidation',
                 data: ({authorName: $('#author_name_add').val()}),
                 async: false,
                 success: function (data) {
@@ -44,20 +43,20 @@
         });
     </script>
 
-    <br><strong>Удаление автора</strong>
+    <br><strong>Deleting author</strong>
 
-    <form name="genre_del_form" action="/admin/delete_author" method="post">
+    <form name="author_del_form" id="author_del_form" action="/author/delete_author" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="author_name_del">Жанр:</label><select name="author_name_del" id="author_name_del">
+                    <label for="author_name_del">Author:</label><select name="author_name_del" id="author_name_del">
                     <c:forEach items="${allAuthorsList}" var="author">
                         <option>${author.name}</option>
                     </c:forEach>
                 </select>
                 </div>
                 <input type="hidden" name="action" value="delete"></p>
-                <p><input type="submit" value="Удалить"></p>
+                <p><input type="submit" value="Delete"></p>
             </div>
         </div>
     </form>
@@ -66,13 +65,13 @@
     <p>&nbsp;</p>
 
 
-    <br><strong>Редактирование автора</strong>
+    <br><strong>Editing author</strong>
 
-    <form name="genre_edit_form" action="/admin/edit_author" method="post">
+    <form name="author_edit_form" id="author_edit_form" action="/author/edit_author" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="author_for_edit">Выберите автора для редактирования:</label><select
+                    <label for="author_for_edit">Choose author:</label><select
                         name="author_for_edit"
                         id="author_for_edit">
                     <c:forEach items="${allAuthorsList}" var="author">
@@ -81,13 +80,39 @@
                 </select>
                 </div>
                 <div class="field">
-                    <label for="author_name_new">Введите его новое имя:</label><input name="author_name_new" type="text"
-                                                                                      id="author_name_new">
+                    <label for="author_name_new">Enter new name:</label><input name="author_name_new" type="text"
+                                                                                      id="author_name_new" pattern=".{5,255}" required>
                 </div>
+                <span style="color: red; float: right" id="author_error_name_uniq"></span>
                 <input type="hidden" name="action" value="edit"></p>
-                <p><input type="submit" value="Редактировать"></p>
+                <p><input type="submit" value="Editing"></p>
             </div>
         </div>
     </form>
 
 </div>
+
+<script>
+
+    function authorNameUniqValidate() {
+        var jqXHR = $.ajax({
+            url: 'author/ajaxAuthorValidation',
+            data: ({authorName: $('#author_name_new').val()}),
+            async: false,
+            success: function (data) {
+                if (data.length > 1) {
+                    $('#author_error_name_uniq').html(data);
+                }
+            }
+        });
+        return jqXHR.responseText < 2;
+    }
+
+    $(document).ready(function () {
+        $("#author_edit_form").submit(function () {
+            var isValidated = authorNameUniqValidate();
+            return isValidated;
+        });
+    });
+
+</script>

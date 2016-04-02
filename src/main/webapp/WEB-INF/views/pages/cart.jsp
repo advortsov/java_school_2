@@ -7,6 +7,7 @@
 <%@include file="../jspf/left_menu.jspf" %>
 
 <link href="<c:url value="/resources/css/style_main.css" />" rel="stylesheet">
+<script src="<c:url value="/resources/js/cart.js" />"></script>
 
 <body onload="total(${fn:length(shoppingCart.items)})">
 <div class="cart_penal">
@@ -20,14 +21,18 @@
                        modelAttribute="createdOrder" action="/order/create-order" method="post">
                 <style>
                     table {
-                        font-size: 13px;
+                        font-size: 14px;
                         border-collapse: collapse;
                         width: 80%;
+                        border: 0;
+
                     }
 
                     th, td {
                         text-align: left;
                         padding: 8px;
+                        border-width: 0 0px 0px 0;
+
                     }
 
                     tr:nth-child(even) {
@@ -41,11 +46,11 @@
                 </style>
                 <table border="1">
                     <tr>
-                        <td>id</td>
-                        <td>Name</td>
-                        <td>Price</td>
-                        <td>Count</td>
-                        <td>Total</td>
+                        <td><strong>id</strong></td>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Price</strong></td>
+                        <td><strong>Count</strong></td>
+                        <td><strong>Total</strong></td>
                         <td></td>
                     </tr>
                     <c:forEach items="${shoppingCart.items}" var="line" varStatus="count">
@@ -69,11 +74,11 @@
 
                                 <td>
                                     <div id='total_summ_of_line${count.index}'
-                                         name="total_summ_of_line">${line.book.price}</div>
+                                         name="total_summ_of_line">${line.book.price} rub.</div>
                                 </td>
 
                                 <td><a href="/cart/removeOrderLine?id=${line.book.id}">
-                                    <img src="../../../resources/images/delete.png" alt="Удалить" name="delete"/></a>
+                                    <img src="../../../resources/images/delete.png" alt="Delete" name="delete"/></a>
                                 </td>
                             </div>
                         </tr>
@@ -93,10 +98,7 @@
                     <option>${shippingType}</option>
                 </c:forEach>
                 </select>
-
-                <p>&nbsp;</p>
-
-
+                <p></p>
                 <br>Payment type:<select name="payment_type">
                 <c:forEach items="${paymentTypeList}" var="paymentType">
                     <option>${paymentType}</option>
@@ -109,60 +111,17 @@
 
                 <c:choose>
                     <c:when test="${loggedIn}">
-                        <p><input type="submit" value="Оформить заказ"></p>
+                        <p><input type="submit" value="Create order"></p>
                     </c:when>
                     <c:otherwise>
-                        <br><a href="/logout">Войдите</a>, чтобы сделать заказ</br></p>
+                        <br><a href="/logout">Log in</a>, to make an order</br></p>
                     </c:otherwise>
                 </c:choose>
 
             </form:form>
 
 
-            <script>
-                function total(linesSize) {
-                    // total lines and order summ counting:
-                    var orderSumm = 0;
-                    for (var i = 0; i < linesSize; i++) {
-                        var item = document.getElementById("total_summ_of_line" + i);
-                        var res = parseInt(document.getElementById("book_price" + i).innerHTML) *
-                                parseInt(document.getElementById("books_quantity" + i).value);
-                        item.innerHTML = res.toString();
-                        orderSumm += parseInt(item.innerHTML);
-                    }
-                    document.getElementById("total_summ_of_order").innerHTML = orderSumm.toString();
-                }
-
-
-                function booksQuantityValidate() {
-                    var size = parseInt(document.getElementById("list_size").value);
-                    var isOk = true;
-
-                    for (var i = 0; i < size; i++) {
-                        var bookId = parseInt(document.getElementById("book_id" + i).innerHTML);
-                        var bookQuantity = parseInt(document.getElementById("books_quantity" + i).value);
-                        var jqXHR = $.ajax({
-                            url: 'order/ajaxBooksQuantityValidation',
-                            data: ({bookId: bookId, bookQuantity: bookQuantity}),
-                            async: false,
-                            success: function (data) {
-                                if (data.length > 1) {
-                                    isOk = false;
-                                    $('#books_quantity_error').html(data);
-                                }
-                            }
-                        });
-                    }
-                    return isOk;
-                }
-
-                $(document).ready(function () {
-                    $("#order_form").submit(function () {
-                        var isValidated = booksQuantityValidate();
-                        return isValidated;
-                    });
-                });
-            </script>
+            <%--js--%>
 
 
         </c:when>

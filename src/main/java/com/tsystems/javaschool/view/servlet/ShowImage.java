@@ -55,7 +55,8 @@ public class ShowImage extends HttpServlet {
             List<Book> list = (ArrayList<Book>) request.getSession().getAttribute("allBooks");
             if (index != null && list != null) {
                 Book book = list.get(index);
-                if (book.getImage().length != 0) {
+                if (book.getImage() != null) {
+                    System.out.println("index = " + index + ". length of img = " + book.getImage().length);
                     response.setContentLength(book.getImage().length);
                     out.write(book.getImage());
                 } else {

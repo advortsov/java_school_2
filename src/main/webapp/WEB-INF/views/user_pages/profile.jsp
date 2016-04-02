@@ -4,10 +4,6 @@
 <%@include file="/WEB-INF/views/jspf/header.jspf" %>
 <%@include file="/WEB-INF/views/jspf/left_menu.jspf" %>
 
-<%--<jsp:useBean id="clientManager" class="com.tsystems.javaschool.services.impl.ClientManagerImpl" scope="page"/>--%>
-<%--<jsp:useBean id="publisherManager" class="com.tsystems.javaschool.services.impl.PublisherManagerImpl" scope="page"/>--%>
-<%--<jsp:useBean id="authorManager" class="com.tsystems.javaschool.services.impl.AuthorManagerImpl" scope="page"/>--%>
-
 <div class="edit_penal">
 
     <br><strong>Личные данные</strong>
@@ -21,12 +17,12 @@
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
 
                 <div class="field">
-                    <label for="client_name">Имя:</label><input name="client_name"
+                    <label for="client_name">Name:</label><input name="client_name"
                                                                 id="client_name" type="text"
                                                                 value="${client.name}"
                                                                 pattern=".{3,255}"
                                                                 required
-                                                                title="Имя может содержать от 3 до 255 символов">
+                                                                title="Name может содержать от 3 до 255 символов">
                 </div>
                 <div class="field">
 
@@ -77,14 +73,14 @@
             <c:when test="${not empty clientOrdersList}">
                 <br><strong>Заказы</strong>
 
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>
+                <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>--%>
 
                 <table border="1">
                     <tr>
                         <td>id</td>
                         <td>Дата</td>
-                        <td>Имя клиента</td>
-                        <td>Статус заказа</td>
+                        <td>Name клиента</td>
+                        <td>Order status</td>
                         <td>Способ доставки</td>
                         <td>Способ оплаты</td>
                         <td>Статус оплаты</td>
@@ -105,7 +101,7 @@
                                 <c:when test="${isAdmin}">
                                     <td>
                                         <a href="admin/edit_order?id=${order.id}">
-                                            <img src="/resources/images/edit.png" alt="Редактировать" name="edit"/></a>
+                                            <img src="/resources/images/edit.png" alt="Editing" name="edit"/></a>
                                     </td>
                                 </c:when>
                             </c:choose>

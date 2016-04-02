@@ -22,19 +22,19 @@
     <a href="#tab6">Top-10</a>
     <a href="#tab7">Proceed</a>
 
-    <%--tab1 - Книги--%>
+    <%--tab1 - Books--%>
     <%@include file="../jspf/adminf/add_book.jspf" %>
 
-    <%--tab2 - Жанры--%>
+    <%--tab2 - Genres--%>
     <%@include file="../jspf/adminf/add_genre.jspf" %>
 
-    <%--tab3 - Издатели--%>
+    <%--tab3 - Publishers--%>
     <%@include file="../jspf/adminf/add_publisher.jspf" %>
 
-    <%--tab4 - Авторы--%>
+    <%--tab4 - Authors--%>
     <%@include file="../jspf/adminf/add_author.jspf" %>
 
-    <%--tab5 - Заказы--%>
+    <%--tab5 - Orders--%>
     <%@include file="../jspf/adminf/all_orders.jspf" %>
 
     <%--tab6 - top10--%>

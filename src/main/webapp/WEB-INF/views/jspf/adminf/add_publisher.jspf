@@ -1,21 +1,21 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="edit_penal">
-    <br><strong>Добавление издателя</strong>
+    <br><strong>Adding publisher</strong>
 
-    <form name="publisher_add_form" id="publisher_add_form" action="/admin/add_publisher" method="post">
+    <form name="publisher_add_form" id="publisher_add_form" action="/publisher/add_publisher" method="post">
         <div class="edit_book_info">
             <div>
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/form.css" type="text/css"/>
 
                 <div class="field">
-                    <label for="publisher_name_add">Имя издателя:</label><input name="publisher_name_add" type="text"
-                                                                                id="publisher_name_add">
+                    <label for="publisher_name_add">Publisher name:</label><input name="publisher_name_add" type="text"
+                                                                                id="publisher_name_add" pattern=".{5,255}" required>
                 </div>
                 <span style="color: red; float: right" id="publisher_error"></span>
 
                 <input type="hidden" name="action" value="add"></p>
-                <p><input type="submit" value="Сохранить"></p>
+                <p><input type="submit" value="Save"></p>
             </div>
         </div>
     </form>
@@ -26,7 +26,7 @@
     <script>
         function publisherValidate() {
             var jqXHR = $.ajax({
-                url: 'admin/ajaxPublisherValidation',
+                url: 'publisher/ajaxPublisherValidation',
                 data: ({publisherName: $('#publisher_name_add').val()}),
                 async: false,
                 success: function (data) {
@@ -47,13 +47,13 @@
     </script>
 
 
-    <br><strong>Удаление издателя</strong>
+    <br><strong>Deleting publisher</strong>
 
-    <form name="publisher_del_form" action="/admin/delete_publisher" method="post">
+    <form name="publisher_del_form" id="publisher_del_form" action="/publisher/delete_publisher" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="publisher_name_del">Издатель:</label><select name="publisher_name_del"
+                    <label for="publisher_name_del">Publisher:</label><select name="publisher_name_del"
                                                                              id="publisher_name_del">
                     <c:forEach items="${allPublishersList}" var="publisher">
                         <option>${publisher.name}</option>
@@ -61,7 +61,7 @@
                 </select>
                 </div>
                 <input type="hidden" name="action" value="delete"></p>
-                <p><input type="submit" value="Удалить"></p>
+                <p><input type="submit" value="Delete"></p>
             </div>
         </div>
     </form>
@@ -70,13 +70,13 @@
     <p>&nbsp;</p>
 
 
-    <br><strong>Редактирование издателя</strong>
+    <br><strong>Editing publisher</strong>
 
-    <form name="publisher_edit_form" action="/admin/edit_publisher" method="post">
+    <form name="publisher_edit_form" id="publisher_edit_form" action="/publisher/edit_publisher" method="post">
         <div class="edit_book_info">
             <div>
                 <div class="field">
-                    <label for="publisher_for_edit">Выберите издателя для редактирования:</label><select
+                    <label for="publisher_for_edit">Publisher for editing:</label><select
                         name="publisher_for_edit"
                         id="publisher_for_edit">
                     <c:forEach items="${allPublishersList}" var="publisher">
@@ -85,14 +85,40 @@
                 </select>
                 </div>
                 <div class="field">
-                    <label for="publisher_name_new">Введите его новое имя:</label><input name="publisher_name_new"
+                    <label for="publisher_name_new">Enter new name:</label><input name="publisher_name_new"
                                                                                          type="text"
-                                                                                         id="publisher_name_new">
+                                                                                         id="publisher_name_new" pattern=".{5,255}" required>
                 </div>
-                <input type="hidden" name="action" value="edit"></p>
-                <p><input type="submit" value="Редактировать"></p>
+                <span style="color: red; float: right" id="publisher_error_name_uniq"></span>
+
+                <p><input type="submit" value="Edit"></p>
             </div>
         </div>
     </form>
 
 </div>
+
+<script>
+
+    function publisherNameUniqValidate() {
+        var jqXHR = $.ajax({
+            url: 'publisher/ajaxPublisherValidation',
+            data: ({publisherName: $('#publisher_name_new').val()}),
+            async: false,
+            success: function (data) {
+                if (data.length > 1) {
+                    $('#publisher_error_name_uniq').html(data);
+                }
+            }
+        });
+        return jqXHR.responseText < 2;
+    }
+
+    $(document).ready(function () {
+        $("#publisher_edit_form").submit(function () {
+            var isValidated = publisherNameUniqValidate();
+            return isValidated;
+        });
+    });
+
+</script>

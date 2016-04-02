@@ -23,51 +23,51 @@ public class GlobalExceptionHandler {
 //    }
 
 
-    @ExceptionHandler(DuplicateException.class)
-    public ModelAndView handleDuplicateException(DuplicateException ex) {
-        System.out.println("GLOBAL HANDLER DuplicateException = " + ex.getClass());
-        logger.error("DuplicateException handler executed:");
-        logger.error(String.valueOf(ex.getStackTrace()));
-        ModelAndView modelAndView = new ModelAndView("error.jsp");
-        modelAndView.addObject("error", ex.getMessage());
-        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
-        return modelAndView;
-    }
-
-    @ExceptionHandler(EmptyOrderException.class)
-    public ModelAndView handleEmptyOrderException(EmptyOrderException ex) {
-        System.out.println("GLOBAL HANDLER EmptyOrderException = " + ex.getClass());
-
-        logger.error("EmptyOrderException handler executed:");
-        logger.error(String.valueOf(ex.getStackTrace()));
-        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
-        modelAndView.addObject("error", ex.getMessage());
-        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
-        return modelAndView;
-    }
-
-    @ExceptionHandler(NotEnoughBooksInTheStockException.class)
-    public ModelAndView handleNotEnoughBooksInTheStockException(NotEnoughBooksInTheStockException ex) {
-        System.out.println("GLOBAL HANDLER handleNotEnoughBooksInTheStockException = " + ex.getClass());
-
-        System.out.println("ex.getMessage() = " + ex.getMessage());
-        logger.error("NotEnoughBooksInTheStockException handler executed:");
-        logger.error(String.valueOf(ex.getStackTrace()));
-        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
-        modelAndView.addObject("error", ex.getMessage());
-        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
-        return modelAndView;
-    }
-
-
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleException(Exception ex) {
-        System.out.println("GLOBAL HANDLER Exception = " + ex.getClass());
-        logger.error("Exception handler executed:");
-        logger.error(String.valueOf(ex.getStackTrace()));
-        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
-        modelAndView.addObject("error", ex.getMessage());
-        modelAndView.addObject("stacktrace", Arrays.toString(ex.getStackTrace()) );
-        return modelAndView;
-    }
+//    @ExceptionHandler(DuplicateException.class)
+//    public ModelAndView handleDuplicateException(DuplicateException ex) {
+//        System.out.println("GLOBAL HANDLER DuplicateException = " + ex.getClass());
+//        logger.error("DuplicateException handler executed:");
+//        logger.error(String.valueOf(ex.getStackTrace()));
+//        ModelAndView modelAndView = new ModelAndView("error.jsp");
+//        modelAndView.addObject("error", ex.getMessage());
+//        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
+//        return modelAndView;
+//    }
+//
+//    @ExceptionHandler(EmptyOrderException.class)
+//    public ModelAndView handleEmptyOrderException(EmptyOrderException ex) {
+//        System.out.println("GLOBAL HANDLER EmptyOrderException = " + ex.getClass());
+//
+//        logger.error("EmptyOrderException handler executed:");
+//        logger.error(String.valueOf(ex.getStackTrace()));
+//        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
+//        modelAndView.addObject("error", ex.getMessage());
+//        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
+//        return modelAndView;
+//    }
+//
+//    @ExceptionHandler(NotEnoughBooksInTheStockException.class)
+//    public ModelAndView handleNotEnoughBooksInTheStockException(NotEnoughBooksInTheStockException ex) {
+//        System.out.println("GLOBAL HANDLER handleNotEnoughBooksInTheStockException = " + ex.getClass());
+//
+//        System.out.println("ex.getMessage() = " + ex.getMessage());
+//        logger.error("NotEnoughBooksInTheStockException handler executed:");
+//        logger.error(String.valueOf(ex.getStackTrace()));
+//        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
+//        modelAndView.addObject("error", ex.getMessage());
+//        modelAndView.addObject("stacktrace", String.valueOf(ex.getStackTrace()));
+//        return modelAndView;
+//    }
+//
+//
+//    @ExceptionHandler(Exception.class)
+//    public ModelAndView handleException(Exception ex) {
+//        System.out.println("GLOBAL HANDLER Exception = " + ex.getClass());
+//        logger.error("Exception handler executed:");
+//        logger.error(String.valueOf(ex.getStackTrace()));
+//        ModelAndView modelAndView = new ModelAndView("/error/error.jsp");
+//        modelAndView.addObject("error", ex.getMessage());
+//        modelAndView.addObject("stacktrace", Arrays.toString(ex.getStackTrace()) );
+//        return modelAndView;
+//    }
 }
