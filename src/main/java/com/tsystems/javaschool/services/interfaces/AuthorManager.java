@@ -6,8 +6,7 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import java.util.List;
 
 /**
- *
- * Provides method to interaction with Author entity
+ * Provides methods to interaction with Author entity
  *
  * @author Alexander Dvortsov
  * @version 1.0
@@ -24,18 +23,16 @@ public interface AuthorManager {
     Author findByAuthorName(String name);
 
     /**
-     * Returns all author's entities
+     * Returns all author's entities from db
      *
      * @return List<Author>
      */
     List<Author> loadAllAuthors();
 
-
     /**
-     * Saved new author to database
+     * Save new author to database
      *
      * @throws DuplicateException
-     * @return List<Author>
      */
     void saveNewAuthor(Author author) throws DuplicateException;
 

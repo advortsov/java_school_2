@@ -95,9 +95,6 @@ public class OrderController {
             BindingResult result,
             HttpServletRequest req, HttpServletResponse resp, HttpSession session, ModelAndView mav) throws EmptyOrderException {
 
-
-        System.out.println("1req.getCookies().length = " + req.getCookies().length);
-
         List<OrderLine> orderLines = shoppingCartManager.getShoppingCart().getItems();
         createdOrder.setOrderLines(orderLines);
 
@@ -127,9 +124,7 @@ public class OrderController {
         order.setPaymentStatus(PaymentStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setOrderStatus(OrderStatus.WAITING_FOR_PAYMENT); // потому что заказ только что создан
         order.setClient((Client) req.getSession().getAttribute("client"));
-        //System.out.println("(Client) req.getSession().getAttribute(\"client\") = " + (Client) req.getSession().getAttribute("client"));
         order.setDate(new Date(System.currentTimeMillis()));
-
 
         orderValidator.validate(order, result);
 
@@ -138,13 +133,13 @@ public class OrderController {
             return mav;
         }
 
-        //System.out.println("order = " + order);
         orderManager.saveNewOrder(order);
-        //System.out.println("req.getCookies().length = " + req.getCookies().length);
         cartController.deleteAllBooksCookies(req, resp);
+        mav.addObject("success", " Your order is processed!");
 
         return mav;
     }
+
 
 }
 

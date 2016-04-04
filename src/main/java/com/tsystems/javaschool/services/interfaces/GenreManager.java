@@ -7,23 +7,55 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import java.util.List;
 
 /**
+ * Provides methods to interaction with Genre entity
+ *
  * @author Alexander Dvortsov
  * @version 1.0
  * @since 08.02.2016
  */
 public interface GenreManager {
 
-    public Genre findByGenreName(String name);
+    /**
+     * Returns genre entity by it name
+     *
+     * @param name the genre name
+     * @return Genre
+     */
+    Genre findByGenreName(String name);
 
-    public List<Genre> loadAllGenres();
+    /**
+     * Returns all genre's entities from db
+     *
+     * @return List<Genre>
+     */
+    List<Genre> loadAllGenres();
 
-    public void saveNewGenre(Genre genre) throws DuplicateException;
+    /**
+     * Save new genre to database
+     *
+     * @throws DuplicateException
+     */
+    void saveNewGenre(Genre genre) throws DuplicateException;
 
-    public void updateGenre(Genre genre);
+    /**
+     * Updates some changed genre entity fields in db
+     *
+     * @param genre the genre to updating
+     */
+    void updateGenre(Genre genre);
 
-    public Genre findGenreById(long id);
+    /**
+     * Returns genre entity by it id
+     *
+     * @param id the genre id
+     * @return Genre
+     */
+    Genre findGenreById(long id);
 
-    public void deleteGenre(Genre genre);
-
-    Genre findGenreByName(String name);
+    /**
+     * Deletes genre row from db by genre entity
+     *
+     * @param genre the genre to deleting
+     */
+    void deleteGenre(Genre genre);
 }

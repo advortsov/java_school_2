@@ -39,24 +39,6 @@ public class ShoppingCartManagerImpl implements ShoppingCartManager {
     }
 
     @Override
-    public void addBook(Book book, int amount) {
-        List<OrderLine> lines = shoppingCart.getItems();
-        lines.add(new OrderLine(amount, book));
-        shoppingCart.setItems(lines);
-    }
-
-    @Override
-    public void setBookAmount(Book book, int amount) {
-        List<OrderLine> currentLines = shoppingCart.getItems();
-        for (OrderLine line : currentLines) {
-            if (line.getBook().equals(book.getId())) {
-                line.setQuantity(amount);
-                break;
-            }
-        }
-    }
-
-    @Override
     public void removeLine(long id) {
         List<OrderLine> currentLines = shoppingCart.getItems();
         Iterator<OrderLine> i = currentLines.iterator();

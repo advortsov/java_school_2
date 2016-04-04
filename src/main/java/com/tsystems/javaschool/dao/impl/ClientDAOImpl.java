@@ -73,15 +73,11 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
         List<Object[]> resultList = em.createNativeQuery(sql).getResultList();
 
         for (Object[] result : resultList) {
-            //try {
             BigInteger clientId = (BigInteger) result[0];
             long id = clientId.longValue();
-
             BigDecimal clientSumm = (BigDecimal) result[1];
             int summ = clientSumm.intValue();
-
             topClients.put(this.findByID(Client.class, id), summ);
-
         }
 
         return sortByValue(topClients);

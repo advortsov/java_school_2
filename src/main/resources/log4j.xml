@@ -24,11 +24,8 @@
         </filter>
     </appender>
 
-    <appender name="DAO-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/dao/error.log"/>
+    <appender name="PERSISTENCE-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/persistence/error.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -38,11 +35,8 @@
         </filter>
     </appender>
 
-    <appender name="DAO-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/dao/info.log"/>
+    <appender name="PERSISTENCE-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/persistence/info.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -52,11 +46,8 @@
         </filter>
     </appender>
 
-    <appender name="SERVICES-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/services/error.log"/>
+    <appender name="SERVICE-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/service/error.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -66,11 +57,8 @@
         </filter>
     </appender>
 
-    <appender name="SERVICES-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/services/info.log"/>
+    <appender name="SERVICE-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/service/info.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -80,25 +68,8 @@
         </filter>
     </appender>
 
-    <appender name="SERVICES-LOG-DEBUG-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/services/debug.log"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
-        </layout>
-        <filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMin" value="DEBUG"/>
-            <param name="LevelMax" value="DEBUG"/>
-        </filter>
-    </appender>
-
-    <appender name="VIEW-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/view/error.log"/>
+    <appender name="VIEW-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/view/error.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -108,11 +79,8 @@
         </filter>
     </appender>
 
-    <appender name="VIEW-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.RollingFileAppender">
-        <param name="append" value="false"/>
-        <param name="maxFileSize" value="100KB"/>
-        <param name="maxBackupIndex" value="5"/>
-        <param name="file" value="${rootPath}WEB-INF/logs/view/info.log"/>
+    <appender name="VIEW-LOG-INFO-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/view/info.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
         </layout>
@@ -129,38 +97,23 @@
     </logger>
 
     <logger name="com.tsystems.javaschool.services" additivity="false">
-        <level value="INFO"/>
-        <appender-ref ref="SERVICES-LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="SERVICES-LOG-INFO-FILE-APPENDER"/>
+        <level value="DEBUG"/>
+        <appender-ref ref="SERVICE-LOG-ERROR-FILE-APPENDER"/>
+        <appender-ref ref="SERVICE-LOG-INFO-FILE-APPENDER"/>
     </logger>
 
     <logger name="com.tsystems.javaschool.dao" additivity="false">
         <level value="DEBUG"/>
-        <appender-ref ref="DAO-LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="DAO-LOG-INFO-FILE-APPENDER"/>
+        <appender-ref ref="PERSISTENCE-LOG-ERROR-FILE-APPENDER"/>
+        <appender-ref ref="PERSISTENCE-LOG-INFO-FILE-APPENDER"/>
     </logger>
 
     <logger name="com.tsystems.javaschool.view.util.Log4jConsoleTest" additivity="false">
         <level value="TRACE"/>
-        <appender-ref ref="STDERR"/>
-        <!--<appender-ref ref="STDOUT" />-->
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <root>
-        <!--&lt;!&ndash;<level value="DEBUG" />-->
-        <appender-ref ref="LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="LOG-INFO-FILE-APPENDER"/>
-        <appender-ref ref="LOG-DEBUG-FILE-APPENDER"/>
-        <appender-ref ref="LOG-INFO-FILE-APPENDER"/>
-
-
-        <appender-ref ref="DAO-LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="SERVICES-LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="SERVICES-LOG-INFO-FILE-APPENDER"/>
-        <appender-ref ref="VIEW-LOG-ERROR-FILE-APPENDER"/>
-        <appender-ref ref="VIEW-LOG-INFO-FILE-APPENDER"/>
-        <appender-ref ref="SERVICES-LOG-DEBUG-FILE-APPENDER"/>
-
 
     </root>
 

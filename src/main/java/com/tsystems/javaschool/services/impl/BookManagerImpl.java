@@ -10,8 +10,6 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +45,11 @@ public class BookManagerImpl implements BookManager {
     public BookManagerImpl(BookDAO mockBookDAO) {
         this.bookDAO = mockBookDAO;
     }
+
+//    public BookManagerImpl(BookDAO mockBookDAO, GenreDAO mockGenreDAO) {
+//        this.bookDAO = mockBookDAO;
+//        this.genreDAO = mockGenreDAO;
+//    }
 
     @Override
     public List<Book> findByBookName(String name) {
@@ -88,13 +91,6 @@ public class BookManagerImpl implements BookManager {
     }
 
     @Override
-    public void deleteBook(Book book) {
-        logger.info("Try to delete book...");
-        bookDAO.delete(book);
-        logger.info("New book has been deleted.");
-    }
-
-    @Override
     public List<Book> getBooksByGenre(Genre genre) {
         logger.info("Try to get books by genre...");
         return bookDAO.findByGenre(genre);
@@ -103,15 +99,18 @@ public class BookManagerImpl implements BookManager {
     @Override
     public List<Book> getBooksBySearch(String searchStr, SearchType type) {
         logger.info("Try to get books by search...");
-
         try {
-
             if (type == SearchType.AUTHOR) {
                 logger.info("Searching by author...");
                 return findByAuthorName(searchStr);
             } else if (type == SearchType.TITLE) {
                 logger.info("Searching by title...");
                 return bookDAO.findByName(searchStr);
+            } else if (type == SearchType.ISBN) {
+                logger.info("Searching by title...");
+                List<Book> bookByIsbn = new ArrayList<>();
+                bookByIsbn.add(bookDAO.findByIsbn(searchStr));
+                return bookByIsbn;
             }
         } catch (NoResultException ex) {
             logger.info("Nothing found.");
@@ -133,13 +132,13 @@ public class BookManagerImpl implements BookManager {
     }
 
     @Override
-    public Book findBookByIsbn(String value) {
+    public Book findBookByIsbn(String isbn) {
         logger.info("Try to get one book by id...");
         Book book = null;
         try {
-            book = bookDAO.findByIsbn(value);
-        } catch (NoResultException ex){
-
+            book = bookDAO.findByIsbn(isbn);
+        } catch (NoResultException ex) {
+            //ignore
         }
         return book;
     }

@@ -6,20 +6,55 @@ import com.tsystems.javaschool.services.exception.DuplicateException;
 import java.util.List;
 
 /**
+ * Provides methods to interaction with Publisher entity
+ *
  * @author Alexander Dvortsov
  * @version 1.0
  * @since 11.02.2016
  */
 public interface PublisherManager {
-    public Publisher findByPublisherName(String name);
 
-    public List<Publisher> loadAllPublishers();
+    /**
+     * Returns publisher entity by it name
+     *
+     * @param name the publisher name
+     * @return Publisher
+     */
+    Publisher findByPublisherName(String name);
 
-    public void saveNewPublisher(Publisher publisher) throws DuplicateException;
+    /**
+     * Returns all publisher's entities from db
+     *
+     * @return List<Publisher>
+     */
+    List<Publisher> loadAllPublishers();
 
-    public Publisher findPublisherById(long id);
+    /**
+     * Save new publisher to database
+     *
+     * @throws DuplicateException
+     */
+    void saveNewPublisher(Publisher publisher) throws DuplicateException;
 
-    public void deletePublisher(Publisher publisher);
+    /**
+     * Returns publisher entity by it id
+     *
+     * @param id the publisher id
+     * @return Publisher
+     */
+    Publisher findPublisherById(long id);
 
-    public void updatePublisher(Publisher publisher);
+    /**
+     * Deletes publisher row from db by publisher entity
+     *
+     * @param publisher the publisher to deleting
+     */
+    void deletePublisher(Publisher publisher);
+
+    /**
+     * Updates some changed publisher entity fields in db
+     *
+     * @param publisher the publisher to updating
+     */
+    void updatePublisher(Publisher publisher);
 }

@@ -25,18 +25,11 @@ import java.util.List;
 public class OrderManagerImpl implements OrderManager {
 
     @Autowired
-    ShoppingCartManager shoppingCartManager;
-    @Autowired
-    private BookDAO bookDAO;
+    private ShoppingCartManager shoppingCartManager;
+
     @Autowired
     private OrderDAO orderDAO;
-    @PersistenceContext
-    private EntityManager em;
 
-    @Override
-    public Order findByGenreName(String name) {
-        return null;
-    }
 
     @Override
     public List<Order> loadAllOrders() {
@@ -48,26 +41,10 @@ public class OrderManagerImpl implements OrderManager {
         orderDAO.saveOrder(order);
     }
 
-
     @Override
     public Order findOrderById(long id) {
         return orderDAO.findByID(Order.class, id);
     }
-
-    @Override
-    public void deleteOrder(Order order) {
-        throw new UnsupportedOperationException();
-    }
-
-//    public int orderTotalSumm(Order order) {
-////        List<OrderLine> orderLines = order.getOrderLines();
-////        int totalSumm = 0;
-////        for (OrderLine orderLine : orderLines) {
-////            totalSumm += (orderLine.getBook().getPrice() * orderLine.getQuantity());
-////        }
-////        return totalSumm;
-//        return -1;
-//    }
 
     @Override
     public void updateOrder(Order order) {
@@ -77,7 +54,6 @@ public class OrderManagerImpl implements OrderManager {
     @Override
     public void repeatOrder(long orderId) {
         Order order = findOrderById(orderId);
-        System.out.println("order.getId() = " + order.getId());
         shoppingCartManager.clearCart();
         List<OrderLine> prevLines = order.getOrderLines();
         List<OrderLine> currLines = new ArrayList<>();
@@ -92,9 +68,6 @@ public class OrderManagerImpl implements OrderManager {
         }
 
         shoppingCartManager.getShoppingCart().setItems(currLines);
-        System.out.println("shoppingCartManager.getShoppingCart().getItems().size() = "
-                + shoppingCartManager.getShoppingCart().getItems().size());
-
     }
 
 

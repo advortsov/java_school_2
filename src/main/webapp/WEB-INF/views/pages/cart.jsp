@@ -74,7 +74,8 @@
 
                                 <td>
                                     <div id='total_summ_of_line${count.index}'
-                                         name="total_summ_of_line">${line.book.price} rub.</div>
+                                         name="total_summ_of_line">${line.book.price} rub.
+                                    </div>
                                 </td>
 
                                 <td><a href="/cart/removeOrderLine?id=${line.book.id}">
@@ -98,6 +99,7 @@
                     <option>${shippingType}</option>
                 </c:forEach>
                 </select>
+
                 <p></p>
                 <br>Payment type:<select name="payment_type">
                 <c:forEach items="${paymentTypeList}" var="paymentType">
@@ -120,38 +122,38 @@
 
             </form:form>
 
-
-            <%--js--%>
-
-
         </c:when>
         <c:otherwise>
             <br><strong>Your shopping cart is empty</strong>
         </c:otherwise>
     </c:choose>
 
+    <c:if test="${not empty success}">
+        <% response.sendRedirect("/cart#order_popup_ok"); %>
+    </c:if>
+
+
 </div>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/popup.css" type="text/css"/>
 <div id="order_popup_ok" class="overlay">
     <div class="popup">
-        <h2>Заказ</h2>
+        <h2>Order</h2>
         <a class="close" href="">×</a>
 
         <div>
-            Ваш заказ передан в обработку
+            Your order is processing
         </div>
     </div>
 </div>
 
-<div id="order_popup_not_ok" class="overlay">
-    <div class="popup">
-        <h2>Заказ</h2>
-        <a class="close" href="">×</a>
+<%--<div id="order_popup_not_ok" class="overlay">--%>
+    <%--<div class="popup">--%>
+        <%--<h2>Order</h2>--%>
+        <%--<a class="close" href="">×</a>--%>
 
-        <div>Заказ не оформлен. Попробуйте позже!</div>
-    </div>
-</div>
+        <%--<div>The order is not issued. Try again later!</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
 <%@include file="../jspf/footer.jspf" %>
 

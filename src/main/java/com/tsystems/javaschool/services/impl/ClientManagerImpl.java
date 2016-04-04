@@ -29,16 +29,15 @@ import java.util.List;
 public class ClientManagerImpl implements ClientManager {
 
     @Autowired
-    ClientDAO clientDAO;
+    private ClientDAO clientDAO;
 
     @Autowired
-    OrderDAO orderDAO;
+    private OrderDAO orderDAO;
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     public ClientManagerImpl(){
-
     }
 
     @Override

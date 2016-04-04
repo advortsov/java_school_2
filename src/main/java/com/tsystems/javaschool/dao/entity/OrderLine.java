@@ -12,7 +12,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "order_line")//
-@NamedQuery(name = "OrderLine.getAll", query = "SELECT b from OrderLine b")
 public class OrderLine implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ import java.util.List;
 public class GenreManagerImpl implements GenreManager {
 
     @Autowired
-    GenreDAO genreDAO;
+    private GenreDAO genreDAO;
 
     @Override
     public Genre findByGenreName(String name) {
@@ -39,18 +37,11 @@ public class GenreManagerImpl implements GenreManager {
     @Override
     public void saveNewGenre(Genre genre) throws DuplicateException {
         genreDAO.save(genre);
-//        } catch (PersistenceException ex) {
-//            ex.printStackTrace();
-//            JpaUtil.rollbackTransaction(em);
-//            throw new DuplicateException();
-//        }
     }
 
     @Override
     public void updateGenre(Genre genre) {
-
         genreDAO.merge(genre);
-
     }
 
     @Override
@@ -63,11 +54,6 @@ public class GenreManagerImpl implements GenreManager {
     public void deleteGenre(Genre genre) {
         genreDAO.setNullBeforeDelete(genre);
         genreDAO.delete(genre);
-    }
-
-    @Override
-    public Genre findGenreByName(String name) {
-        return genreDAO.findByName(name);
     }
 
 }
