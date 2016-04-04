@@ -6,7 +6,7 @@
 
 <div class="edit_penal">
 
-    <br><strong>Личные данные</strong>
+    <br><strong>Personal data</strong>
 
     <p>&nbsp;</p>
 
@@ -18,50 +18,50 @@
 
                 <div class="field">
                     <label for="client_name">Name:</label><input name="client_name"
-                                                                id="client_name" type="text"
-                                                                value="${client.name}"
-                                                                pattern=".{3,255}"
-                                                                required
-                                                                title="Name может содержать от 3 до 255 символов">
+                                                                 id="client_name" type="text"
+                                                                 value="${client.name}"
+                                                                 pattern=".{3,255}"
+                                                                 required
+                                                                 title="Name может содержать от 3 до 255 символов">
                 </div>
                 <div class="field">
 
-                    <label for="client_surname">Фамилия:</label><input name="client_surname"
+                    <label for="client_surname">Surname:</label><input name="client_surname"
                                                                        id="client_surname" type="text"
                                                                        value="${client.surname}"
                                                                        pattern=".{3,255}"
                                                                        required
-                                                                       title="Фамилия может содержать от 3 до 255 символов">
+                                                                       title="Surname может содержать от 3 до 255 символов">
                 </div>
 
                 <div class="field">
 
-                    <label for="client_address">Адрес:</label><input name="client_address"
-                                                                     id="client_address" type="text"
-                                                                     value="${client.address}"
-                                                                     pattern=".{5,255}"
-                                                                     required
-                                                                     title="Адрес может содержать от 5 до 255 символов">
+                    <label for="client_address">Address:</label><input name="client_address"
+                                                                       id="client_address" type="text"
+                                                                       value="${client.address}"
+                                                                       pattern=".{5,255}"
+                                                                       required
+                                                                       title="Address может содержать от 5 до 255 символов">
                 </div>
                 <div class="field">
 
-                    <label for="client_bday">Дата рождения:</label><input name="client_bday"
-                                                                          id="client_bday" type="date"
-                                                                          value="${client.birthday}"
-                                                                          required
-                                                                          title="Выберите дату вашего рождения">
+                    <label for="client_bday">Born:</label><input name="client_bday"
+                                                                 id="client_bday" type="date"
+                                                                 value="${client.birthday}"
+                                                                 required
+                                                                 title="Выберите дату вашего рождения">
                 </div>
 
                 <div class="field">
 
-                    <label for="client_email">Почта:</label><input name="client_email"
+                    <label for="client_email">Email:</label><input name="client_email"
                                                                    id="client_email" type="email"
                                                                    value="${client.email}"
                                                                    required
                                                                    title="Введите валидный e-mail">
                 </div>
 
-                <p><input type="submit" value="Изменить"></p>
+                <p><input type="submit" value="Set"></p>
             </div>
         </div>
 
@@ -71,45 +71,48 @@
     <div class="client_orders_penal">
         <c:choose>
             <c:when test="${not empty clientOrdersList}">
-                <br><strong>Заказы</strong>
+                <br><strong>Orders</strong>
 
                 <%--<link rel="stylesheet" href="${pageContext.request.contextPath}/css/order_table.css" type="text/css"/>--%>
 
                 <table border="1">
                     <tr>
                         <td>id</td>
-                        <td>Дата</td>
-                        <td>Name клиента</td>
+                        <td>Date</td>
+                        <td>Client name</td>
                         <td>Order status</td>
-                        <td>Способ доставки</td>
-                        <td>Способ оплаты</td>
-                        <td>Статус оплаты</td>
-                        <td>Сумма заказа</td>
+                        <td>Shipping type</td>
+                        <td>Payment type</td>
+                        <td>Payment status</td>
+                        <td>Total</td>
                     </tr>
                     <c:forEach items="${clientOrdersList}" var="order">
-                        <tr>
-                            <td>${order.id}</td>
-                            <td>${order.date}</td>
-                            <td>${order.client.name}</td>
-                            <td>${order.orderStatus}</td>
-                            <td>${order.shippingType}</td>
-                            <td>${order.paymentType}</td>
-                            <td>${order.paymentStatus}</td>
-                            <td>${order.totalSumm}</td>
-                                <%--логика находится в классе Order (что делать?)--%>
-                            <c:choose>
-                                <c:when test="${isAdmin}">
-                                    <td>
-                                        <a href="admin/edit_order?id=${order.id}">
-                                            <img src="/resources/images/edit.png" alt="Editing" name="edit"/></a>
-                                    </td>
-                                </c:when>
-                            </c:choose>
-                            <td>
-                                <a href="/order/repeatOrder?id=${order.id}">
-                                    <img src="/resources/images/repeat.png" alt="Повторить заказ" name="repeat"/></a>
-                            </td>
+                        <td>${order.id}</td>
+                        <td>${order.date}</td>
+                        <td>${order.client.name}</td>
+                        <td>${order.orderStatus}</td>
+                        <td>${order.shippingType}</td>
+                        <td>${order.paymentType}</td>
+                        <td>${order.paymentStatus}</td>
+                        <td>${order.totalSumm}</td>
 
+                        <c:choose>
+                            <c:when test="${isAdmin}">
+                                <td>
+                                    <a href="admin/edit_order?id=${order.id}">
+                                        <img src="/resources/images/edit.png" alt="Editing" name="edit"/></a>
+                                </td>
+                            </c:when>
+                        </c:choose>
+
+                        <c:choose>
+                            <c:when test="${order.orderStatus eq 'DELIVERED'}">
+                                <td>
+                                    <a href="/order/repeatOrder?id=${order.id}">
+                                        <img src="/resources/images/repeat.png" alt="Repeat order" name="repeat"/></a>
+                                </td>
+                            </c:when>
+                        </c:choose>
 
                         </tr>
                     </c:forEach>

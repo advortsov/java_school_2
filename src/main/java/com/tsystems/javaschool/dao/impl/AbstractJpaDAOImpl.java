@@ -3,8 +3,6 @@ package com.tsystems.javaschool.dao.impl;
 import com.tsystems.javaschool.dao.interfaces.AbstractJpaDAO;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,65 +18,66 @@ import java.util.List;
 
 @Repository
 public abstract class AbstractJpaDAOImpl<T extends Serializable> implements AbstractJpaDAO<T> {
-    final static Logger logger = Logger.getLogger(AbstractJpaDAOImpl.class);
 
-    private Class<T> clazz;
+    private final static Logger logger = Logger.getLogger(AbstractJpaDAOImpl.class);
 
     @PersistenceContext
     protected EntityManager em;
+
+    private Class<T> clazz;
 
     public final void setClazz(final Class<T> clazzToSet) {
         this.clazz = clazzToSet;
     }
 
     public void save(T entity) {
-        logger.info("Saving entity...");
+        logger.debug("Saving entity...");
         em.persist(entity);
-        logger.info("Entity has been saved.");
+        logger.debug("Entity has been saved.");
     }
 
     public void merge(T entity) {
-        logger.info("Merging entity...");
+        logger.debug("Merging entity...");
         em.merge(entity);
-        logger.info("Entity has been merged.");
+        logger.debug("Entity has been merged.");
     }
 
     public void delete(T entity) {
-        logger.info("Deleting entity...");
+        logger.debug("Deleting entity...");
         em.remove(em.contains(entity) ? entity : em.merge(entity));
-        logger.info("Entity has been deleted.");
+        logger.debug("Entity has been deleted.");
     }
 
     public List<T> findMany(Query query) {
-        logger.info("Searching some entities...");
+        logger.debug("Searching some entities...");
         List<T> t;
         t = (List<T>) query.getResultList();
-        logger.info("Returning List of entities.");
+        logger.debug("Returning List of entities.");
         return t;
     }
 
     public T findOne(Query query) {
-        logger.info("Searching one of entities...");
+        logger.debug("Searching one of entities...");
         T t;
         t = (T) query.getSingleResult();
-        logger.info("Returning found entity.");
+        logger.debug("Returning found entity.");
         return t;
     }
 
     public T findByID(Class clazz, long id) {
-        logger.info("Searching one of entities by id...");
+        logger.debug("Searching one of entities by id...");
         T t = null;
         t = (T) em.find(clazz, id);
-        logger.info("Returning found entity.");
+        logger.debug("Returning found entity.");
         return t;
     }
 
     public List findAll(Class clazz) {
-        logger.info("Searching all of entities...");
+        logger.debug("Searching all of entities...");
         List T = null;
         Query query = em.createQuery("from " + clazz.getName());
         T = query.getResultList();
-        logger.info("Returning List of entities.");
+        logger.debug("Returning List of entities.");
         return T;
     }
 

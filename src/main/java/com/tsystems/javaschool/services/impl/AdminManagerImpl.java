@@ -8,7 +8,6 @@ import com.tsystems.javaschool.dao.interfaces.BookDAO;
 import com.tsystems.javaschool.dao.interfaces.ClientDAO;
 import com.tsystems.javaschool.dao.interfaces.OrderDAO;
 import com.tsystems.javaschool.dto.BookDTO;
-import com.tsystems.javaschool.dto.ClientDTO;
 import com.tsystems.javaschool.dto.OrderDTO;
 import com.tsystems.javaschool.dto.OrderLineDTO;
 import com.tsystems.javaschool.services.interfaces.AdminManager;

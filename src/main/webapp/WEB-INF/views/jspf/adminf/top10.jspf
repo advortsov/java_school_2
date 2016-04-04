@@ -6,7 +6,7 @@
         <div class="admin_penal">
             <c:choose>
                 <c:when test="${not empty topTenClients}">
-                    <br><strong>Топ-10 клиентов</strong>
+                    <br><strong>Top-10 clients</strong>
 
                     <style>
                         table {
@@ -38,12 +38,12 @@
                     <table border="1">
                         <tr>
                             <td>Name</td>
-                            <td>Фамилия</td>
-                            <td>Адрес</td>
+                            <td>Surname</td>
+                            <td>Address</td>
                             <td>E-mail</td>
                             <td>Дата рождения</td>
                             <td>user_name</td>
-                            <td>Выручка</td>
+                            <td>Proceed</td>
                         </tr>
 
                         <c:forEach var="entry" items="${topTenClients}">
@@ -54,14 +54,14 @@
                                 <td>${entry.key.email}</td>
                                 <td>${entry.key.birthday}</td>
                                 <td>${entry.key.user.userName}</td>
-                                <td>${entry.value} руб.</td>
+                                <td>${entry.value} rub.</td>
                             </tr>
                         </c:forEach>
 
                     </table>
                 </c:when>
                 <c:otherwise>
-                    <br><strong>В базе нет клиентов</strong>
+                    <br><strong>There are np clients in the database</strong>
                 </c:otherwise>
             </c:choose>
 
@@ -71,12 +71,12 @@
 
     <div class="top10_penal">
 
-        <%--Товары--%>
+        <%--Books--%>
         <div class="admin_penal">
 
             <c:choose>
                 <c:when test="${not empty topTenBooks}">
-                    <br><strong>Топ-10 товаров</strong>
+                    <br><strong>Top-10 books</strong>
 
                     <style>
                         table {
@@ -107,11 +107,11 @@
 
                     <table border="1">
                         <tr>
-                            <td>Название</td>
+                            <td>Name</td>
                             <td>ISBN</td>
-                            <td>Текущая цена</td>
-                            <td>Остаток на складе</td>
-                            <td>Продано</td>
+                            <td>Current price</td>
+                            <td>Quantity in the stock</td>
+                            <td>Sold</td>
                         </tr>
                         <c:forEach var="entry" items="${topTenBooks}">
                             <tr>
@@ -126,7 +126,7 @@
 
                 </c:when>
                 <c:otherwise>
-                    <br><strong>В базе нет книг</strong>
+                    <br><strong>There are no books in the database</strong>
                 </c:otherwise>
             </c:choose>
 

@@ -7,7 +7,7 @@
     <p>&nbsp;</p>
 
 
-    <form name="proceed_form" action="/admin/proceed" method="post">
+    <form name="Address_form" action="/admin/Address" method="post">
 
         <div class="edit_book_info">
             <div>
@@ -79,11 +79,11 @@
                 </table>
             </c:when>
             <c:otherwise>
-                <br><strong>There is no orders in the base</strong>
+                <br><strong>There are no orders in the base</strong>
             </c:otherwise>
         </c:choose>
 
-        <br><strong>Proceed per period: ${proceedPerPeriod} rub.
+        <br><strong>Proceed per period: ${AddressPerPeriod} rub.
     </strong>
 
 

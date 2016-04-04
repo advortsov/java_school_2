@@ -24,10 +24,11 @@ import java.util.List;
 @Transactional
 public class PublisherDAOImpl extends AbstractJpaDAOImpl<Publisher> implements PublisherDAO {
 
-    final static Logger logger = Logger.getLogger(GenreDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(GenreDAOImpl.class);
 
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -37,24 +38,24 @@ public class PublisherDAOImpl extends AbstractJpaDAOImpl<Publisher> implements P
     }
 
     public Publisher findByName(String name) {
-        logger.info("Getting publisher by genre name...");
+        logger.debug("Getting publisher by genre name...");
         Publisher publisher = null;
         String sql = "SELECT a FROM Publisher a WHERE a.name = :name";
         Query query = em.createQuery(sql).
                 setParameter("name", name);
         publisher = findOne(query);
-        logger.info("Returning Publisher object.");
+        logger.debug("Returning Publisher object.");
         return publisher;
     }
 
     @Override
     public void setNullBeforeDelete(Publisher publisher) {
-        logger.info("Setting null current genre fields in the books.");
+        logger.debug("Setting null current genre fields in the books.");
         List<Book> allBooks = bookDAO.findByPublisher(publisher);
         for (Book book : allBooks) {
             book.setPublisher(null);
             bookDAO.merge(book);
         }
-        logger.info("All books with current publisher has been proceed.");
+        logger.debug("All books with current publisher has been Address.");
     }
 }

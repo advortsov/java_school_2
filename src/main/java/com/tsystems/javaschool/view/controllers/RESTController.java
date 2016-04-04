@@ -26,6 +26,7 @@ public class RESTController {
     getOrdersPerPeriod(@RequestParam(value = "start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                        @RequestParam(value = "end_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         List<OrderDTO> ordersDTOPerPeriod = adminManager.getOrdersDTOPerPeriod(startDate, endDate);
+        System.out.println("ordersDTOPerPeriod.size() = " + ordersDTOPerPeriod.size());
         return ordersDTOPerPeriod;
     }
 

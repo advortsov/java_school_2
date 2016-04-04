@@ -4,6 +4,7 @@ import com.tsystems.javaschool.dao.entity.Author;
 import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.entity.Genre;
 import com.tsystems.javaschool.dao.entity.Publisher;
+import com.tsystems.javaschool.services.enums.SearchType;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +30,6 @@ public interface BookDAO extends AbstractJpaDAO<Book> {
     Map<Book, Integer> getTopTenBooks();
 
     List<Book> findByPublisher(Publisher publisher);
+
+    List<Book> getBooksBySearch(String searchString, SearchType searchOption);
 }

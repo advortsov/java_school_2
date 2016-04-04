@@ -6,7 +6,6 @@ import com.tsystems.javaschool.dao.entity.Genre;
 import com.tsystems.javaschool.dao.entity.Publisher;
 import com.tsystems.javaschool.dao.interfaces.AuthorDAO;
 import com.tsystems.javaschool.dao.interfaces.BookDAO;
-import com.tsystems.javaschool.services.enums.SearchType;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -139,45 +138,6 @@ public class BookManagerImplTest {
         context.assertIsSatisfied();
     }
 
-
-    @Test
-    public void testSaveNewBook() throws Exception {
-//        Mockery context = new Mockery();
-//        final BookDAO mockBookDAO = context.mock(BookDAO.class);
-//        bookManager = new BookManagerImpl(mockBookDAO);
-//        Genre genre4 = new Genre("Algs4");
-//        Publisher publisher1 = new Publisher("Publisher1");
-//
-////        byte[] img = {4, 3, 5};
-////        final Book book4 = new Book("Java4", 3525, "ISlBN-1052", 2013, img,
-////                "descr", author2, genre4,
-////                publisher1, 3, 2184);
-//
-////        allBooks.add(book2);
-//
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(mockBookDAO).save(book2);
-//                oneOf(mockBookDAO).findByIsbn("ISlBN-434789352");
-//            }
-//        });
-//
-//        bookManager.saveNewBook(book2);
-//        Book actual = bookManager.findBookByIsbn("ISlBN-434789352");
-//
-//        System.out.println(book2);
-//        System.out.println(actual);
-//        assertTrue("The actual book is not equals to expected book!",
-//                actual
-//                        .equals(book2));
-//        context.assertIsSatisfied();
-    }
-
-    @Test
-    public void testUpdateBook() throws Exception {
-
-    }
-
     @Test
     public void testFindBookById() throws Exception {
         Mockery context = new Mockery();
@@ -195,11 +155,6 @@ public class BookManagerImplTest {
         assertTrue("The actual book is not equals to expected book!",
                 actual.equals(book2));
         context.assertIsSatisfied();
-    }
-
-    @Test
-    public void testDeleteBook() throws Exception {
-
     }
 
     @Test
@@ -222,57 +177,6 @@ public class BookManagerImplTest {
                 actual.get(0)
                         .equals(book2));
         context.assertIsSatisfied();
-    }
-
-    @Test
-    public void testGetBooksBySearch() throws Exception {
-
-//        Mockery context = new Mockery();
-//
-//        final BookDAO mockBookDAO = context.mock(BookDAO.class);
-//
-//        final BookManager bookManager1 = context.mock(BookManager.class);
-//
-//        bookManager = new BookManagerImpl(mockBookDAO);
-//
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(mockBookDAO).findByName("Java1");
-//                will(returnValue(oneBookFoundBySearch));
-//            }
-//        });
-//
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(mockBookDAO).findByIsbn("ISlBN-434789352");
-//                will(returnValue(oneBookFoundBySearch));
-//            }
-//        });
-//        context.checking(new Expectations() {
-//            {
-//                oneOf(bookManager1).findByAuthorName("Author2");
-//                will(returnValue(oneBookFoundBySearch));
-//            }
-//        });
-//
-//
-//        List<Book> actual1 = bookManager.getBooksBySearch("Java1", SearchType.TITLE);
-//        System.out.println(actual1);
-//        assertTrue("The actual book is not equals to expected book!", actual1.get(0).equals(book2));
-//
-//        List<Book> actual3 = bookManager.getBooksBySearch("Author2", SearchType.AUTHOR);
-//        assertTrue("The actual book is not equals to expected book!", actual3.get(0).equals(book2));
-//
-//        List<Book> actual2 = bookManager.getBooksBySearch("ISlBN-434789352", SearchType.ISBN);
-//        assertTrue("The actual book is not equals to expected book!", actual2.get(0).equals(book2));
-//
-//        context.assertIsSatisfied();
-
-//
-//        book2 = new Book("Java1", 3525, "ISlBN-434789352", 2013, img,
-//                "descr", author2, genre1,
-//                publisher1, 3, 2184);
-//        book2.setId(2);
     }
 
     @Test

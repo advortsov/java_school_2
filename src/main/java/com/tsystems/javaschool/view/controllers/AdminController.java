@@ -82,8 +82,8 @@ public class AdminController {
         return "admin_pages/admin.jsp";
     }
 
-    @RequestMapping(value = "/proceed", method = RequestMethod.POST)
-    public String getProceedsPerPeriod(@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+    @RequestMapping(value = "/Address", method = RequestMethod.POST)
+    public String getProceedPerPeriod(@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                        @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd")
                                        Date endDate, Model model, HttpSession session) {
         logger.debug("Try to get orders per period");
@@ -93,7 +93,7 @@ public class AdminController {
             totalSumm += order.getTotalSumm();
         }
         session.setAttribute("ordersPerPeriod", ordersPerPeriod);
-        session.setAttribute("proceedPerPeriod", totalSumm);
+        session.setAttribute("AddressPerPeriod", totalSumm);
         session.setAttribute("startDate", startDate);
         session.setAttribute("endDate", endDate);
         return "redirect:/admin#tab7";

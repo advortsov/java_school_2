@@ -4,6 +4,7 @@ import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.dao.interfaces.ClientDAO;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,8 @@ import java.util.*;
 @Transactional
 public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientDAO {
 
+    private final static Logger logger = Logger.getLogger(ClientDAOImpl.class);
+
     @PersistenceContext
     private EntityManager em;
 
@@ -33,6 +36,7 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
     }
 
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        logger.debug("Sorting map by value...");
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
             public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
@@ -44,10 +48,12 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
         for (Map.Entry<K, V> entry : list) {
             result.put(entry.getKey(), entry.getValue());
         }
+        logger.debug("Map has been sorted.");
         return result;
     }
 
     public Client findByUserName(String name) throws NotRegisteredUserException {
+        logger.debug("Finding client by user name...");
         Client client = null;
         String sql = "SELECT c FROM Client c WHERE c.user.userName = :name";
         Query query = em.createQuery(sql).
@@ -57,12 +63,13 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
         } catch (NoResultException ex) {
             throw new NotRegisteredUserException();
         }
+        logger.debug("Returning client...");
         return client;
     }
 
     @Override
     public Map<Client, Integer> getTopTenClients() {
-
+        logger.debug("Finding top ten clients...");
         Map<Client, Integer> topClients = new HashMap<>();
 
         String sql = "SELECT buy.client_id as clientId, SUM(order_line.book_price*order_line.quantity) as total " +
@@ -79,19 +86,19 @@ public class ClientDAOImpl extends AbstractJpaDAOImpl<Client> implements ClientD
             int summ = clientSumm.intValue();
             topClients.put(this.findByID(Client.class, id), summ);
         }
-
+        logger.debug("Returning top ten clients...");
         return sortByValue(topClients);
     }
 
     @Override
     public UserRole getUserRoleByName(String name) {
-        logger.info("Searching one of user roles...");
+        logger.debug("Searching one of user roles...");
         UserRole userRole = null;
         String sql = "SELECT u FROM UserRole u WHERE u.userRole = :name";
         Query query = em.createQuery(sql).
                 setParameter("name", name);
         userRole = (UserRole) query.getSingleResult();
-        logger.info("Returning found user role.");
+        logger.debug("Returning found user role.");
         return userRole;
     }
 }

@@ -48,7 +48,7 @@
                                                            value=""
                                                            pattern=".{3,255}"
                                                            required
-                                                           title="Фамилия может содержать от 3 до 255 символов">
+                                                           title="Surname может содержать от 3 до 255 символов">
 
 
         <label for="client_address">Address:</label><input name="client_address"
@@ -56,7 +56,7 @@
                                                            value=""
                                                            pattern=".{5,255}"
                                                            required
-                                                           title="Адрес может содержать от 5 до 255 символов">
+                                                           title="Address может содержать от 5 до 255 символов">
 
         <label for="client_email">Email:</label><input name="client_email"
                                                        id="client_email" type="email"
@@ -64,7 +64,7 @@
                                                        required
                                                        title="Введите валидный e-mail">
 
-        <label for="client_bday">Born:</label><input name="client_bday"
+        <label for="client_bday">Address:</label><input name="client_bday"
                                                      id="client_bday" type="date"
                                                      value=""
                                                      required

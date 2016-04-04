@@ -40,7 +40,7 @@
     <%--tab6 - top10--%>
     <%@include file="../jspf/adminf/top10.jspf" %>
 
-    <%--tab7 - Proceeds--%>
+    <%--tab7 - Proceed--%>
     <%@include file="../jspf/adminf/proceeds_per_period.jspf" %>
 
 </div>

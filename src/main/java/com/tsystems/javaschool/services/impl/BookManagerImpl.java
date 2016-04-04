@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -99,24 +98,7 @@ public class BookManagerImpl implements BookManager {
     @Override
     public List<Book> getBooksBySearch(String searchStr, SearchType type) {
         logger.info("Try to get books by search...");
-        try {
-            if (type == SearchType.AUTHOR) {
-                logger.info("Searching by author...");
-                return findByAuthorName(searchStr);
-            } else if (type == SearchType.TITLE) {
-                logger.info("Searching by title...");
-                return bookDAO.findByName(searchStr);
-            } else if (type == SearchType.ISBN) {
-                logger.info("Searching by title...");
-                List<Book> bookByIsbn = new ArrayList<>();
-                bookByIsbn.add(bookDAO.findByIsbn(searchStr));
-                return bookByIsbn;
-            }
-        } catch (NoResultException ex) {
-            logger.info("Nothing found.");
-            //ignore
-        }
-        return new ArrayList<>();
+        return bookDAO.getBooksBySearch(searchStr, type);
     }
 
     @Override
@@ -141,5 +123,11 @@ public class BookManagerImpl implements BookManager {
             //ignore
         }
         return book;
+    }
+
+    public List<Book> searchBook(String searchString, SearchType searchOption){
+        return bookDAO.getBooksBySearch(searchString, searchOption);
+//        em.createQuery("SELECT e FROM MyEntity e WHERE e.myEnum LIKE '" + pattern +"'")
+
     }
 }

@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Smth goes wrong...</title>
+<title>Access is denied</title>
 </head>
 <body>
-<h3>${error}</h3>
-<h3>FORBIDEN!</h3>
+<h3>Access is denied!</h3>
 </body>
 </html>

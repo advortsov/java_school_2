@@ -25,10 +25,10 @@ import java.util.List;
 @Transactional
 public class OrderDAOImpl extends AbstractJpaDAOImpl<Order> implements OrderDAO {
 
-    final static Logger logger = Logger.getLogger(BookDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(BookDAOImpl.class);
 
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
 
     @PersistenceContext
     private EntityManager em;
@@ -40,26 +40,32 @@ public class OrderDAOImpl extends AbstractJpaDAOImpl<Order> implements OrderDAO 
 
     @Override
     public void saveOrder(Order order) {
+        logger.debug("Saving new order...");
         deductBooksFromStore(order);
         this.save(order);
+        logger.debug("Order has been saved.");
     }
 
     @Override
     public void deductBooksFromStore(Order order) {
+        logger.debug("Deducting books from store...");
         List<OrderLine> orderLines = order.getOrderLines();
         for (OrderLine orderLine : orderLines) {
             long bookId = orderLine.getBook().getId();
             int quantity = orderLine.getQuantity();
             bookDAO.setBookQuantity(bookId, quantity);
         }
+        logger.debug("All books were successfully deducted.");
     }
 
     public List<Order> getOrdersPerPeriod(Date periodStart, Date periodEnd) {
+        logger.debug("Getting orders per period...");
         List<Order> orders = null;
         String sql = "SELECT o FROM Order o WHERE o.date >= :periodStart AND o.date <= :periodEnd";
         Query query = em.createQuery(sql).
                 setParameter("periodStart", periodStart).setParameter("periodEnd", periodEnd);
         orders = this.findMany(query);
+        logger.debug("Return orders per period.");
         return orders;
     }
 }

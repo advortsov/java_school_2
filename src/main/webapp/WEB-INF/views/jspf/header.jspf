@@ -20,7 +20,7 @@
 
     <div class="header">
         <div class="logo">
-            <a><img src="/resources/images/lib.png" alt="Логотип" name="logo"/></a>
+            <a><img src="/resources/images/lib.png" alt="Logo" name="logo"/></a>
 
         </div>
         <div class="descr">
@@ -59,10 +59,9 @@
 
         </div>
 
-        <%--books/search?search_string=Javagg&search_option=TITLE--%>
         <div class="search_form">
             <form name="search_form" method="GET" action="/books/search">
-                <input type="text" name="search_string" value="${searchString}" size="105"/>
+                <input type="text" name="search_string" value="${searchString}" size="105" required/>
                 <input class="search_button" type="submit" value="Search"/>
                 <select name="search_option">
                     <option value="TITLE">Name</option>

@@ -96,19 +96,24 @@ public class BookController {
                                    @RequestParam(value = "search_option", required = true) SearchType searchOption,
                                    Model model) {
         List<Book> currentBookList = null;
-        if (searchOption.equals(SearchType.AUTHOR)) {
-            currentBookList = bookManager.getBooksByAuthor(authorManager.findByAuthorName(searchString));
-        } else if (searchOption.equals(SearchType.TITLE)) {
-            currentBookList = bookManager.findByBookName(searchString);
-        } else if (searchOption.equals(SearchType.ISBN)) {
-            currentBookList = new ArrayList<>();
-            Book book = bookManager.findBookByIsbn(searchString);
-            if (book != null) {
-                currentBookList.add(book);
-            }
-        }
+//        if (searchOption.equals(SearchType.AUTHOR)) {
+//            currentBookList = bookManager.getBooksByAuthor(authorManager.findByAuthorName(searchString));
+//        } else if (searchOption.equals(SearchType.TITLE)) {
+//            currentBookList = bookManager.findByBookName(searchString);
+//        } else if (searchOption.equals(SearchType.ISBN)) {
+//            currentBookList = new ArrayList<>();
+//            Book book = bookManager.findBookByIsbn(searchString);
+//            if (book != null) {
+//                currentBookList.add(book);
+//            }
+//        }
+//        model.addAttribute("allBooks", currentBookList);
+//        return "pages/books.jsp";
+        currentBookList = bookManager.getBooksBySearch(searchString, searchOption);
+
         model.addAttribute("allBooks", currentBookList);
         return "pages/books.jsp";
+
     }
 
 
@@ -233,5 +238,6 @@ public class BookController {
         mav.addObject("error", "This isbn is already exist");
         return mav;
     }
+
 
 }

@@ -9,8 +9,8 @@
 
     <http auto-config="true" use-expressions="true">
 
-        <access-denied-handler error-page="/WEB-INF/views/error.jsp"/>
-        <!--<access-denied-handler error-page="/WEB-INF/views/error.jsp"/>-->
+        <access-denied-handler error-page="/WEB-INF/views/error/forbidden.jsp"/>
+        <!--<access-denied-handler error-page="/WEB-INF/views/forbidden.jsp"/>-->
 
         <intercept-url pattern="/books/" access="hasAnyRole('anonymous', 'ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/books/edit" access="hasRole('ROLE_ADMIN')"/>

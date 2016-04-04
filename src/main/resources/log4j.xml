@@ -46,6 +46,17 @@
         </filter>
     </appender>
 
+    <appender name="PERSISTENCE-LOG-DEBUG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/persistence/debug.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="DEBUG"/>
+        </filter>
+    </appender>
+
     <appender name="SERVICE-LOG-ERROR-FILE-APPENDER" class="org.apache.log4j.FileAppender">
         <param name="file" value="C:/logs/service/error.log"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -65,6 +76,17 @@
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
             <param name="LevelMin" value="INFO"/>
             <param name="LevelMax" value="INFO"/>
+        </filter>
+    </appender>
+
+    <appender name="SERVICE-LOG-DEBUG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/service/debug.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="DEBUG"/>
         </filter>
     </appender>
 
@@ -90,10 +112,22 @@
         </filter>
     </appender>
 
+    <appender name="VIEW-LOG-DEBUG-FILE-APPENDER" class="org.apache.log4j.FileAppender">
+        <param name="file" value="C:/logs/view/debug.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} [%5p] %m at %l%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="DEBUG"/>
+        </filter>
+    </appender>
+
     <logger name="com.tsystems.javaschool.view" additivity="false">
         <level value="DEBUG"/>
         <appender-ref ref="VIEW-LOG-ERROR-FILE-APPENDER"/>
         <appender-ref ref="VIEW-LOG-INFO-FILE-APPENDER"/>
+        <appender-ref ref="VIEW-LOG-DEBUG-FILE-APPENDER"/>
     </logger>
 
     <logger name="com.tsystems.javaschool.services" additivity="false">

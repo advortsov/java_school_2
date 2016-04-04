@@ -30,16 +30,7 @@
 
     <div class="login_div">
 
-        <c:choose>
-            <c:when test="${not empty error}">
-                <p class="title">${error}</p>
-                <%--<p>${stacktrace}</p>--%>
-            </c:when>
-            <c:otherwise>
-                <p class="title">Something goes wrong... Please try again later!</p>
-            </c:otherwise>
-        </c:choose>
-
+        <p class="title">Page is not found</p>
 
     </div>
 

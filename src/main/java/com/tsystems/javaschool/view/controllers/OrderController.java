@@ -93,12 +93,12 @@ public class OrderController {
     public ModelAndView createOrder(
             @ModelAttribute("createdOrder") Order createdOrder,
             BindingResult result,
-            HttpServletRequest req, HttpServletResponse resp, HttpSession session, ModelAndView mav) throws EmptyOrderException {
+            HttpServletRequest req, HttpServletResponse resp, HttpSession session, ModelAndView mav) throws Exception {
 
         List<OrderLine> orderLines = shoppingCartManager.getShoppingCart().getItems();
         createdOrder.setOrderLines(orderLines);
 
-        // заданное на прошлой форме количество перезаписываем в каждом ордерлайне
+        // rewrite books count from last form
         Order order = new Order();
         for (OrderLine orderLine : orderLines) {
             long id = orderLine.getBook().getId();

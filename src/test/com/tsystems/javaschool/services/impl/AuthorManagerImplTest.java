@@ -85,12 +85,11 @@ public class AuthorManagerImplTest {
     }
 
     @Test
-    public void testSaveNewAuthor_Correct() throws Exception {
+    public void testSaveNewAuthor() throws Exception {
         Author author1 = getAuthor(1, "author1");
         authorManager.saveNewAuthor(author1);
         verify(authorDAO, times(1)).save(author1);
     }
-
 
     @Test
     public void testFindAuthorById() throws Exception {

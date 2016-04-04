@@ -5,6 +5,7 @@ import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.entity.Genre;
 import com.tsystems.javaschool.dao.entity.Publisher;
 import com.tsystems.javaschool.dao.interfaces.BookDAO;
+import com.tsystems.javaschool.services.enums.SearchType;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.*;
 @Repository
 public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
 
-    final static Logger logger = Logger.getLogger(BookDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(BookDAOImpl.class);
 
     @Autowired
     private BookManager bookManager;
@@ -34,76 +35,77 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
     }
 
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        logger.debug("Sorting map by value...");
         List<Map.Entry<K, V>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
             public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
                 return (o2.getValue()).compareTo(o1.getValue());
             }
         });
-
         Map<K, V> result = new LinkedHashMap<>();
         for (Map.Entry<K, V> entry : list) {
             result.put(entry.getKey(), entry.getValue());
         }
+        logger.debug("Map has been sorted.");
         return result;
     }
 
     public List<Book> findByName(String name) {
-        logger.info("Getting books by book name...");
+        logger.debug("Getting books by book name...");
         List<Book> books = null;
         String sql = "SELECT a FROM Book a WHERE a.name = :name";
         Query query = em.createQuery(sql).
                 setParameter("name", name);
         books = findMany(query);
-        logger.info("Returning books.");
+        logger.debug("Returning books.");
         return books;
     }
 
     public List<Book> findByGenre(Genre genre) {
-        logger.info("Finding books by genre...");
+        logger.debug("Finding books by genre...");
         List<Book> books = null;
         String sql = "SELECT a FROM Book a WHERE a.genre = :genre";
         Query query = em.createQuery(sql).
                 setParameter("genre", genre);
         books = findMany(query);
-        logger.info("Returning books.");
+        logger.debug("Returning books.");
         return books;
     }
 
     public List<Book> findByAuthor(Author author) {
-        logger.info("Finding books by author...");
+        logger.debug("Finding books by author...");
         List<Book> books = null;
         String sql = "SELECT a FROM Book a WHERE a.author = :author";
         Query query = em.createQuery(sql).
                 setParameter("author", author);
         books = findMany(query);
-        logger.info("Returning books.");
+        logger.debug("Returning books.");
         return books;
     }
 
     public Book findByIsbn(String isbn) {
-        logger.info("Finding book by isbn...");
+        logger.debug("Finding book by isbn...");
         Book book = null;
         String sql = "SELECT a FROM Book a WHERE a.isbn = :isbn";
         Query query = em.createQuery(sql).
                 setParameter("isbn", isbn);
         book = findOne(query);
-        logger.info("Returning book.");
+        logger.debug("Returning book.");
         return book;
     }
 
     public void setBookQuantity(long bookId, int orderQuantity) {
-        logger.info("Setting new book quantity...");
+        logger.debug("Setting new book quantity...");
         Book book = this.findByID(Book.class, bookId);
         int actualQuantity = book.getQuantity();
         book.setQuantity(actualQuantity - orderQuantity);
         merge(book);
-        logger.info("New quantity has been set.");
+        logger.debug("New quantity has been set.");
     }
 
     @Override
     public Map<Book, Integer> getTopTenBooks() {
-        logger.info("Finding top ten books...");
+        logger.debug("Finding top ten books...");
 
         Map<Book, Integer> topBooks = new HashMap<>();
 
@@ -121,21 +123,44 @@ public class BookDAOImpl extends AbstractJpaDAOImpl<Book> implements BookDAO {
 
             topBooks.put(bookManager.findBookById(id), summ);
         }
-        logger.info("Returning top ten books.");
+        logger.debug("Returning top ten books.");
 
         return sortByValue(topBooks);
     }
 
     @Override
     public List<Book> findByPublisher(Publisher publisher) {
-        logger.info("Finding books by publisher...");
+        logger.debug("Finding books by publisher...");
         List<Book> books = null;
         String sql = "SELECT a FROM Book a WHERE a.publisher = :publisher";
         Query query = em.createQuery(sql).
                 setParameter("publisher", publisher);
         books = findMany(query);
-        logger.info("Returning books.");
+        logger.debug("Returning books.");
         return books;
+    }
+
+    @Override
+    public List<Book> getBooksBySearch(String searchString, SearchType searchOption) {
+        List<Book> currentBookList = null;
+
+        if (searchOption.equals(SearchType.AUTHOR)) {
+            String sql = "SELECT b FROM Book b WHERE lower(b.author.name) LIKE :search";
+            Query query = em.createQuery(sql).setParameter("search", "%" + searchString.toLowerCase() + "%");
+            currentBookList = findMany(query);
+        } else if (searchOption.equals(SearchType.TITLE)) {
+            String sql = "SELECT b FROM Book b WHERE lower(b.name) LIKE :search";
+            Query query = em.createQuery(sql).setParameter("search", "%" + searchString.toLowerCase() + "%");
+            currentBookList = findMany(query);
+        } else if (searchOption.equals(SearchType.ISBN)) {
+            currentBookList = new ArrayList<>();
+            Book book = bookManager.findBookByIsbn(searchString);
+            if (book != null) {
+                currentBookList.add(book);
+            }
+        }
+
+        return currentBookList;
     }
 
 

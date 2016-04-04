@@ -3,7 +3,6 @@ package com.tsystems.javaschool.view.controllers;
 import com.tsystems.javaschool.dao.entity.Genre;
 import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
-import com.tsystems.javaschool.view.controllers.validators.GenreValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * @author Alexander Dvortsov
@@ -27,20 +25,10 @@ public class GenreController {
     @Autowired
     private GenreManager genreManager;
 
-    @Autowired
-    private GenreValidator genreValidator;
-
-
     @RequestMapping(method = RequestMethod.GET)
     public String setupForm() {
         return "pages/books.jsp";
     }
-
-//    @ModelAttribute(value = "allGenresList")
-//    public List<Genre> createAllGenresList() {
-//        System.out.println("createAllGenresList!!");
-//        return genreManager.loadAllGenres();
-//    }
 
 
 //   ---------------------- Genre administrating ---------------------------------------------------
@@ -65,9 +53,9 @@ public class GenreController {
 
     @RequestMapping(value = "/add_genre", method = RequestMethod.POST)
     public String addGenre(@ModelAttribute("add_genre_name") String genreName,
-                                 BindingResult result,
-                                 HttpSession session,
-                                 ModelAndView mav) throws DuplicateException {
+                           BindingResult result,
+                           HttpSession session,
+                           ModelAndView mav) throws DuplicateException {
 
         Genre genre = new Genre();
         genre.setName(genreName);
@@ -90,7 +78,9 @@ public class GenreController {
 
     @RequestMapping(value = "/ajaxGenreValidation", method = RequestMethod.GET,
             produces = {"text/html; charset=UTF-8"})
-    public @ResponseBody String ajaxGenreValidation(@RequestParam String genreName) {
+    public
+    @ResponseBody
+    String ajaxGenreValidation(@RequestParam String genreName) {
         Genre genre = null;
         try {
             genre = genreManager.findByGenreName(genreName);

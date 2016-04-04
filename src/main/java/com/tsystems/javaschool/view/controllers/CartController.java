@@ -107,25 +107,22 @@ public class CartController {
     }
 
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
-    public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp){
+    public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 //        if (3 > 2) throw new Exception();
 //        if (3 > 2) throw new NotEnoughBooksInTheStockException("Not enough books in the stock :(", 5);
 
         //delete all books cookies
         String cookieOwner = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("cookieOwner = " + cookieOwner);
 
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
             if (value.contains("dlm")) {
                 String[] cookieContent = value.split("dlm");
-                System.out.println("cookieContent = " + Arrays.toString(cookieContent));
                 if (cookieContent[0].equals(cookieOwner) || cookieContent[0].equals("Guest")) {
                     cookie.setPath("cart/");
                     cookie.setMaxAge(0);
                     resp.addCookie(cookie);
-                    System.out.println("!!!!!!!!!!!!!!!!!cookie with owner = " + cookieContent[0] + " deleted!");
                 }
             }
         }
@@ -138,7 +135,7 @@ public class CartController {
     @RequestMapping(value = "/removeOrderLine", method = RequestMethod.GET)
     public String removeOrderLineAndCookie(@RequestParam(value = "id", required = true) long id,
                                            HttpServletRequest req, HttpServletResponse resp) {
-        // удаляем строку в куках
+        // deleting order line in cookies
         Cookie[] cookies = req.getCookies();
         String cookieOwner = SecurityContextHolder.getContext().getAuthentication().getName();
         for (Cookie cookie : cookies) {
@@ -153,7 +150,7 @@ public class CartController {
                 }
             }
         }
-        // удаляем строку в корзине
+        // deleting order line in the cart
         cartManager.removeLine(id);
         return "pages/cart.jsp";
     }
@@ -161,8 +158,7 @@ public class CartController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage(@ModelAttribute Client client, HttpServletRequest request, HttpServletResponse resp) {
-        //Client client = clientController.actualizeClient(request, "Guest");
-        actualizeCart(request, resp, client); //1
+        actualizeCart(request, resp, client);
         return "pages/cart.jsp";
     }
 
@@ -176,14 +172,12 @@ public class CartController {
         }
         cartManager.setShoppingCart(cart);
         populateCart();
-    } // В менеджере теперь есть норм карта заполненная из кукисов
+    } // Now we have a filled cart in the CartManager
 
     @ModelAttribute("shoppingCart")
     public ShoppingCart populateCart() {
-        System.out.println("populateCart = " + cartManager.getShoppingCart().getItems().size());
         return cartManager.getShoppingCart();
-    } // записываем карту в сессию
-
+    } // writing cart into session
 
     @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
     public String addToCart(@RequestParam(value = "book_id", required = true) long id,

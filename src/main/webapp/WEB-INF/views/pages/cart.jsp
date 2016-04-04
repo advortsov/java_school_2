@@ -141,19 +141,10 @@
         <a class="close" href="">×</a>
 
         <div>
-            Your order is processing
+            Your order has been created!
         </div>
     </div>
 </div>
-
-<%--<div id="order_popup_not_ok" class="overlay">--%>
-    <%--<div class="popup">--%>
-        <%--<h2>Order</h2>--%>
-        <%--<a class="close" href="">×</a>--%>
-
-        <%--<div>The order is not issued. Try again later!</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
 
 <%@include file="../jspf/footer.jspf" %>
 

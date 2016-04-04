@@ -24,10 +24,10 @@ import java.util.List;
 @Transactional
 public class AuthorDAOImpl extends AbstractJpaDAOImpl<Author> implements AuthorDAO {
 
-    final static Logger logger = Logger.getLogger(AuthorDAOImpl.class);
+    private final static Logger logger = Logger.getLogger(AuthorDAOImpl.class);
 
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
 
     @PersistenceContext
     private EntityManager em;
@@ -39,13 +39,13 @@ public class AuthorDAOImpl extends AbstractJpaDAOImpl<Author> implements AuthorD
 
     @Override
     public void delete(Author entity) { // to unite different methods in the one transaction
-        logger.info("Staring author deleting by author entity...");
+        logger.debug("Staring author deleting by author entity...");
         setNullBeforeDelete(entity);
         super.delete(entity);
     }
 
     public Author findByName(String name) {
-        logger.info("Getting author by author name...");
+        logger.debug("Getting author by author name...");
         Author author = null;
         String sql = "SELECT a FROM Author a WHERE a.name = :name";
         Query query = em.createQuery(sql).
@@ -55,13 +55,13 @@ public class AuthorDAOImpl extends AbstractJpaDAOImpl<Author> implements AuthorD
     }
 
     public void setNullBeforeDelete(Author author) {
-        logger.info("Setting null current genre fields in the books.");
+        logger.debug("Setting null current genre fields in the books.");
         List<Book> allBooks = bookDAO.findByAuthor(author);
         for (Book book : allBooks) {
             book.setAuthor(null);
             bookDAO.merge(book);
         }
-        logger.info("All books with current genre has been proceed.");
+        logger.debug("All books with current author has been set to null.");
     }
 }
 
