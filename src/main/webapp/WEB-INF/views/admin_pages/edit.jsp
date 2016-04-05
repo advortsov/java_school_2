@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -11,11 +12,17 @@
 
     <br><strong>Editing book</strong>
 
+    <br><td style="color: green; font-size: large; font-style: oblique">${book_added}</td>
+
     <p>&nbsp;</p>
 
     <c:url var="saveUrl" value="/books/edit?id=${book.id}" />
-    <form name="book_edit_form" enctype="multipart/form-data" accept-charset="utf-8"
-          action="${saveUrl}" method="post">
+    <%--<form name="book_edit_form" enctype="multipart/form-data" accept-charset="utf-8"--%>
+          <%--action="${saveUrl}" method="post">--%>
+
+<form:form name="book_edit_form"
+           enctype="multipart/form-data" modelAttribute="uploadedBook" action="${saveUrl}" method="post">
+
         <div class="edit_book_info">
             <div>
 
@@ -38,6 +45,9 @@
                                                                required
                                                                value="${book.isbn}"
                                                                title="ISBN может содержать от 5 до 35 символов">
+                </div>
+                <div class="field">
+                    <td style="color: red;"><form:errors path="isbn"/></td>
                 </div>
 
                 <div class="field">
@@ -92,12 +102,12 @@
                                                                      required title="Цена может быть до 99 999 руб.">
                 </div>
 
-                <input type="hidden" name="action" value="edit"></p>
                 <p><input type="submit" value="Save"></p>
             </div>
         </div>
 
-    </form>
+    <%--</form>--%>
+</form:form>
 
 </div>
 

@@ -30,7 +30,7 @@ public class BookValidator implements Validator {
         Book upBook = (Book) uploadedBook;
         try {
             Book bookWithThisIsbn = bookManager.findBookByIsbn(upBook.getIsbn());
-            if (bookWithThisIsbn != null) {
+            if (bookWithThisIsbn != null && (bookWithThisIsbn.getId() != upBook.getId()) ) {
                 errors.rejectValue("isbn", "uploadForm.selectFile", "This isbn is already exist!");
             }
         } catch (NoResultException ex) {

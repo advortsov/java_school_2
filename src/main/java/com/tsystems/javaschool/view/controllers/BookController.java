@@ -174,7 +174,10 @@ public class BookController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String saveEditBook(@ModelAttribute("book") Book book,
+    public ModelAndView saveEditBook(@ModelAttribute("uploadedBook") Book book,
+                               BindingResult result,
+                                HttpSession session,
+                               ModelAndView mav,
                                @RequestParam("book_name") String name,
                                @RequestParam("book_isbn") String isbn,
                                @RequestParam("book_genre") String genre,
@@ -198,6 +201,15 @@ public class BookController {
         book.setQuantity(quantity);
         book.setPrice(price);
 
+
+        bookValidator.validate(book, result);
+
+        if (result.hasErrors()) {
+            session.setAttribute("book", book);
+            mav.setViewName("admin_pages/edit.jsp");
+            return mav;
+        }
+
         if (coverFileData.getBytes().length != 0) {
             book.setImage(coverFileData.getBytes());
         }
@@ -205,7 +217,12 @@ public class BookController {
         bookManager.updateBook(book);
         logger.debug("Book has been updated.");
 
-        return "redirect:/books/genre?name=all";
+        session.setAttribute("book", null);
+        mav.addObject("book_added", "The book has been edited!");
+        mav.setViewName("admin_pages/edit.jsp");
+
+        return mav;
+//        return "redirect:/books/genre?name=all";
     }
 
 }

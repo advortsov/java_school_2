@@ -24,7 +24,7 @@
                 <br><strong>Page count:</strong> ${book.pageCount}
                 <br><strong>Year:</strong> ${book.publishYear}
                 <br><strong>Author:</strong> ${book.author.name}
-                <br><strong>Price:</strong> ${book.price} <strong> руб.</strong>
+                <br><strong>Price:</strong> ${book.price} <strong> rub.</strong>
                 <c:if test="${isAdmin}">
                     <br><a href="<%=request.getContextPath()%>/books/edit?id=${book.id}">Edit</a>
                 </c:if>
