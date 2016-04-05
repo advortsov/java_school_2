@@ -2,7 +2,6 @@ package com.tsystems.javaschool.services.impl;
 
 import com.tsystems.javaschool.dao.entity.Order;
 import com.tsystems.javaschool.dao.entity.OrderLine;
-import com.tsystems.javaschool.dao.interfaces.BookDAO;
 import com.tsystems.javaschool.dao.interfaces.OrderDAO;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +55,7 @@ public class OrderManagerImpl implements OrderManager {
         List<OrderLine> prevLines = order.getOrderLines();
         List<OrderLine> currLines = new ArrayList<>();
 
-        for (OrderLine line : prevLines){
+        for (OrderLine line : prevLines) {
             OrderLine newLine = new OrderLine();
             newLine.setBook(line.getBook());
             newLine.setQuantity(line.getQuantity());

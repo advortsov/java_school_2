@@ -16,7 +16,6 @@ import java.util.List;
  * @version 1.0
  * @since 08.02.2016
  */
-
 @Service
 @Transactional
 public class GenreManagerImpl implements GenreManager {

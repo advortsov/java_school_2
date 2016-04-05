@@ -56,7 +56,6 @@ public class ShowImage extends HttpServlet {
             if (index != null && list != null) {
                 Book book = list.get(index);
                 if (book.getImage() != null) {
-                    System.out.println("index = " + index + ". length of img = " + book.getImage().length);
                     response.setContentLength(book.getImage().length);
                     out.write(book.getImage());
                 } else {
@@ -68,7 +67,6 @@ public class ShowImage extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
     /**
      * Handles the HTTP

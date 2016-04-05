@@ -15,7 +15,6 @@ import java.util.List;
  * @version 1.0
  * @since 06.03.2016
  */
-
 @Repository
 public abstract class AbstractJpaDAOImpl<T extends Serializable> implements AbstractJpaDAO<T> {
 

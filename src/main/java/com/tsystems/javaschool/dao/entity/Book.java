@@ -2,20 +2,17 @@ package com.tsystems.javaschool.dao.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * @author Alexander Dvortsov
  * @version 1.0
  * @since 09.02.2016
- * <p>
- * Pojo
  */
-
 @Entity
 @Table(name = "book")
-@NamedQuery(name = "Book.getAll", query = "SELECT b from Book b")
 public class Book implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,6 +76,7 @@ public class Book implements Serializable {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -204,8 +202,8 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        String  img = "nulll";
-        if(image != null) img = String.valueOf(image.length);
+        String img = "nulll";
+        if (image != null) img = String.valueOf(image.length);
 
         return "Book{" +
                 "id=" + id +

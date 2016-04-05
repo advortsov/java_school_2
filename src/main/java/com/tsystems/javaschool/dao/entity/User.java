@@ -8,10 +8,11 @@ import java.io.Serializable;
  * @version 1.0
  * @since 19.02.2016
  */
-
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class User implements Serializable {
     @Column(name = "user_pass", length = 255, nullable = false)
     private String userPass;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_role_id", nullable = false)
     private UserRole userRole;
 

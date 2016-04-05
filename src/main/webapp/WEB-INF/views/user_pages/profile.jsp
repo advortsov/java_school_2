@@ -120,7 +120,7 @@
                 </table>
             </c:when>
             <c:otherwise>
-                <br><strong>В базе нет заказов</strong>
+                <br><strong>There are no your orders in the database</strong>
             </c:otherwise>
         </c:choose>
 

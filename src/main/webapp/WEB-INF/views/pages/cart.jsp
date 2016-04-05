@@ -138,7 +138,7 @@
 <div id="order_popup_ok" class="overlay">
     <div class="popup">
         <h2>Order</h2>
-        <a class="close" href="">×</a>
+        <a class="close" href="/cart/clearCart">×</a>
 
         <div>
             Your order has been created!

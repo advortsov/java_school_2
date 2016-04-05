@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -22,11 +20,7 @@ import java.util.List;
 public class PublisherManagerImpl implements PublisherManager {
 
     @Autowired
-    PublisherDAO publisherDAO;
-
-
-    @PersistenceContext
-    private EntityManager em;
+    private PublisherDAO publisherDAO;
 
     @Override
     public Publisher findByPublisherName(String name) {

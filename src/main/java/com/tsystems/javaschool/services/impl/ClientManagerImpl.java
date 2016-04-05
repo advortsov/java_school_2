@@ -57,7 +57,6 @@ public class ClientManagerImpl implements ClientManager {
 
     @Override
     public List<Order> getClientOrders(Client currClient) {
-        System.out.println("currClient = " + currClient.getUser().getUserName());
         List<Order> orders = null;
         String sql = "SELECT o FROM Order o WHERE o.client = :currClient";
         Query query = em.createQuery(sql).

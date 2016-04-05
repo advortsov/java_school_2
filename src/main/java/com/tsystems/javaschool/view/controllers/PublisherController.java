@@ -25,7 +25,7 @@ public class PublisherController {
     private static Logger logger = Logger.getLogger(PublisherController.class);
 
     @Autowired
-    PublisherManager publisherManager;
+    private PublisherManager publisherManager;
 
     private List<Publisher> createAllPublishersList() {
         return publisherManager.loadAllPublishers();
@@ -47,14 +47,20 @@ public class PublisherController {
 
     @RequestMapping(value = "/delete_publisher", method = RequestMethod.POST)
     public String delPublisher(@ModelAttribute("publisher_name_del") String publisherName, HttpSession session) {
+        logger.debug("Staring to delete publisher...");
+
         Publisher publisher = publisherManager.findByPublisherName(publisherName);
         publisherManager.deletePublisher(publisher);
         session.setAttribute("allPublishersList", createAllPublishersList());
+        logger.debug("Publisher has been deleted.");
+
         return "redirect:/admin#tab3";
     }
 
     @RequestMapping(value = "/add_publisher", method = RequestMethod.POST)
     public String addPublisher(@ModelAttribute("publisher_name_add") String publisherName, HttpSession session) {
+        logger.debug("Staring to add publisher...");
+
         Publisher publisher = new Publisher();
         publisher.setName(publisherName);
         try {
@@ -63,6 +69,8 @@ public class PublisherController {
             e.printStackTrace();
         }
         session.setAttribute("allPublishersList", createAllPublishersList());
+        logger.debug("Publisher has been added.");
+
         return "redirect:/admin#tab3";
     }
 

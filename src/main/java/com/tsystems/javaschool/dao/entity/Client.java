@@ -13,12 +13,13 @@ import java.util.List;
  * @version 1.0
  * @since 09.02.2016
  */
-
 @Component
 @Entity
 @Table(name = "client")
-@NamedQuery(name = "Client.getAll", query = "SELECT b from Client b")
 public class Client implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

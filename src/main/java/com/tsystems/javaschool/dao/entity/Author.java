@@ -9,11 +9,12 @@ import java.io.Serializable;
  * @version 1.0
  * @since 09.02.2016
  */
-
 @Entity
 @Table(name = "author")
-//@NamedQuery(name = "Author.getById", query = "SELECT c from Car c")
 public class Author implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

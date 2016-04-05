@@ -14,6 +14,7 @@ import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.OrderManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
 import com.tsystems.javaschool.view.controllers.validators.OrderValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+
+    private static final Logger logger = Logger.getLogger(OrderController.class);
 
     @Autowired
     private OrderManager orderManager;
@@ -94,6 +97,7 @@ public class OrderController {
             @ModelAttribute("createdOrder") Order createdOrder,
             BindingResult result,
             HttpServletRequest req, HttpServletResponse resp, HttpSession session, ModelAndView mav) throws Exception {
+        logger.debug("Creating new order...");
 
         List<OrderLine> orderLines = shoppingCartManager.getShoppingCart().getItems();
         createdOrder.setOrderLines(orderLines);
@@ -135,7 +139,9 @@ public class OrderController {
 
         orderManager.saveNewOrder(order);
         cartController.deleteAllBooksCookies(req, resp);
-        mav.addObject("success", " Your order is processed!");
+        mav.addObject("success", "Your order is processed!");
+
+        logger.debug("New order has been created.");
 
         return mav;
     }

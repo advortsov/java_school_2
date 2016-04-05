@@ -20,7 +20,6 @@ import java.util.List;
  * @version 1.0
  * @since 11.02.2016
  */
-
 @Repository
 @Transactional
 public class OrderDAOImpl extends AbstractJpaDAOImpl<Order> implements OrderDAO {

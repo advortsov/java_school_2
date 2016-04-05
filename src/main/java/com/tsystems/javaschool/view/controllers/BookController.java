@@ -34,14 +34,18 @@ import java.util.List;
 @RequestMapping("/books")
 @SessionAttributes("allBooks")
 public class BookController {
+
     private static Logger logger = Logger.getLogger(BookController.class);
 
     @Autowired
     private PublisherManager publisherManager;
+
     @Autowired
     private AuthorManager authorManager;
+
     @Autowired
     private GenreManager genreManager;
+
     @Autowired
     private BookManager bookManager;
 
@@ -69,9 +73,6 @@ public class BookController {
         return publisherManager.loadAllPublishers();
     }
 
-    /**
-     * Method will be called in initial page load at GET /books
-     */
     @RequestMapping(method = RequestMethod.GET)
     public String fillUpGenres(@ModelAttribute ArrayList<Genre> allGenres) {
         return "pages/books.jsp";
@@ -79,6 +80,7 @@ public class BookController {
 
     @RequestMapping(value = "/genre", method = RequestMethod.GET) // /books/genre?name=Maths
     public String getBooksByGenre(@RequestParam(value = "name", required = true) String name, Model model) {
+        logger.debug("Getting books by genre...");
         List<Book> currentBookList;
         if (name.equals("all")) {
             currentBookList = bookManager.loadAllBooks();
@@ -87,41 +89,21 @@ public class BookController {
         }
         model.addAttribute("allBooks", currentBookList);
         model.addAttribute("currentGenre", name);
+        logger.debug("Returning page with those books.");
         return "pages/books.jsp";
     }
-
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String getBooksBySearch(@RequestParam(value = "search_string", required = true) String searchString,
                                    @RequestParam(value = "search_option", required = true) SearchType searchOption,
                                    Model model) {
-        List<Book> currentBookList = null;
-//        if (searchOption.equals(SearchType.AUTHOR)) {
-//            currentBookList = bookManager.getBooksByAuthor(authorManager.findByAuthorName(searchString));
-//        } else if (searchOption.equals(SearchType.TITLE)) {
-//            currentBookList = bookManager.findByBookName(searchString);
-//        } else if (searchOption.equals(SearchType.ISBN)) {
-//            currentBookList = new ArrayList<>();
-//            Book book = bookManager.findBookByIsbn(searchString);
-//            if (book != null) {
-//                currentBookList.add(book);
-//            }
-//        }
-//        model.addAttribute("allBooks", currentBookList);
-//        return "pages/books.jsp";
-        currentBookList = bookManager.getBooksBySearch(searchString, searchOption);
-
+        logger.debug("Getting books by search...");
+        List<Book> currentBookList = bookManager.getBooksBySearch(searchString, searchOption);
         model.addAttribute("allBooks", currentBookList);
+        logger.debug("Returning page with those books.");
         return "pages/books.jsp";
-
     }
 
-
-    /**
-     * Retrieves the add page
-     *
-     * @return the name of the JSP page
-     */
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getAdd(Model model) {
         logger.debug("Received request to show the book add page");
@@ -147,7 +129,7 @@ public class BookController {
             ModelAndView mav,
             HttpSession session) throws DuplicateException {
 
-        logger.debug("Received request to show edit page");
+        logger.debug("Starting to add new book...");
 
         Book book = new Book();
 
@@ -175,25 +157,19 @@ public class BookController {
 
         bookManager.saveNewBook(book);
 
-
         session.setAttribute("book", null);
         mav.addObject("book_added", "The book has been added");
         mav.setViewName("admin_pages/admin.jsp");
+
+        logger.debug("Return a book added status page.");
         return mav;
     }
 
-    /**
-     * Retrieves the edit page
-     *
-     * @return the name of the JSP page
-     */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String getEdit(@RequestParam(value = "id", required = true) Integer id,
                           Model model) {
         logger.debug("Received request to show book edit page");
         model.addAttribute("book", bookManager.findBookById(id));
-        System.out.println("RABOTAET get!");
-        System.out.println("GET book START: " + bookManager.findBookById(id));
         return "admin_pages/edit.jsp";
     }
 
@@ -210,8 +186,7 @@ public class BookController {
                                @RequestParam("book_price") int price,
                                @RequestParam(value = "cover", required = false) CommonsMultipartFile coverFileData) throws DuplicateException {
 
-
-        logger.debug("Received request to show edit page");
+        logger.debug("Starting to edit book...");
 
         book.setName(name);
         book.setIsbn(isbn);
@@ -228,16 +203,9 @@ public class BookController {
         }
 
         bookManager.updateBook(book);
+        logger.debug("Book has been updated.");
+
         return "redirect:/books/genre?name=all";
     }
-
-    @ExceptionHandler(DuplicateException.class)
-    public ModelAndView handleDuplicateException(ModelAndView mav, DuplicateException ex) {
-        System.out.println("handleDuplicateException is worked!");
-        logger.error("Trying to write not unique isbn!", ex);
-        mav.addObject("error", "This isbn is already exist");
-        return mav;
-    }
-
 
 }

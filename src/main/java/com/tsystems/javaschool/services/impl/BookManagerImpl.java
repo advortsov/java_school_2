@@ -125,9 +125,4 @@ public class BookManagerImpl implements BookManager {
         return book;
     }
 
-    public List<Book> searchBook(String searchString, SearchType searchOption){
-        return bookDAO.getBooksBySearch(searchString, searchOption);
-//        em.createQuery("SELECT e FROM MyEntity e WHERE e.myEnum LIKE '" + pattern +"'")
-
-    }
 }

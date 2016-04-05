@@ -7,10 +7,10 @@ import com.tsystems.javaschool.dao.entity.OrderLine;
 import com.tsystems.javaschool.services.ShoppingCart;
 import com.tsystems.javaschool.services.enums.PaymentType;
 import com.tsystems.javaschool.services.enums.ShippingType;
-import com.tsystems.javaschool.services.exception.NotEnoughBooksInTheStockException;
 import com.tsystems.javaschool.services.interfaces.BookManager;
 import com.tsystems.javaschool.services.interfaces.GenreManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,27 +34,49 @@ import java.util.List;
 @SessionAttributes("shoppingCart")
 public class CartController {
 
-    @Autowired
-    BookManager bookManager;
+    private static Logger logger = Logger.getLogger(CartController.class);
 
     @Autowired
-    ClientController clientController;
+    private BookManager bookManager;
 
     @Autowired
-    ShoppingCartManager cartManager;
+    private ShoppingCartManager cartManager;
 
     @Autowired
-    GenreManager genreManager;
-
+    private GenreManager genreManager;
 
     @ModelAttribute(value = "allGenresList")
     public List<Genre> createAllGenresList() {
-
         return genreManager.loadAllGenres();
     }
 
-    public static void writeBooksIntoCookie(HttpServletRequest req, HttpServletResponse resp,
-                                            long bookId, int previousQuantity) {
+    @ModelAttribute(value = "shippingTypeList")
+    public ShippingType[] createShippingTypeList() {
+        return ShippingType.values();
+    }
+
+    @ModelAttribute(value = "paymentTypeList")
+    public PaymentType[] createPaymentTypeList() {
+        return PaymentType.values();
+    }
+
+    @ModelAttribute("shoppingCart")
+    public ShoppingCart populateCart() {
+        return cartManager.getShoppingCart();
+    } // writing cart into session
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String mainPage(HttpServletRequest request, HttpServletResponse resp, HttpSession session) {
+        Client client1 = (Client) session.getAttribute("client");
+        System.out.println("client1 = " + client1);
+        actualizeCart(request, resp, client1);
+        return "pages/cart.jsp";
+    }
+
+
+    public void writeBooksIntoCookie(HttpServletRequest req, HttpServletResponse resp,
+                                     long bookId, int previousQuantity) {
+        logger.debug("Writing book into cookie...");
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         deleteCurrentBookCookies(userName, bookId, req, resp);
 
@@ -62,10 +84,12 @@ public class CartController {
                 userName + "dlm" + bookId + "dlm" + previousQuantity);
         cookie.setMaxAge(60 * 60 * 24 * 30); // for working with browser closing
         resp.addCookie(cookie);
+        logger.debug("Book has been added to cookie.");
     }
 
-    public static void deleteCurrentBookCookies(String userName, long bookId, HttpServletRequest req, HttpServletResponse resp) {
-        // удаляем куки с таким же айди, чтобы перезаписать количество
+    public void deleteCurrentBookCookies(String userName, long bookId, HttpServletRequest req, HttpServletResponse resp) {
+        // deleting the all user's cookies with the same book id
+        logger.debug("Deleting the all user's cookies with the same book id...");
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
@@ -79,56 +103,33 @@ public class CartController {
                 }
             }
         }
-    }
-
-    @ModelAttribute(value = "shippingTypeList")
-    public ShippingType[] createShippingTypeList() {
-        return ShippingType.values();
-    }
-
-    @ModelAttribute(value = "paymentTypeList")
-    public PaymentType[] createPaymentTypeList() {
-        return PaymentType.values();
+        logger.debug("All user's cookies with the same book id has been deleted.");
     }
 
     public void deleteCookiesByOwnerName(String userName, HttpServletRequest req, HttpServletResponse resp) {
+        logger.debug("Deleting the all user's and guest's cookies...");
         Cookie[] cookies = req.getCookies();
         for (Cookie cookie : cookies) {
             String value = cookie.getValue();
             if (value.contains("dlm")) {
                 String[] cookieContent = value.split("dlm");
-                if (cookieContent[0].equals(userName)) {
+                if (cookieContent[0].equals(userName) || cookieContent[0].equals("Guest")) {
                     cookie.setPath("cart/");
                     cookie.setMaxAge(0);
                     resp.addCookie(cookie);
                 }
             }
         }
+        logger.debug("All user's and guest's cookies has been deleted.");
     }
 
     @RequestMapping(value = "/clearCart", method = RequestMethod.GET)
     public String deleteAllBooksCookies(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-//        if (3 > 2) throw new Exception();
-//        if (3 > 2) throw new NotEnoughBooksInTheStockException("Not enough books in the stock :(", 5);
-
-        //delete all books cookies
+        logger.debug("Deletes the all books cookies and empties client's shopping cart...");
         String cookieOwner = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            String value = cookie.getValue();
-            if (value.contains("dlm")) {
-                String[] cookieContent = value.split("dlm");
-                if (cookieContent[0].equals(cookieOwner) || cookieContent[0].equals("Guest")) {
-                    cookie.setPath("cart/");
-                    cookie.setMaxAge(0);
-                    resp.addCookie(cookie);
-                }
-            }
-        }
-
-        // to empty cart
+        deleteCookiesByOwnerName(cookieOwner, req, resp);
         cartManager.clearCart();
+        logger.debug("All books cookies and client's shopping cart content has been deleted...");
         return "pages/cart.jsp";
     }
 
@@ -136,6 +137,8 @@ public class CartController {
     public String removeOrderLineAndCookie(@RequestParam(value = "id", required = true) long id,
                                            HttpServletRequest req, HttpServletResponse resp) {
         // deleting order line in cookies
+        logger.debug("Deleting order line in cookies and in the cart...");
+
         Cookie[] cookies = req.getCookies();
         String cookieOwner = SecurityContextHolder.getContext().getAuthentication().getName();
         for (Cookie cookie : cookies) {
@@ -152,17 +155,13 @@ public class CartController {
         }
         // deleting order line in the cart
         cartManager.removeLine(id);
-        return "pages/cart.jsp";
-    }
-
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String mainPage(@ModelAttribute Client client, HttpServletRequest request, HttpServletResponse resp) {
-        actualizeCart(request, resp, client);
+        logger.debug("The order line in cookies and in the cart has been deleted.");
         return "pages/cart.jsp";
     }
 
     public void actualizeCart(HttpServletRequest request, HttpServletResponse resp, Client client) {
+        logger.debug("Actualizing the client's cart...");
+
         ShoppingCart cart = cartManager.getShoppingCart();
         if (cart.getItems().isEmpty()) {
             fillUpFromCookies(cart, request, resp); // заполняем ее из кукисов
@@ -172,12 +171,9 @@ public class CartController {
         }
         cartManager.setShoppingCart(cart);
         populateCart();
-    } // Now we have a filled cart in the CartManager
+        logger.debug("Client's cart has been  actualized...");
 
-    @ModelAttribute("shoppingCart")
-    public ShoppingCart populateCart() {
-        return cartManager.getShoppingCart();
-    } // writing cart into session
+    } // Now we have a filled cart in the CartManager
 
     @RequestMapping(value = "/addToCart", method = RequestMethod.GET)
     public String addToCart(@RequestParam(value = "book_id", required = true) long id,
@@ -185,12 +181,14 @@ public class CartController {
                             HttpServletRequest req,
                             HttpServletResponse resp) {
 
+        logger.debug("Adding book into client's cart...");
+
         List<OrderLine> orderLines = shoppingCart.getItems();
         Book newBook = bookManager.findBookById(id);
         OrderLine orderLineWithThisBook = null;
 
         if (!orderLines.isEmpty()) {
-            for (OrderLine orderLine : orderLines) { // ищем, есть ли уже такая книга в заказе
+            for (OrderLine orderLine : orderLines) { // finding if this book is already in our order
                 if (orderLine.getBook().getId() == newBook.getId()) {
                     orderLineWithThisBook = orderLine;
                 }
@@ -210,13 +208,12 @@ public class CartController {
             }
         }
 
-        // при каждом клике на добавить в корзину затираются старые и создаются новые куки:
+        // every click on 'add to cart' link delete an old and create a new cookies
         shoppingCart.setItems(orderLines);
-
         cartManager.setShoppingCart(shoppingCart);
-
-//        req.setAttribute("cartManager", cartManager);
         writeBooksIntoCookie(req, resp, newBook.getId(), previousQuantity);
+
+        logger.debug("Book has been added into client's cart...");
 
         return "pages/books.jsp";
     }
@@ -224,11 +221,13 @@ public class CartController {
 
     public void fillUpFromCookies(ShoppingCart cart,
                                   HttpServletRequest request, HttpServletResponse resp) {
+        logger.debug("Filling up client's cart from cookies...");
 
         Cookie[] cookies = request.getCookies();
 
+
         List<OrderLine> newItems = new ArrayList<>();
-        // заполняем по куки корзину
+        // filling cart from cookies
 
         if (cookies != null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -241,10 +240,10 @@ public class CartController {
                     String[] cookieContent = value.split("dlm");
                     if (cookieContent[0].equals(cookieOwner) || cookieContent[0].equals("Guest")) {
                         id = Long.parseLong(cookieContent[1]);
+                        quantity = Integer.parseInt(cookieContent[2]);
                         if (cookieContent[0].equals("Guest")) {
                             deleteCookiesByOwnerName("Guest", request, resp);
                         }
-                        quantity = Integer.parseInt(cookieContent[2]);
                         newItems.add(new OrderLine(quantity, bookManager.findBookById(id)));
                     }
                 }
@@ -255,7 +254,7 @@ public class CartController {
             cart.setItems(newItems);
         }
 
+        logger.debug("Client's cart has been filled from cookies...");
     }
-
 
 }

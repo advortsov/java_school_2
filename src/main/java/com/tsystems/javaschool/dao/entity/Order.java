@@ -15,10 +15,11 @@ import java.util.List;
  * @version 1.0
  * @since 09.02.2016
  */
-
 @Entity
 @Table(name = "buy")
 public class Order implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

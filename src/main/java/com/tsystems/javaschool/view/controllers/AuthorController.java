@@ -24,42 +24,44 @@ public class AuthorController {
     private static Logger logger = Logger.getLogger(AuthorController.class);
 
     @Autowired
-    AuthorManager authorManager;
-
+    private AuthorManager authorManager;
 
     @RequestMapping(method = RequestMethod.GET)
     public String mainPage() {
         return "admin_pages/admin.jsp";
     }
 
-
     //   ---------------------- Author administrating ---------------------------------------------------
     @RequestMapping(value = "/edit_author", method = RequestMethod.POST)
     public String editAuthor(@ModelAttribute("author_name_new") String authorName,
                              @ModelAttribute("author_for_edit") String authorForEdit, HttpSession session) {
-
+        logger.debug("Updating edited author...");
         Author author = authorManager.findByAuthorName(authorForEdit);
         author.setName(authorName);
         authorManager.updateAuthor(author);
         session.setAttribute("allAuthorsList", authorManager.loadAllAuthors());
+        logger.debug("Author has been updated.");
         return "redirect:/admin#tab4";
     }
 
     @RequestMapping(value = "/delete_author", method = RequestMethod.POST)
     public String delAuthor(@ModelAttribute("author_name_del") String authorName, HttpSession session) {
-
+        logger.debug("Deleting author...");
         Author author = authorManager.findByAuthorName(authorName);
         authorManager.deleteAuthor(author);
         session.setAttribute("allAuthorsList", authorManager.loadAllAuthors());
+        logger.debug("Author has been deleted.");
         return "redirect:/admin#tab4";
     }
 
     @RequestMapping(value = "/add_author", method = RequestMethod.POST)
     public String addAuthor(@ModelAttribute("author_name_add") String authorName, HttpSession session) throws DuplicateException {
+        logger.debug("Adding author...");
         Author author = new Author();
         author.setName(authorName);
         authorManager.saveNewAuthor(author);
         session.setAttribute("allAuthorsList", authorManager.loadAllAuthors());
+        logger.debug("Author has been added.");
         return "redirect:/admin#tab4";
     }
     // ----------------------------------------------------------------------------------------------------------

@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.services;
 
-
-import com.tsystems.javaschool.dao.entity.Book;
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.entity.OrderLine;
 import org.springframework.stereotype.Component;
@@ -14,7 +12,6 @@ import java.util.List;
  * @version 1.0
  * @since 09.02.2016
  */
-
 @Component
 public class ShoppingCart {
 
@@ -22,7 +19,7 @@ public class ShoppingCart {
     private List<OrderLine> items;
 
     public ShoppingCart() {
-        items = new ArrayList<>(); // чтоб нуллпоинтера не было
+        items = new ArrayList<>();
     }
 
     public ShoppingCart(Client client, List<OrderLine> items) {

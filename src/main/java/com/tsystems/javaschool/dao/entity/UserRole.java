@@ -1,16 +1,18 @@
 package com.tsystems.javaschool.dao.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Alexander Dvortsov
  * @version 1.0
  * @since 19.02.2016
  */
-
 @Entity
 @Table(name = "user_roles")
-public class UserRole {
+public class UserRole implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,12 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Access is denied</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Ooops</title>
+    <link href="../css/style_index.css" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/resources/css/style_index.css" />" rel="stylesheet">
+
 </head>
+
 <body>
-<h3>Access is denied!</h3>
+<div class="main">
+    <div class="content">
+        <p class="title"><span class="text"><img src="/resources/images/lib.png" width="76" height="77" hspace="10"
+                                                 vspace="10"
+                                                 align="middle"></span></p>
+
+        <p class="title">Bookstore</p>
+
+        <p class="text" align="center">
+            <a href="http://www.t-systems.ru/career/java-school/1037760">
+                Java-school project, T-Systems</a></p>
+
+        <p>&nbsp;</p>
+
+    </div>
+
+    <div class="login_div">
+        <p class="title">Access is denied!</p>
+    </div>
+
+    <div class="footer">
+        Developer: Alexander Dvortsov, 2016
+    </div>
+</div>
+
+
 </body>
 </html>

@@ -5,6 +5,7 @@ import com.tsystems.javaschool.dao.entity.User;
 import com.tsystems.javaschool.dao.entity.UserRole;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/reg")
 public class RegisterController {
 
+    private static Logger logger = Logger.getLogger(RegisterController.class);
+
     @Autowired
     private ClientManager clientManager;
 
@@ -40,6 +43,7 @@ public class RegisterController {
                                 @RequestParam("client_password") String password,
                                 @RequestParam("client_email") String email) {
 
+        logger.debug("Saving new client...");
         Client client = new Client();
 
         client.setName(name);
@@ -59,6 +63,9 @@ public class RegisterController {
         client.setUser(user);
 
         clientManager.updateClient(client);
+
+        logger.debug("Client has been saved.");
+
         return "redirect:/login";
 
     }
@@ -75,7 +82,6 @@ public class RegisterController {
     String ajaxLoginUniqValidation(@RequestParam String userLogin) {
         Client user = null;
         try {
-            System.out.println("ajaxLoginUniqValidation = ");
             user = clientManager.findByUserName(userLogin);
             return "This user is already exists";
         } catch (NotRegisteredUserException ex) {

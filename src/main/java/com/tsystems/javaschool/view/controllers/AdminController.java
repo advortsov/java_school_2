@@ -4,17 +4,14 @@ import com.tsystems.javaschool.dao.entity.*;
 import com.tsystems.javaschool.services.enums.OrderStatus;
 import com.tsystems.javaschool.services.enums.PaymentStatus;
 import com.tsystems.javaschool.services.enums.ShippingType;
-import com.tsystems.javaschool.services.exception.DuplicateException;
 import com.tsystems.javaschool.services.interfaces.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -36,16 +33,20 @@ public class AdminController {
 
     @Autowired
     private PublisherManager publisherManager;
+
     @Autowired
     private AuthorManager authorManager;
+
     @Autowired
     private GenreManager genreManager;
+
     @Autowired
     private OrderManager orderManager;
+
     @Autowired
     private AdminManager adminManager;
 
-    //-------------------------------------------
+    //-----------------------------------------------------------------------------------------
     @ModelAttribute(value = "allOrdersList")
     public List<Order> createAllOrdersList() {
         return orderManager.loadAllOrders();
@@ -84,9 +85,9 @@ public class AdminController {
 
     @RequestMapping(value = "/Address", method = RequestMethod.POST)
     public String getProceedPerPeriod(@RequestParam("start_date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                       @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                       Date endDate, Model model, HttpSession session) {
-        logger.debug("Try to get orders per period");
+                                      @RequestParam("end_date") @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                      Date endDate, HttpSession session) {
+        logger.debug("Trying to get orders per period...");
         List<Order> ordersPerPeriod = adminManager.getOrdersPerPeriod(startDate, endDate);
         int totalSumm = 0;
         for (Order order : ordersPerPeriod) {
@@ -96,11 +97,9 @@ public class AdminController {
         session.setAttribute("AddressPerPeriod", totalSumm);
         session.setAttribute("startDate", startDate);
         session.setAttribute("endDate", endDate);
+        logger.debug("Return orders per period.");
         return "redirect:/admin#tab7";
     }
-
-// ----------------------------------------------------------------------------------------------------------
-
 
     @RequestMapping(value = "/edit_order", method = RequestMethod.GET)
     public String getEdit(@RequestParam(value = "id", required = true) long id,
@@ -122,6 +121,8 @@ public class AdminController {
             @RequestParam(value = "id", required = true) long id,
             Model model) {
 
+        logger.debug("Saving edited order...");
+
         Order orderForEdit = orderManager.findOrderById(id);
 
         OrderStatus newOrderStatus = OrderStatus.valueOf(orderStatus);
@@ -139,6 +140,8 @@ public class AdminController {
 
         orderManager.updateOrder(orderForEdit);
         model.addAttribute("allOrdersList", createAllOrdersList());
+
+        logger.debug("Saving edited order is completed.");
 
         return "redirect:/admin#tab5";
     }

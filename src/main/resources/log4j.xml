@@ -134,12 +134,14 @@
         <level value="DEBUG"/>
         <appender-ref ref="SERVICE-LOG-ERROR-FILE-APPENDER"/>
         <appender-ref ref="SERVICE-LOG-INFO-FILE-APPENDER"/>
+        <appender-ref ref="SERVICE-LOG-DEBUG-FILE-APPENDER"/>
     </logger>
 
     <logger name="com.tsystems.javaschool.dao" additivity="false">
         <level value="DEBUG"/>
         <appender-ref ref="PERSISTENCE-LOG-ERROR-FILE-APPENDER"/>
         <appender-ref ref="PERSISTENCE-LOG-INFO-FILE-APPENDER"/>
+        <appender-ref ref="PERSISTENCE-LOG-DEBUG-FILE-APPENDER"/>
     </logger>
 
     <logger name="com.tsystems.javaschool.view.util.Log4jConsoleTest" additivity="false">

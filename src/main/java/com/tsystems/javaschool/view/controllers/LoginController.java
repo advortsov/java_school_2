@@ -2,11 +2,9 @@ package com.tsystems.javaschool.view.controllers;
 
 import com.tsystems.javaschool.dao.entity.Client;
 import com.tsystems.javaschool.dao.exeption.NotRegisteredUserException;
-import com.tsystems.javaschool.services.ShoppingCart;
 import com.tsystems.javaschool.services.interfaces.ClientManager;
 import com.tsystems.javaschool.services.interfaces.ShoppingCartManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +22,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger logger = Logger.getLogger(LoginController.class);
 
     @Autowired
     private ShoppingCartManager cartManager;
@@ -34,10 +32,8 @@ public class LoginController {
 
     @RequestMapping(value = "/addDetails", method = RequestMethod.GET)
     public String addDetails(HttpSession session) {
-
-        cartManager.clearCart(); // erase cart for giving the clear cart to the next auth user
-
         logger.debug("Adding details to user");
+        cartManager.clearCart(); // erase cart for giving the clear cart to the next auth user
 
         UserDetails userDetails =
                 (UserDetails) SecurityContextHolder.getContext()
@@ -56,6 +52,8 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("userName", client.getName());
         session.setAttribute("client", client);
+
+        logger.debug("Redirecting to the books page.");
 
         return "redirect:/books";
     }
